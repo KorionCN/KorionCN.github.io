@@ -47,8 +47,8 @@
     </title>
 
     <!-- Favicons -->
-    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
-    <link rel="icon" href="/img/favicon.png">
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon1.png">
+    <link rel="icon" href="/img/favicon1.png">
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
@@ -218,7 +218,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Ksxy&#39;s Blog">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon1.png">
 
     <!-- Site Verification -->
     
@@ -231,7 +231,7 @@
     <meta property="og:url" content="http://offensiveyy.github.io/">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Ksxy&#39;s Blog">
-    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:image" content="/img/favicon1.png">
     <meta property="og:description" content="">
     
 
@@ -255,12 +255,12 @@
     "publisher": {
         "@type": "Organization",
         "name": "Ksxy&#39;s Blog",
-        "logo": "/img/favicon.png"
+        "logo": "/img/favicon1.png"
     },
     "url": "http://offensiveyy.github.io",
     "image": {
         "@type": "ImageObject",
-        "url": "/img/favicon.png"
+        "url": "/img/favicon1.png"
     },
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -309,14 +309,14 @@
     
         <!-- Paradox Header -->
         <!-- Daily pic -->
-<div class="mdl-card mdl-shadow--2dp daily-pic mdl-cell mdl-cell--8-col index-top-block">
+<div class="mdl-card mdl-shadow--3dp daily-pic mdl-cell mdl-cell--8-col index-top-block">
 
     <!-- Pic & Slogan -->
     <div class="mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/daily_pic.png)">
         <p class="index-top-block-slogan"><a href="#">
         
             
-                Hi, nice to meet you
+                Be a man with programming
             
         
         </a></p>
@@ -326,7 +326,7 @@
     <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
         <!-- Author Avatar -->
         <div id="author-avatar">
-            <img src="/img/avatar.png" width="32px" height="32px" alt="avatar">
+            <img src="/img/avatar.jpg" width="32px" height="32px" alt="avatar">
         </div>
         <div>
             <strong>空山新雨</strong>
@@ -335,34 +335,33 @@
 </div>
 
         <!-- Blog info -->
-<div class="mdl-card mdl-shadow--2dp something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop index-top-block">
+<div class="mdl-card mdl-shadow--3dp something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop index-top-block">
 
     <!-- Search -->
     
-    <!-- Google -->
+
+
+
+
+    <!-- Local -->
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" method="post" action="">
         <label id="search-label" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent mdl-shadow--4dp" for="search">
             <i class="material-icons mdl-color-text--white" role="presentation">search</i>
         </label>
 
-        <form autocomplete="off" id="search-form" method="get" action="//google.com/search" accept-charset="UTF-8" class="mdl-textfield__expandable-holder" target="_blank">
-            <input class="mdl-textfield__input search-input" type="search" name="q" id="search" placeholder="">
+        <form autocomplete="off" id="search-form" class="mdl-textfield__expandable-holder">
+            <input type="text" id="search" class="form-control mdl-textfield__input search-input" name="q" results="0" placeholder=""/>
             <label id="search-form-label" class="mdl-textfield__label" for="search"></label>
-
-            <input type="hidden" name="sitesearch" value="http://offensiveyy.github.io">
         </form>
     </div>
-
-
-
-
+    <div id="local-search-result"></div>
 
 
 
     <!-- LOGO -->
     <div class="something-else-logo mdl-color--white mdl-color-text--grey-600">
         <a href="#" target="_blank">
-            <img src="/img/logo.png" alt="logo" />
+            <img src="/img/favicon1.png" alt="logo" />
         </a>
     </div>
 
@@ -381,6 +380,30 @@
         </button>
         <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="show-pages-button">
             
+                <a class="index_share-link" href="/tags/index.html" title="标签云">
+                    <li class="mdl-menu__item mdl-js-ripple-effect">
+                        标签云
+                    </li>
+                </a>
+            
+                <a class="index_share-link" href="/timeline/index.html" title="时间轴">
+                    <li class="mdl-menu__item mdl-js-ripple-effect">
+                        时间轴
+                    </li>
+                </a>
+            
+                <a class="index_share-link" href="/links/index.html" title="友情链接">
+                    <li class="mdl-menu__item mdl-js-ripple-effect">
+                        友情链接
+                    </li>
+                </a>
+            
+                <a class="index_share-link" href="/2018/03/06/关于博主/index.html" title="关于我">
+                    <li class="mdl-menu__item mdl-js-ripple-effect">
+                        关于我
+                    </li>
+                </a>
+            
         </ul>
 
         <!-- Menu -->
@@ -394,7 +417,7 @@
             
 
             
-                <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Ksxy&#39;s Blog&url=http://offensiveyy.github.io&pic=http://offensiveyy.github.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
+                <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Ksxy&#39;s Blog&url=http://offensiveyy.github.io&pic=http://offensiveyy.github.io/img/favicon1.png&searchPic=false&style=simple" target="_blank">
                     <li class="mdl-menu__item mdl-js-ripple-effect">
                         分享到微博
                     </li>
@@ -402,19 +425,7 @@
             
 
             
-                <a class="index_share-link" href="https://twitter.com/intent/tweet?text=Ksxy&#39;s Blog&url=http://offensiveyy.github.io&via=空山新雨" target="_blank">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        分享到 Twitter
-                    </li>
-                </a>
-            
 
-            
-                <a class="index_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://offensiveyy.github.io" target="_blank">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        分享到 Facebook
-                    </li>
-                </a>
             
 
             
@@ -428,7 +439,19 @@
             
 
             
+                <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Ksxy&#39;s Blog&summary=&pics=http://offensiveyy.github.io/img/favicon1.png&url=http://offensiveyy.github.io" target="_blank">
+                    <li class="mdl-menu__item">
+                        分享到 QQ
+                    </li>
+                </a>
+            
 
+            
+                <a class="post_share-link" href="https://telegram.me/share/url?url=http://offensiveyy.github.io&text=Ksxy&#39;s Blog" target="_blank">
+                    <li class="mdl-menu__item">
+                        分享到 Telegram
+                    </li>
+                </a>
             
         </ul>
     </div>
@@ -447,7 +470,7 @@
         
             
                 <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
+                <div class="post_entry-module mdl-card mdl-shadow--3dp mdl-cell mdl-cell--12-col fade out">
     <!-- Post Thumbnail -->
     
         
@@ -475,7 +498,7 @@
         <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
             <!-- Author Avatar -->
             <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="空山新雨's avatar">
+                <img src="/img/avatar.jpg" width="44px" height="44px" alt="空山新雨's avatar">
             </div>
             <div>
                 <strong>空山新雨</strong>
@@ -551,12 +574,12 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="/img/avatar.png" alt="空山新雨's avatar">
+        <img src="/img/avatar.jpg" alt="空山新雨's avatar">
     </div>
 
     <!-- Sidebar Email -->
     <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
-        youremail@email.com
+        2462535454@qq.com
         <b class="caret"></b>
     </a>
 </div>
@@ -569,7 +592,7 @@
         <ul id="settings-dropdown" class="dropdown-menu">
             
                 <li>
-                    <a href="#" target="_blank" title="Email Me">
+                    <a href="mailto:2462535454@qq.com" target="_blank" title="Email Me">
                         
                             <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
                         
@@ -613,8 +636,67 @@
 
     <!-- Categories  -->
     
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/创作集/">创作集<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
 
     <!-- Pages  -->
+    
+        <li>
+            <a href="/tags/index.html" title="标签云">
+                
+                    <i class="material-icons sidebar-material-icons">label</i>
+                
+                标签云
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/timeline/index.html" title="时间轴">
+                
+                    <i class="material-icons sidebar-material-icons">timeline</i>
+                
+                时间轴
+            </a>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+        <li>
+            <a href="/links/index.html" title="友情链接">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                友情链接
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/2018/03/06/关于博主/index.html" title="关于我">
+                
+                    <i class="material-icons sidebar-material-icons">info</i>
+                
+                关于我
+            </a>
+        </li>
+        
     
 
     <!-- Article Number  -->
@@ -635,17 +717,8 @@ It will not impact the appearance and can give developers a lot of support :)
 
 <!-- Sidebar Divider -->
 
-    <div class="sidebar-divider"></div>
-
 
 <!-- Theme Material -->
-
-    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
-        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
-            主题 - Material
-            <span class="sidebar-badge badge-circle">i</span>
-        </div>
-    </a>
 
 
 <!-- Help & Support -->
@@ -689,29 +762,11 @@ It will not impact the appearance and can give developers a lot of support :)
         <div class="mdl-mini-footer--left-section sns-list">
     <!-- Twitter -->
     
-        <a href="https://twitter.com/twitter" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
-                <span class="visuallyhidden">Twitter</span>
-            </button><!--
-     --></a>
-    
 
     <!-- Facebook -->
     
-        <a href="https://www.facebook.com/facebook" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn footer-sns-facebook">
-                <span class="visuallyhidden">Facebook</span>
-            </button><!--
-     --></a>
-    
 
     <!-- Google + -->
-    
-        <a href="https://www.google.com/" target="_blank">
-            <button class="mdl-mini-footer--social-btn social-btn footer-sns-gplus">
-                <span class="visuallyhidden">Google Plus</span>
-            </button><!--
-     --></a>
     
 
     <!-- Weibo -->
@@ -745,7 +800,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
         <!--Copyright-->
         <div id="copyright">
-            Copyright&nbsp;©<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>Ksxy's Blog
+            Copyright&nbsp;©&nbsp;2018&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>Ksxy's Blog
             
         </div>
 
@@ -811,7 +866,8 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 
-   <!-- GitTalk -->
+   <!-- 使用 DISQUS js 代码 -->
+
 
 
 
@@ -820,6 +876,25 @@ It will not impact the appearance and can give developers a lot of support :)
     
 
     <!-- Local Search-->
+    
+        <script type="text/ls-javascript" id="search-local-js-script">
+    var searchFunc=function(c,a,b){$.ajax({url:c,dataType:"xml",success:function(e){var d=$("entry",e).map(function(){return{title:$("title",this).text(),content:$("content",this).text(),url:$("url",this).text()}}).get();var g=document.getElementById(a);var f=document.getElementById(b);g.addEventListener("input",function(){var i='<ul class="search-result-list">';var h=this.value.trim().toLowerCase().split(/[\s\-]+/);f.innerHTML="";if(this.value.trim().length<=0){return}d.forEach(function(o){var n=true;var s=[];var t=o.title.trim().toLowerCase();var m=o.content.trim().replace(/<[^>]+>/g,"").toLowerCase();var j=o.url;var u=-1;var q=-1;var p=-1;if(t!==""&&m!==""){h.forEach(function(w,x){u=t.indexOf(w);q=m.indexOf(w);if(u<0&&q<0){n=false}else{if(q<0){q=0}if(x===0){p=q}}})}if(n){i+='<li><a href="'+j+'" class="search-result-title" target="_blank">'+t;var r=o.content.trim().replace(/<[^>]+>/g,"");if(p>=0){var k=p-6;var l=p+6;if(k<0){k=0}if(k===0){l=10}if(l>r.length){l=r.length}var v=r.substr(k,l);h.forEach(function(w){var x=new RegExp(w,"gi");v=v.replace(x,'<em class="search-keyword">'+w+"</em>")});i+='<p class="search-result">'+v+"...</p></a>"}}});f.innerHTML=i})}})};
+</script>
+
+
+        <script type="text/ls-javascript" id="search-input-script">
+            var inputArea = document.querySelector('#search');
+            var getSearchFile = function() {
+                var path = 'search.xml';
+                searchFunc(path, 'search', 'local-search-result');
+            }
+
+            if(inputArea) {
+                inputArea.onfocus = function() {
+                    getSearchFile();
+                }
+            }
+        </script>
     
 
 
