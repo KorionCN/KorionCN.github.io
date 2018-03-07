@@ -9,8 +9,8 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[友情链接]]></title>
-    <url>%2Flinks%2Findex.html</url>
+    <title><![CDATA[时间轴]]></title>
+    <url>%2Ftimeline%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
@@ -19,8 +19,8 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
+    <title><![CDATA[友情链接]]></title>
+    <url>%2Flinks%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>
