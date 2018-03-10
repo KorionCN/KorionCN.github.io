@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[记我对Socket的误解]]></title>
+    <url>%2F2018%2F03%2F10%2F%E8%AE%B0%E6%88%91%E5%AF%B9Socket%E7%9A%84%E8%AF%AF%E8%A7%A3%2F</url>
+    <content type="text"><![CDATA[误解记得刚开始学习Java网络编程的时候，接触的便是Socket，通过Socket和SocketServer建立一个TCP连接，然后获取网络流对象来传递数据。一个经典TCP连接建立过程： 客户端： 创建一个 Socket 实例：构造函数向指定的远程主机和端口建立一个 TCP 连接； 通过套接字的 I/O 流与服务端通信； 使用 Socket 类的 close() 方法关闭连接。 服务端: 创建一个 ServerSocket 实例并指定本地端口，用来监听客户端在该端口发送的 TCP 连接请求； 重复执行： 调用 ServerSocket 的 accept()方法以获取客户端连接，并通过其返回值创建一个 Socket 实例； 为返回的 Socket 实例开启新的线程，并使用返回的 Socket 实例的 I/O 流与客户端通信； 通信完成后，使用 Socket 类的 close()方法关闭该客户端的套接字连接。 在计算机网络课程中，了解到Socket的定义： 套字节Socket = (IP地址 : 端口号) 于是一直认为Socket其实就是在封装了TCP协议的实现。 PS：在Java的API中，Socket类确实就是封装TCP协议的实现。 疑惑关于Socket的这个误解一直伴随着我到网络编程的课程上，上课使用的编程语言是C#。在C#中创建一个Socket对象如下，1Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP); 该构造函数的参数含义： 第一参数定义了该Socket支持的协议族，AddressFamily.InterNetwork表示IPv4； 第二参数定义了该Socket的类型，SocketType.Stream表示TCP，此外还有Dgram(UDP)、Raw、Rdm、Seqpacket。 第三参数定义了该Socket支持协议，主要有IP、Tcp、Udp、Icmp、Ggp等。 关于C#的Socket的更多说明 是不是和Java的Socket有大不同？到了这里，我才意识到我以前对Socket的理解太肤浅了。 Socket究竟为何物？我们知道目前的TCP/IP网络模型，从上往下为：应用层、运输层、网际层、网络接口层。 应用层包含众多应用协议，比如HTTP、SNMP、POP3等协议，这些协议的规定信息与数据报文在网络之中传输行为无关，只面向具体应用服务。 运输层就只有TCP与UDP协议，TCP协议通过握手机制、确认重传机制来提供可靠的连接，UDP则比较简单，因为提供不可靠的连接，所以不需要像TCP那样复杂。 网际层主要是提供网络中寻址的IP协议，还有用于数据包传输控制的多种路由协议、ICMP、IGMP等。 网络接口层包含了数据链路层和物理层，但在应用层软件开发中一般不需我们去关心。 那么Socket和这些网络协议有什么关系呢？ Socket主要和运输层和网际层这两层的协议有关，他们关系就像接口和实现类之间的关系。 Java中的Socket封装了TCP的实现，而在C#中Socket封装了多种协议的实现，通过构造函数的参数来选择Socket具体实现协议。所以Socket准确来说，应该是一个网络协议的编程接口，他不是为特定的协议设计。TCP、UDP协议都只是Socket的具体实现。 计算机网络课程教材上定义的Socket=(IP地址:端口号)，只有Socket的实现协议为运算层协议的时候才正确。当他的具体实现为ICMP(ping命令的数据包用的就是ICMP协议)时，更本不需要一个端口号。 参考: TCP/IP、Http、Socket的区别? -知乎 Java TCP/IP Socket 编程]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>Socket</tag>
+        <tag>网络编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Android知识体系脑图]]></title>
     <url>%2F2018%2F03%2F09%2FAndroid%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%2F</url>
     <content type="text"><![CDATA[作为一个靠自己摸爬滚打、自主探究的Android程序员，常常迷失在复杂的Android系统之中，面对日新月异的新技术，我们竭力追赶，但是在开发中，还是常常陷入一些莫名奇妙的bug之中，有时在网上搜搜到了解决方案，但是也有可能已经过时了，在新的系统版本中不适用。如果能有一个详细的学习体系结构，相信对系统地学习Android开发是有事半功倍的作用的。前几天，就在网上了解到了别人总结的Android知识体系，于是速速收藏，以便学习查阅。 原文链接]]></content>
@@ -25,13 +37,13 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
+    <title><![CDATA[标签云]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[标签云]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[时间轴]]></title>
+    <url>%2Ftimeline%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>
