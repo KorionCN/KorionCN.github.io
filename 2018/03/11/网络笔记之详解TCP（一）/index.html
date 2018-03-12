@@ -43,7 +43,7 @@
     
     <title>
         
-            IP报文首部 | 
+            网络笔记之详解TCP（一） | 
         
         Ksxy&#39;s Blog
     </title>
@@ -54,7 +54,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content=",计算机网络,IP协议">
+    <meta name="keywords" content=",计算机网络,TCP">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -215,7 +215,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Ksxy&#39;s Blog">
-    <meta name="msapplication-starturl" content="http://offensiveyy.github.io/2018/03/11/IP报文首部/">
+    <meta name="msapplication-starturl" content="http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Ksxy&#39;s Blog">
@@ -230,16 +230,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://offensiveyy.github.io/2018/03/11/IP报文首部/">
+    <meta property="og:url" content="http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="IP报文首部 | Ksxy&#39;s Blog">
+    <meta property="og:title" content="网络笔记之详解TCP（一） | Ksxy&#39;s Blog">
     <meta property="og:image" content="/img/favicon1.png">
     <meta property="og:description" content="">
-    <meta property="og:article:tag" content="计算机网络"> <meta property="og:article:tag" content="IP协议"> 
+    <meta property="og:article:tag" content="计算机网络"> <meta property="og:article:tag" content="TCP"> 
 
     
-        <meta property="article:published_time" content="Sun Mar 11 2018 14:36:04 GMT+0800">
-        <meta property="article:modified_time" content="Sun Mar 11 2018 14:36:04 GMT+0800">
+        <meta property="article:published_time" content="Sun Mar 11 2018 21:43:52 GMT+0800">
+        <meta property="article:modified_time" content="Sun Mar 11 2018 21:43:52 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -247,7 +247,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://offensiveyy.github.io/2018/03/11/IP报文首部/index.html" />
+        <link rel="canonical" href="http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -259,10 +259,10 @@
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": "http://offensiveyy.github.io/2018/03/11/IP报文首部/index.html",
-    "headline": "IP报文首部",
-    "datePublished": "Sun Mar 11 2018 14:36:04 GMT+0800",
-    "dateModified": "Sun Mar 11 2018 14:36:04 GMT+0800",
+    "mainEntityOfPage": "http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/index.html",
+    "headline": "网络笔记之详解TCP（一）",
+    "datePublished": "Sun Mar 11 2018 21:43:52 GMT+0800",
+    "dateModified": "Sun Mar 11 2018 21:43:52 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "空山新雨",
@@ -280,7 +280,7 @@
             "url": "/img/favicon1.png"
         }
     },
-    "keywords": ",计算机网络,IP协议",
+    "keywords": ",计算机网络,TCP",
     "description": "",
 }
 </script>
@@ -346,7 +346,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#IP协议白话简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">IP协议白话简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#IP首部"><span class="post-toc-number">2.</span> <span class="post-toc-text">IP首部</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字段说明"><span class="post-toc-number">3.</span> <span class="post-toc-text">字段说明</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TCP白话简介"><span class="post-toc-number">2.</span> <span class="post-toc-text">TCP白话简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TCP首部"><span class="post-toc-number">3.</span> <span class="post-toc-text">TCP首部</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TCP三次握手与四次握手"><span class="post-toc-number">4.</span> <span class="post-toc-text">TCP三次握手与四次握手</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#后续"><span class="post-toc-number">5.</span> <span class="post-toc-text">后续</span></a></li></ol>
     </ul>
     
 
@@ -378,7 +378,7 @@
         
     
             <p class="article-headline-p">
-                IP报文首部
+                网络笔记之详解TCP（一）
             </p>
         </div>
 
@@ -419,7 +419,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://offensiveyy.github.io/2018/03/11/IP报文首部/">
+        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/">
     
 </ul>
 
@@ -433,7 +433,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/IP协议/">IP协议</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/计算机网络/">计算机网络</a>
+        <a class="post_tag-link" href="/tags/TCP/">TCP</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/计算机网络/">计算机网络</a>
     </ul>
     
 
@@ -450,7 +450,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=IP报文首部&url=http://offensiveyy.github.io/2018/03/11/IP报文首部/index.html&pic=http://offensiveyy.github.io/img/favicon1.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=网络笔记之详解TCP（一）&url=http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/index.html&pic=http://offensiveyy.github.io/img/favicon1.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -465,7 +465,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://offensiveyy.github.io/2018/03/11/IP报文首部/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -477,7 +477,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=IP报文首部&summary=&pics=http://offensiveyy.github.io/img/favicon1.png&url=http://offensiveyy.github.io/2018/03/11/IP报文首部/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=网络笔记之详解TCP（一）&summary=&pics=http://offensiveyy.github.io/img/favicon1.png&url=http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -486,7 +486,7 @@
 
     <!-- Share Telegram -->
     
-        <a class="post_share-link" href="https://telegram.me/share/url?url=http://offensiveyy.github.io/2018/03/11/IP报文首部/index.html&text=IP报文首部" target="_blank">
+        <a class="post_share-link" href="https://telegram.me/share/url?url=http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/index.html&text=网络笔记之详解TCP（一）" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Telegram
             </li>
@@ -502,25 +502,33 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h3 id="IP协议白话简介"><a href="#IP协议白话简介" class="headerlink" title="IP协议白话简介"></a>IP协议白话简介</h3><p>IP协议工作在TCP/IP网络模型的网际层，主要作用是为网络中的路由提供路由依据，其包括目的地（目的IP）、出发地（源IP），类似于邮递包裹上面快递单信息。给上层服务提供不可靠、无连接的传输服务。</p>
-<p><strong>问题：为啥IP协议是不可靠、无连接的？</strong></p>
-<p>首先，不可靠是指它不能保证IP数据报能成功到达目的地。IP协议仅提供尽力的传输服务。如果因为某些原因发生丢包，IP协议不会提供任何反馈。而IP协议也不需要提供多余的反馈，因为可靠性由上层的TCP协议提供，而错误反馈可以通过ICMP协议来提供。简单地说，就是专业的事由专门的协议来做，IP协议的专业就只是传输。</p>
-<h3 id="IP首部"><a href="#IP首部" class="headerlink" title="IP首部"></a>IP首部</h3><p><img src="https://i.loli.net/2018/03/11/5aa4cefdae987.jpg" alt="IP报文头部结构.jpg"></p>
-<h3 id="字段说明"><a href="#字段说明" class="headerlink" title="字段说明"></a>字段说明</h3><ul>
-<li><strong>版本(4bit)</strong>:IP报文所使用的IP版本，目前通常是4（IPV4）。</li>
-<li><strong>首部长度(4bit)</strong>:IP报文首部的长度，单位为字，IPv4报文头部该字段通常为5, 5字=20byte</li>
-<li><strong>服务类型TOC(8bit)</strong>:描述该数据包的上层服务类型，主要作用是给路由决策提供参考，比如，给不同服务设置优先级，那么路由时可以优先处理优先级高的数据报。</li>
-<li><strong>长度(16bit)</strong>:整个IP数据报的长度，单位为byte。</li>
-<li><strong>标识(16bit)</strong>:唯一地标识主机发送的每份数据报，通常每份发一份报文它的值就会加1,达到最大值后重置。（该字段通常被称为IPid，据说某些校园网的多终端检测机制可以通过统计该字段，来计算该字段在坐标系中的分布来判断是否为多终端上网）</li>
-<li><strong>标志(3bit)</strong>、<strong>片偏移(13bit)</strong>:这两个字段和IP分片相关，从上面IP报文的长度字段可知，一个IP报文最长为65535byte，实际传输的数据通常大于这个值，所以需要分成多个数据报。实际传输时，是否需要分成多个数据报，还取决于数据数据链路层一个叫MTU的值–链路层一个数据帧的最大数据长度。<ul>
-<li>标志的3个bit分别表示：保留位、不分片、更多的片；不分片该字段为010,分片则除了包含最后一片的数据报，其他的都为001。</li>
-<li>如果不分片，片偏移没有意义，值为0；如果分片，该字段的值表示该片偏移原始数据开始处的位置，用于分片重组。</li>
-</ul>
-</li>
-<li><strong>生存时间TTL(8bit)</strong>: 该字段表示报文可以经过的最多路由器数，初始值由源主机设定（通常32或64），每进过一个路由器，该值减1，当为0时，将会被路由器丢弃，并向源主机发送ICMP报文。路由追踪命令就是基于该字段实现的。</li>
-<li><strong>协议(8bit)</strong>:该数据报承载的上层协议类型。</li>
-<li><strong>首部检验和(16bit)</strong>:该字段用于校验该报文的头部信息是否有误，有误的数据报会被丢弃。具体的计算方法是先将该字段置0，然后把首部分割为多个16bit的二进制，然后对他们进行二进制反码求和。最后将算出来的结果填入。校验时同样是使用的二进制反码求和。</li>
-</ul>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>  最近一直在复习计算机网络，在回顾了IP与UDP后，终于来到了TCP。在计算机网络的课程上，我第一次对TCP有了比较深入的了解，但是一直没有做过总结，以至于忘了TCP的很多细节。所以本次复习打算将这些细节尽快地记录下来。了解TCP的具体细节，有助于我们基于UDP开发出符合具体的业务的私有协议。</p>
+<h3 id="TCP白话简介"><a href="#TCP白话简介" class="headerlink" title="TCP白话简介"></a>TCP白话简介</h3><p>  TCP在运输层提供了面向连接、可靠的字节流服务。所谓面向连接就是在开发发送数据前，需要先建立一个端到端的连接，这一点类似于通过电话之前的拨号，直到对面接听才建立通话通道。所谓可靠性，就是指即使在网络不稳定的环境下，TCP仍然要保证传输数据的完整（网路断开的情况TCP也无能为力）。为了能够保证数据的可靠传输，TCP需要考虑的事情很多，比如数据被破坏、丢包、重复以及顺序混乱等，为此，TCP设计了校验和、序列号、确认重答、重发控制、连接管理及窗口控制等机制。</p>
+<p>  PS：尽管TCP能保证数据的可靠传输，但在弱网的情况下，TCP的传输效率很低，所以在信号不是很好地方，数据加载很慢。所以，有时需要开发者基于UDP制定自己的控制协议。</p>
+<h3 id="TCP首部"><a href="#TCP首部" class="headerlink" title="TCP首部"></a>TCP首部</h3><p>  TCP和UDP一样封装在一个IP数据报中，TCP首部的数据格式，<br>  <img src="https://i.loli.net/2018/03/12/5aa6745b4abec.png" alt="TCP首部.png"></p>
+<p>  <strong>源端口(16bit)</strong>: 发送端的端口号;</p>
+<p>  <strong>目的端口(16bit)</strong>: 接收端的端口号;</p>
+<p>  <strong>序列号(32bit)</strong>: 该数据报的TCP标识，实际上是TCP段中第一个字节的序号，每发送一个数据报，该字段就累加发送的数据长度。该字段不会从0开始，而是在握手的过程确定一个初始序号(ISN),之后在该值上进行累积加。假设握手后主机A第一个数据报的序号为A，包含的数据为a字节，那主机A在发送第二个数据报时，其序号为A+a。</p>
+<p>  <strong>确认号(32bit)</strong>: 指下次应该接收接收的数据的序列号。主机A发送第一数据包后，如果主机B回了一个确认报，那么该确认报的确认号为A+a。如果主机A收到了确认号为B的确认报，可认为B序号之前的数据报全部被正常接收。该字段只有当控制位中的ACK=1时，才有效。</p>
+<p>  <strong>数据偏移(4bit)</strong>: 标识TCP数据报中数据偏离TCP开头的位置，可以看成是TCP首部的长度。</p>
+<p>  <strong>保留位(6bit)</strong>: 当前没有意义。</p>
+<p>  <strong>控制位(6bit)</strong>:</p>
+<blockquote>
+<p> URG = 1时，表示紧急指针有意义，需要处理。</p>
+<p> ACK = 1时，表示确认号有意义，实际上除了第一个握手包，其他的包都为1。</p>
+<p> PSH = 1时，表示应该将数据立即交给上层应用协议。默认存入TCP的数据缓存区。</p>
+<p> RST = 1时，表示TCP连接存在异常，应该强制断开。</p>
+<p> SYN = 1时，表示该数据报为握手报，连接建立后SYN=0.</p>
+<p> FIN = 1时，表示今后不会再有数据进行传输，只有在断开连接的四次握手中才会出现。</p>
+</blockquote>
+<p>  <strong>窗口大小(16bit)</strong>: TCP在传输过程中一个次传输多少个字节的数据取决一个滑动窗口机制，该机制通过该值指明下次能接收的数据大小，该字段可以用于拥塞控制。或者自己的缓存区快满了，通知对方减慢数据的发送。</p>
+<p>  <strong>检验和(16bit)</strong>: 和UDP协议一样，表示整个TCP数据报的校验和，计算方法也和UDP一样。</p>
+<p>  <strong>紧急指针(16bit)</strong>: URG = 1时有效，表示本报文段中紧急数据末尾相对序列号的偏移量即数据的首位到紧急指针的位置为止为紧急数据。</p>
+<h3 id="TCP三次握手与四次握手"><a href="#TCP三次握手与四次握手" class="headerlink" title="TCP三次握手与四次握手"></a>TCP三次握手与四次握手</h3><p>TCP三次握手的意义是建立一个连接，确认连接的两端都可用。</p>
+<p>TCP通过四次握手关闭连接。</p>
+<p>一图言尽：</p>
+<p><img src="https://i.loli.net/2018/03/12/5aa68bed94834.png" alt="TCP三次握手和四次握手.png"></p>
+<h3 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h3><p>由于TCP内容比较多，关于滑动窗口、超时重传、拥塞控制等内容，后续进行记录。</p>
 
         
     
@@ -550,7 +558,7 @@
             repo: 'OffensiveYY.github.io',
             owner: 'OffensiveYY',
             admin: ['OffensiveYY'],
-			id: 'Sun Mar 11 2018 14:36:04 GMT+0800',
+			id: 'Sun Mar 11 2018 21:43:52 GMT+0800',
             // facebook-like distraction free mode
             distractionFreeMode: false
         })
@@ -577,7 +585,7 @@
 
     <!-- Next Nav -->
     
-        <a href="/2018/03/10/Https之SSL-TSL握手/" id="post_nav-older" class="next-content">
+        <a href="/2018/03/11/网络笔记之浅谈UDP/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
@@ -669,7 +677,7 @@
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">5</span></a>
+                <a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">7</span></a>
             </ul>
         </li>
         
@@ -687,7 +695,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/日常/">日常<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机网络/">计算机网络<span class="sidebar_archives-count">3</span></a>
+                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/日常/">日常<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机网络/">计算机网络<span class="sidebar_archives-count">5</span></a>
             </ul>
         </li>
         
