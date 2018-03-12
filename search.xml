@@ -1,97 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title><![CDATA[网络笔记之详解TCP（一）]]></title>
-    <url>%2F2018%2F03%2F11%2F%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
-    <content type="text"><![CDATA[前言 最近一直在复习计算机网络，在回顾了IP与UDP后，终于来到了TCP。在计算机网络的课程上，我第一次对TCP有了比较深入的了解，但是一直没有做过总结，以至于忘了TCP的很多细节。所以本次复习打算将这些细节尽快地记录下来。了解TCP的具体细节，有助于我们基于UDP开发出符合具体的业务的私有协议。 TCP白话简介 TCP在运输层提供了面向连接、可靠的字节流服务。所谓面向连接就是在开发发送数据前，需要先建立一个端到端的连接，这一点类似于通过电话之前的拨号，直到对面接听才建立通话通道。所谓可靠性，就是指即使在网络不稳定的环境下，TCP仍然要保证传输数据的完整（网路断开的情况TCP也无能为力）。为了能够保证数据的可靠传输，TCP需要考虑的事情很多，比如数据被破坏、丢包、重复以及顺序混乱等，为此，TCP设计了校验和、序列号、确认重答、重发控制、连接管理及窗口控制等机制。 PS：尽管TCP能保证数据的可靠传输，但在弱网的情况下，TCP的传输效率很低，所以在信号不是很好地方，数据加载很慢。所以，有时需要开发者基于UDP制定自己的控制协议。 TCP首部 TCP和UDP一样封装在一个IP数据报中，TCP首部的数据格式， 源端口(16bit): 发送端的端口号; 目的端口(16bit): 接收端的端口号; 序列号(32bit): 该数据报的TCP标识，实际上是TCP段中第一个字节的序号，每发送一个数据报，该字段就累加发送的数据长度。该字段不会从0开始，而是在握手的过程确定一个初始序号(ISN),之后在该值上进行累积加。假设握手后主机A第一个数据报的序号为A，包含的数据为a字节，那主机A在发送第二个数据报时，其序号为A+a。 确认号(32bit): 指下次应该接收接收的数据的序列号。主机A发送第一数据包后，如果主机B回了一个确认报，那么该确认报的确认号为A+a。如果主机A收到了确认号为B的确认报，可认为B序号之前的数据报全部被正常接收。该字段只有当控制位中的ACK=1时，才有效。 数据偏移(4bit): 标识TCP数据报中数据偏离TCP开头的位置，可以看成是TCP首部的长度。 保留位(6bit): 当前没有意义。 控制位(6bit): URG = 1时，表示紧急指针有意义，需要处理。 ACK = 1时，表示确认号有意义，实际上除了第一个握手包，其他的包都为1。 PSH = 1时，表示应该将数据立即交给上层应用协议。默认存入TCP的数据缓存区。 RST = 1时，表示TCP连接存在异常，应该强制断开。 SYN = 1时，表示该数据报为握手报，连接建立后SYN=0. FIN = 1时，表示今后不会再有数据进行传输，只有在断开连接的四次握手中才会出现。 窗口大小(16bit): TCP在传输过程中一个次传输多少个字节的数据取决一个滑动窗口机制，该机制通过该值指明下次能接收的数据大小，该字段可以用于拥塞控制。或者自己的缓存区快满了，通知对方减慢数据的发送。 检验和(16bit): 和UDP协议一样，表示整个TCP数据报的校验和，计算方法也和UDP一样。 紧急指针(16bit): URG = 1时有效，表示本报文段中紧急数据末尾相对序列号的偏移量即数据的首位到紧急指针的位置为止为紧急数据。 TCP三次握手与四次握手TCP三次握手的意义是建立一个连接，确认连接的两端都可用。 TCP通过四次握手关闭连接。 一图言尽： 后续由于TCP内容比较多，关于滑动窗口、超时重传、拥塞控制等内容，后续进行记录。]]></content>
+<search> 
+  
+    
+    <entry>
+      <title>网络笔记之详解TCP（一）</title>
+      <link href="/2018/03/12/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+      <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>  最近一直在复习计算机网络，在回顾了IP与UDP后，终于来到了TCP。在计算机网络的课程上，我第一次对TCP有了比较深入的了解，但是一直没有做过总结，以至于忘了TCP的很多细节。所以本次复习打算将这些细节尽快地记录下来。了解TCP的具体细节，有助于我们基于UDP开发出符合具体的业务的私有协议。</p><h3 id="TCP白话简介"><a href="#TCP白话简介" class="headerlink" title="TCP白话简介"></a>TCP白话简介</h3><p>  TCP在运输层提供了面向连接、可靠的字节流服务。所谓面向连接就是在开发发送数据前，需要先建立一个端到端的连接，这一点类似于通过电话之前的拨号，直到对面接听才建立通话通道。所谓可靠性，就是指即使在网络不稳定的环境下，TCP仍然要保证传输数据的完整（网路断开的情况TCP也无能为力）。为了能够保证数据的可靠传输，TCP需要考虑的事情很多，比如数据被破坏、丢包、重复以及顺序混乱等，为此，TCP设计了校验和、序列号、确认重答、重发控制、连接管理及窗口控制等机制。</p><p>  PS：尽管TCP能保证数据的可靠传输，但在弱网的情况下，TCP的传输效率很低，所以在信号不是很好地方，数据加载很慢。所以，有时需要开发者基于UDP制定自己的控制协议。</p><h3 id="TCP首部"><a href="#TCP首部" class="headerlink" title="TCP首部"></a>TCP首部</h3><p>  TCP和UDP一样封装在一个IP数据报中，TCP首部的数据格式，<br>  <img src="https://i.loli.net/2018/03/12/5aa6745b4abec.png" alt="TCP首部.png"></p><p>  <strong>源端口(16bit)</strong>: 发送端的端口号;</p><p>  <strong>目的端口(16bit)</strong>: 接收端的端口号;</p><p>  <strong>序列号(32bit)</strong>: 该数据报的TCP标识，实际上是TCP段中第一个字节的序号，每发送一个数据报，该字段就累加发送的数据长度。该字段不会从0开始，而是在握手的过程确定一个初始序号(ISN),之后在该值上进行累积加。假设握手后主机A第一个数据报的序号为A，包含的数据为a字节，那主机A在发送第二个数据报时，其序号为A+a。</p><p>  <strong>确认号(32bit)</strong>: 指下次应该接收接收的数据的序列号。主机A发送第一数据包后，如果主机B回了一个确认报，那么该确认报的确认号为A+a。如果主机A收到了确认号为B的确认报，可认为B序号之前的数据报全部被正常接收。该字段只有当控制位中的ACK=1时，才有效。</p><p>  <strong>数据偏移(4bit)</strong>: 标识TCP数据报中数据偏离TCP开头的位置，可以看成是TCP首部的长度。</p><p>  <strong>保留位(6bit)</strong>: 当前没有意义。</p><p>  <strong>控制位(6bit)</strong>:</p><blockquote><p> URG = 1时，表示紧急指针有意义，需要处理。</p><p> ACK = 1时，表示确认号有意义，实际上除了第一个握手包，其他的包都为1。</p><p> PSH = 1时，表示应该将数据立即交给上层应用协议。默认存入TCP的数据缓存区。</p><p> RST = 1时，表示TCP连接存在异常，应该强制断开。</p><p> SYN = 1时，表示该数据报为握手报，连接建立后SYN=0.</p><p> FIN = 1时，表示今后不会再有数据进行传输，只有在断开连接的四次握手中才会出现。</p></blockquote><p>  <strong>窗口大小(16bit)</strong>: TCP在传输过程中一个次传输多少个字节的数据取决一个滑动窗口机制，该机制通过该值指明下次能接收的数据大小，该字段可以用于拥塞控制。或者自己的缓存区快满了，通知对方减慢数据的发送。</p><p>  <strong>检验和(16bit)</strong>: 和UDP协议一样，表示整个TCP数据报的校验和，计算方法也和UDP一样。</p><p>  <strong>紧急指针(16bit)</strong>: URG = 1时有效，表示本报文段中紧急数据末尾相对序列号的偏移量即数据的首位到紧急指针的位置为止为紧急数据。</p><h3 id="TCP三次握手与四次握手"><a href="#TCP三次握手与四次握手" class="headerlink" title="TCP三次握手与四次握手"></a>TCP三次握手与四次握手</h3><p>TCP三次握手的意义是建立一个连接，确认连接的两端都可用。</p><p>TCP通过四次握手关闭连接。</p><p>一图言尽：</p><p><img src="https://i.loli.net/2018/03/12/5aa68bed94834.png" alt="TCP三次握手和四次握手.png"></p><h3 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h3><p>由于TCP内容比较多，关于滑动窗口、超时重传、拥塞控制等内容，后续进行记录。</p>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>计算机网络</tag>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[网络笔记之浅谈UDP]]></title>
-    <url>%2F2018%2F03%2F11%2F%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B5%85%E8%B0%88UDP%2F</url>
-    <content type="text"><![CDATA[UDP白话简介UDP是一个简单的面向数据报的运输层协议，提供不可靠、无连接的传输服务，因为不用像TCP一样进行确认重传、拥塞控制，所以UDP的传输工程比较简单。在网络环境比较好的情况下，传输效率极高。 UDP首部 UDP校验和UDP和TCP的校验和计算方法和IP相类似（16bit字的二进制反码和），但是IP只需计算首部的校验和，而UDP和TCP需要计算整个数据报的校验和。因为IP只需要保证IP首部的正确性，那么在网络环境正常的情况下，就能正确传输，而UDP和TCP都是直接承载应用层的数据，所以需要确保数据的正确性。 另外，UDP数据报的长度可以是奇数字节，但是校验和算法是把若干16bit字相加，所以必要时需要在最后增加填充字节0.填充字节参与校验和的计算，但不进行传输。 其次，在计算校验和时，UDP数据报和TCP段还需要包含一个12byte的伪首部。伪首部包含了IP首部的一些字段，其目的是让UDP在进行校验的时候再次确认数据是否是正确到达目的地。 在进行必要的填充和加上伪首部后（计算前UDP校验和字段为0），就可以进行二进制反码计算，计算结果如果是0，则填入全1. UDP的校验和计算可选，如果接收到的UDP数据报校验和为0，则发送端没有计算校验和。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> TCP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>网络笔记之浅谈UDP</title>
+      <link href="/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B5%85%E8%B0%88UDP/"/>
+      <content type="html"><![CDATA[<h3 id="UDP白话简介"><a href="#UDP白话简介" class="headerlink" title="UDP白话简介"></a>UDP白话简介</h3><p>UDP是一个简单的面向数据报的运输层协议，提供不可靠、无连接的传输服务，因为不用像TCP一样进行确认重传、拥塞控制，所以UDP的传输工程比较简单。在网络环境比较好的情况下，传输效率极高。</p><p><img src="https://i.loli.net/2018/03/11/5aa5225247f65.jpg" alt="UDP封装.jpg"></p><h3 id="UDP首部"><a href="#UDP首部" class="headerlink" title="UDP首部"></a>UDP首部</h3><p><img src="https://i.loli.net/2018/03/11/5aa522bba3750.jpg" alt="UDP头部.jpg"></p><h3 id="UDP校验和"><a href="#UDP校验和" class="headerlink" title="UDP校验和"></a>UDP校验和</h3><p>UDP和TCP的校验和计算方法和IP相类似（16bit字的二进制反码和），但是IP只需计算首部的校验和，而UDP和TCP需要计算整个数据报的校验和。因为IP只需要保证IP首部的正确性，那么在网络环境正常的情况下，就能正确传输，而UDP和TCP都是直接承载应用层的数据，所以需要确保数据的正确性。</p><p>另外，UDP数据报的长度可以是奇数字节，但是校验和算法是把若干16bit字相加，所以必要时需要在最后增加填充字节0.填充字节参与校验和的计算，但不进行传输。</p><p>其次，在计算校验和时，UDP数据报和TCP段还需要包含一个12byte的伪首部。伪首部包含了IP首部的一些字段，其目的是让UDP在进行校验的时候再次确认数据是否是正确到达目的地。</p><p><img src="https://i.loli.net/2018/03/11/5aa5236380231.jpg" alt="UDP伪首部.jpg"></p><p>在进行必要的填充和加上伪首部后（计算前UDP校验和字段为0），就可以进行二进制反码计算，计算结果如果是0，则填入全1.</p><p>UDP的校验和计算可选，如果接收到的UDP数据报校验和为0，则发送端没有计算校验和。</p>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>UDP</tag>
-        <tag>计算机网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[网络笔记之IP报文首部]]></title>
-    <url>%2F2018%2F03%2F11%2F%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8BIP%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8%2F</url>
-    <content type="text"><![CDATA[IP协议白话简介IP协议工作在TCP/IP网络模型的网际层，主要作用是为网络中的路由提供路由依据，其包括目的地（目的IP）、出发地（源IP），类似于邮递包裹上面快递单信息。给上层服务提供不可靠、无连接的传输服务。 问题：为啥IP协议是不可靠、无连接的？ 首先，不可靠是指它不能保证IP数据报能成功到达目的地。IP协议仅提供尽力的传输服务。如果因为某些原因发生丢包，IP协议不会提供任何反馈。而IP协议也不需要提供多余的反馈，因为可靠性由上层的TCP协议提供，而错误反馈可以通过ICMP协议来提供。简单地说，就是专业的事由专门的协议来做，IP协议的专业就只是传输。 IP首部 字段说明 版本(4bit):IP报文所使用的IP版本，目前通常是4（IPV4）。 首部长度(4bit):IP报文首部的长度，单位为字，IPv4报文头部该字段通常为5, 5字=20byte 服务类型TOC(8bit):描述该数据包的上层服务类型，主要作用是给路由决策提供参考，比如，给不同服务设置优先级，那么路由时可以优先处理优先级高的数据报。 长度(16bit):整个IP数据报的长度，单位为byte。 标识(16bit):唯一地标识主机发送的每份数据报，通常每份发一份报文它的值就会加1,达到最大值后重置。（该字段通常被称为IPid，据说某些校园网的多终端检测机制可以通过统计该字段，来计算该字段在坐标系中的分布来判断是否为多终端上网） 标志(3bit)、片偏移(13bit):这两个字段和IP分片相关，从上面IP报文的长度字段可知，一个IP报文最长为65535byte，实际传输的数据通常大于这个值，所以需要分成多个数据报。实际传输时，是否需要分成多个数据报，还取决于数据数据链路层一个叫MTU的值–链路层一个数据帧的最大数据长度。 标志的3个bit分别表示：保留位、不分片、更多的片；不分片该字段为010,分片则除了包含最后一片的数据报，其他的都为001。 如果不分片，片偏移没有意义，值为0；如果分片，该字段的值表示该片偏移原始数据开始处的位置，用于分片重组, IP标识相同的分片最终会被重组在一起。 生存时间TTL(8bit): 该字段表示报文可以经过的最多路由器数，初始值由源主机设定（通常32或64），每进过一个路由器，该值减1，当为0时，将会被路由器丢弃，并向源主机发送ICMP报文。路由追踪命令就是基于该字段实现的。 协议(8bit):该数据报承载的上层协议类型。 首部检验和(16bit):该字段用于校验该报文的头部信息是否有误，有误的数据报会被丢弃。具体的计算方法是先将该字段置0，然后把首部分割为多个16bit的二进制，然后对他们进行二进制反码求和。最后将算出来的结果填入。校验时同样是使用的二进制反码求和。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> UDP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>网络笔记之IP报文首部</title>
+      <link href="/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8BIP%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8/"/>
+      <content type="html"><![CDATA[<h3 id="IP协议白话简介"><a href="#IP协议白话简介" class="headerlink" title="IP协议白话简介"></a>IP协议白话简介</h3><p>IP协议工作在TCP/IP网络模型的网际层，主要作用是为网络中的路由提供路由依据，其包括目的地（目的IP）、出发地（源IP），类似于邮递包裹上面快递单信息。给上层服务提供不可靠、无连接的传输服务。</p><p><strong>问题：为啥IP协议是不可靠、无连接的？</strong></p><p>首先，不可靠是指它不能保证IP数据报能成功到达目的地。IP协议仅提供尽力的传输服务。如果因为某些原因发生丢包，IP协议不会提供任何反馈。而IP协议也不需要提供多余的反馈，因为可靠性由上层的TCP协议提供，而错误反馈可以通过ICMP协议来提供。简单地说，就是专业的事由专门的协议来做，IP协议的专业就只是传输。</p><h3 id="IP首部"><a href="#IP首部" class="headerlink" title="IP首部"></a>IP首部</h3><p><img src="https://i.loli.net/2018/03/11/5aa4cefdae987.jpg" alt="IP报文头部结构.jpg"></p><h3 id="字段说明"><a href="#字段说明" class="headerlink" title="字段说明"></a>字段说明</h3><ul><li><strong>版本(4bit)</strong>:IP报文所使用的IP版本，目前通常是4（IPV4）。</li><li><strong>首部长度(4bit)</strong>:IP报文首部的长度，单位为字，IPv4报文头部该字段通常为5, 5字=20byte</li><li><strong>服务类型TOC(8bit)</strong>:描述该数据包的上层服务类型，主要作用是给路由决策提供参考，比如，给不同服务设置优先级，那么路由时可以优先处理优先级高的数据报。</li><li><strong>长度(16bit)</strong>:整个IP数据报的长度，单位为byte。</li><li><strong>标识(16bit)</strong>:唯一地标识主机发送的每份数据报，通常每份发一份报文它的值就会加1,达到最大值后重置。（该字段通常被称为IPid，据说某些校园网的多终端检测机制可以通过统计该字段，来计算该字段在坐标系中的分布来判断是否为多终端上网）</li><li><strong>标志(3bit)</strong>、<strong>片偏移(13bit)</strong>:这两个字段和IP分片相关，从上面IP报文的长度字段可知，一个IP报文最长为65535byte，实际传输的数据通常大于这个值，所以需要分成多个数据报。实际传输时，是否需要分成多个数据报，还取决于数据数据链路层一个叫MTU的值–链路层一个数据帧的最大数据长度。<ul><li>标志的3个bit分别表示：保留位、不分片、更多的片；不分片该字段为010,分片则除了包含最后一片的数据报，其他的都为001。</li><li>如果不分片，片偏移没有意义，值为0；如果分片，该字段的值表示该片偏移原始数据开始处的位置，用于分片重组, IP标识相同的分片最终会被重组在一起。</li></ul></li><li><strong>生存时间TTL(8bit)</strong>: 该字段表示报文可以经过的最多路由器数，初始值由源主机设定（通常32或64），每进过一个路由器，该值减1，当为0时，将会被路由器丢弃，并向源主机发送ICMP报文。路由追踪命令就是基于该字段实现的。</li><li><strong>协议(8bit)</strong>:该数据报承载的上层协议类型。</li><li><strong>首部检验和(16bit)</strong>:该字段用于校验该报文的头部信息是否有误，有误的数据报会被丢弃。具体的计算方法是先将该字段置0，然后把首部分割为多个16bit的二进制，然后对他们进行二进制反码求和。最后将算出来的结果填入。校验时同样是使用的二进制反码求和。</li></ul>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>计算机网络</tag>
-        <tag>IP协议</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Https之SSL/TLS握手]]></title>
-    <url>%2F2018%2F03%2F10%2FHttps%E4%B9%8BSSL-TSL%E6%8F%A1%E6%89%8B%2F</url>
-    <content type="text"><![CDATA[HTTPS白话简介 相信对于大多数开发人员，Https并不陌生，在http协议基础上套上一个加密解密的过程，就是Https，而完成加密解密的部分就是SSL(Secure Sockets Layer, 安全套字节层)。 关于TSL/SSL 1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是没有发布；之后在1995年正式发布了SSL 2.0, 但很快发现严重漏；1996年，SSL 3.0版问世，并得到大规模应用。之后在1999年，由互联网标准化组织ISOC接管，并升级成为TSL(Transport Layer Security)。所以TSL和SSL是同一个协议。 加密解密基本原理 TSL在不同的阶段使用了不同的加密方式。 在握手阶段，使用的是公钥加密法，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。握手的主要目的是完成客户端与服务端之间的验证，同时约定一个随机密钥种子； 在数据传输阶段，所用的加密方式为对称加密(AES)，经过握手阶段后，客户端和服务端保存着同一个密钥种，在之后的数据传输中，客户端和服务器端同时使用给密钥进行加密解密。同时，该密钥还被用于HMAC的key，用于数据完整性、可靠性的校验。 问题：握手阶段，如何保证公钥不被篡改？ 实际上，客户端一开始向服务端请求的是一个数字证书，数字证书中包含了公钥、该数字证书的签发机构、改签发机构的数字签名等信息。客户端通过检验证书的合法性来判断包含公钥是否可信。 至于为啥数字证书的方案可行，这就要涉及到信息安全的理论知识了，这里不深入。签发证书的机构如果是权威机构CA，则该证书是CA证书，可信任。如果不是，则提示证书不可信。 问题：为啥在数据传输阶段不用公钥加密？ 因为公钥加密实际上就的非对称加密，非对称加密的数序理论依据导致了非对称加密的成本比较高，所以通常只用于少量数据的传输，而对称加密是通过非线性变换等方式实现的加密，加密成本比较低，性能相对非对称加密高。 SSL/TLS握手 从上面的原理可总结出SSL/TLS握手的过程： 客户端向服务器端索要并验证公钥。 双方协商生成”对话密钥”。 握手详细过程： 客户端发出请求（ClientHello） 客户端先向服务器发出加密通信的请求，请求内容：支持的协议版本（比如TLS 1.0版）、随机数A（用于生产对称密钥）、支持的加密方法（比如RSA公钥加密）。 服务器回应（SeverHello） 服务器收到客户端请求后，向客户端发出回应，回应内容：确认使用的协议版本、随机数B、确认使用的加密方法、服务器证书。 如果服务器需要验证客户端身份，还回要求客户端提供证书，该证书通常需要提前安装。 客户端回应 客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。如果证书没有问题，客户端就会从证书中取出服务器的公钥。 然后发送回应服务器：随机数C（用服务器公钥进行加密）、编码改变通知（表示随后的信息都将用双方商定的加密方法和密钥发送）、客户端握手结束通知（表示客户端的握手阶段已经结束）。 服务器的最后回应 服务器收到客户端的随机数C之后，计算生成本次会话所用的”会话密钥”，向客户端回应：编码改变通知、服务器握手结束通知。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> IP协议 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Https之SSL/TLS握手</title>
+      <link href="/2018/03/10/Https%E4%B9%8BSSL-TSL%E6%8F%A1%E6%89%8B/"/>
+      <content type="html"><![CDATA[<h3 id="HTTPS白话简介"><a href="#HTTPS白话简介" class="headerlink" title="HTTPS白话简介"></a>HTTPS白话简介</h3><p>  相信对于大多数开发人员，Https并不陌生，在http协议基础上套上一个加密解密的过程，就是Https，而完成加密解密的部分就是SSL(Secure Sockets Layer, 安全套字节层)。<br>  <a href="https://i.loli.net/2018/03/10/5aa3dc30b9086.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/03/10/5aa3dc30b9086.png" alt="https协议.png"></a></p><h3 id="关于TSL-SSL"><a href="#关于TSL-SSL" class="headerlink" title="关于TSL/SSL"></a>关于TSL/SSL</h3><p>  1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是没有发布；之后在1995年正式发布了SSL 2.0, 但很快发现严重漏；1996年，SSL 3.0版问世，并得到大规模应用。之后在1999年，由互联网标准化组织ISOC接管，并升级成为TSL(Transport Layer Security)。所以TSL和SSL是同一个协议。</p><h3 id="加密解密基本原理"><a href="#加密解密基本原理" class="headerlink" title="加密解密基本原理"></a>加密解密基本原理</h3><p>  TSL在不同的阶段使用了不同的加密方式。</p><p>  在握手阶段，使用的是公钥加密法，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。握手的主要目的是完成客户端与服务端之间的验证，同时约定一个随机密钥种子；</p><p>  在数据传输阶段，所用的加密方式为对称加密(AES)，经过握手阶段后，客户端和服务端保存着同一个密钥种，在之后的数据传输中，客户端和服务器端同时使用给密钥进行加密解密。同时，该密钥还被用于HMAC的key，用于数据完整性、可靠性的校验。</p><p>  <strong>问题：握手阶段，如何保证公钥不被篡改？</strong></p><p>  实际上，客户端一开始向服务端请求的是一个数字证书，数字证书中包含了公钥、该数字证书的签发机构、改签发机构的数字签名等信息。客户端通过检验证书的合法性来判断包含公钥是否可信。</p><p>  至于为啥数字证书的方案可行，这就要涉及到信息安全的理论知识了，这里不深入。签发证书的机构如果是权威机构CA，则该证书是CA证书，可信任。如果不是，则提示证书不可信。</p><p>  <strong>问题：为啥在数据传输阶段不用公钥加密？</strong></p><p>  因为公钥加密实际上就的非对称加密，非对称加密的数序理论依据导致了非对称加密的成本比较高，所以通常只用于少量数据的传输，而对称加密是通过非线性变换等方式实现的加密，加密成本比较低，性能相对非对称加密高。</p><h3 id="SSL-TLS握手"><a href="#SSL-TLS握手" class="headerlink" title="SSL/TLS握手"></a>SSL/TLS握手</h3><p>  从上面的原理可总结出SSL/TLS握手的过程：</p><ol><li>客户端向服务器端索要并验证公钥。</li><li>双方协商生成”对话密钥”。</li></ol><p><strong>握手详细过程</strong>：</p><p><a href="https://i.loli.net/2018/03/10/5aa3f5f34a00f.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/03/10/5aa3f5f34a00f.png" alt="SSL握手.png"></a></p><ol><li><p>客户端发出请求（ClientHello）</p><p>客户端先向服务器发出加密通信的请求，请求内容：<br>支持的协议版本（比如TLS 1.0版）、随机数A（用于生产对称密钥）、支持的加密方法（比如RSA公钥加密）。</p></li><li><p>服务器回应（SeverHello）</p><p>服务器收到客户端请求后，向客户端发出回应，回应内容：<br>确认使用的协议版本、随机数B、确认使用的加密方法、服务器证书。</p><p>如果服务器需要验证客户端身份，还回要求客户端提供证书，该证书通常需要提前安装。</p></li><li><p>客户端回应</p><p>客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。如果证书没有问题，客户端就会从证书中取出服务器的公钥。</p><p>然后发送回应服务器：随机数C（用服务器公钥进行加密）、编码改变通知（表示随后的信息都将用双方商定的加密方法和密钥发送）、客户端握手结束通知（表示客户端的握手阶段已经结束）。</p></li><li><p>服务器的最后回应</p><p>服务器收到客户端的随机数C之后，计算生成本次会话所用的”会话密钥”，向客户端回应：编码改变通知、服务器握手结束通知。</p></li></ol>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>计算机网络</tag>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[记我对Socket的误解]]></title>
-    <url>%2F2018%2F03%2F10%2F%E8%AE%B0%E6%88%91%E5%AF%B9Socket%E7%9A%84%E8%AF%AF%E8%A7%A3%2F</url>
-    <content type="text"><![CDATA[误解记得刚开始学习Java网络编程的时候，接触的便是Socket，通过Socket和SocketServer建立一个TCP连接，然后获取网络流对象来传递数据。一个经典TCP连接建立过程： 客户端： 创建一个 Socket 实例：构造函数向指定的远程主机和端口建立一个 TCP 连接； 通过套接字的 I/O 流与服务端通信； 使用 Socket 类的 close() 方法关闭连接。 服务端: 创建一个 ServerSocket 实例并指定本地端口，用来监听客户端在该端口发送的 TCP 连接请求； 重复执行： 调用 ServerSocket 的 accept()方法以获取客户端连接，并通过其返回值创建一个 Socket 实例； 为返回的 Socket 实例开启新的线程，并使用返回的 Socket 实例的 I/O 流与客户端通信； 通信完成后，使用 Socket 类的 close()方法关闭该客户端的套接字连接。 在计算机网络课程中，了解到Socket的定义： 套字节Socket = (IP地址 : 端口号) 于是一直认为Socket其实就是在封装了TCP协议的实现。 PS：在Java的API中，Socket类确实就是封装TCP协议的实现。 疑惑关于Socket的这个误解一直伴随着我到网络编程的课程上，上课使用的编程语言是C#。在C#中创建一个Socket对象如下，1Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP); 该构造函数的参数含义： 第一参数定义了该Socket支持的协议族，AddressFamily.InterNetwork表示IPv4； 第二参数定义了该Socket的类型，SocketType.Stream表示TCP，此外还有Dgram(UDP)、Raw、Rdm、Seqpacket。 第三参数定义了该Socket支持协议，主要有IP、Tcp、Udp、Icmp、Ggp等。 关于C#的Socket的更多说明 是不是和Java的Socket有大不同？到了这里，我才意识到我以前对Socket的理解太肤浅了。 Socket究竟为何物？我们知道目前的TCP/IP网络模型，从上往下为：应用层、运输层、网际层、网络接口层。 应用层包含众多应用协议，比如HTTP、SNMP、POP3等协议，这些协议的规定信息与数据报文在网络之中传输行为无关，只面向具体应用服务。 运输层就只有TCP与UDP协议，TCP协议通过握手机制、确认重传机制来提供可靠的连接，UDP则比较简单，因为提供不可靠的连接，所以不需要像TCP那样复杂。 网际层主要是提供网络中寻址的IP协议，还有用于数据包传输控制的多种路由协议、ICMP、IGMP等。 网络接口层包含了数据链路层和物理层，但在应用层软件开发中一般不需我们去关心。 那么Socket和这些网络协议有什么关系呢？ Socket主要和运输层和网际层这两层的协议有关，他们关系就像接口和实现类之间的关系。 Java中的Socket封装了TCP的实现，而在C#中Socket封装了多种协议的实现，通过构造函数的参数来选择Socket具体实现协议。所以Socket准确来说，应该是一个网络协议的编程接口，他不是为特定的协议设计。TCP、UDP协议都只是Socket的具体实现。 计算机网络课程教材上定义的Socket=(IP地址:端口号)，只有Socket的实现协议为运算层协议的时候才正确。当他的具体实现为ICMP(ping命令的数据包用的就是ICMP协议)时，更本不需要一个端口号。 参考: TCP/IP、Http、Socket的区别? -知乎 Java TCP/IP Socket 编程]]></content>
+      
+      
+        <tags>
+            
+            <tag> https </tag>
+            
+            <tag> 计算机网络 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>记我对Socket的误解</title>
+      <link href="/2018/03/10/%E8%AE%B0%E6%88%91%E5%AF%B9Socket%E7%9A%84%E8%AF%AF%E8%A7%A3/"/>
+      <content type="html"><![CDATA[<h2 id="误解"><a href="#误解" class="headerlink" title="误解"></a>误解</h2><p>记得刚开始学习Java网络编程的时候，接触的便是Socket，通过Socket和SocketServer建立一个TCP连接，然后获取网络流对象来传递数据。一个经典TCP连接建立过程：</p><p>客户端：</p><ul><li>创建一个 Socket 实例：构造函数向指定的远程主机和端口建立一个 TCP 连接；</li><li>通过套接字的 I/O 流与服务端通信；</li><li>使用 Socket 类的 close() 方法关闭连接。</li></ul><p>服务端:</p><ul><li>创建一个 ServerSocket 实例并指定本地端口，用来监听客户端在该端口发送的 TCP 连接请求；</li><li>重复执行：<ul><li>调用 ServerSocket 的 accept()方法以获取客户端连接，并通过其返回值创建一个 Socket 实例；</li><li>为返回的 Socket 实例开启新的线程，并使用返回的 Socket 实例的 I/O 流与客户端通信； 通信完成后，使用 Socket 类的 close()方法关闭该客户端的套接字连接。</li></ul></li></ul><p>在计算机网络课程中，了解到Socket的定义：</p><blockquote><p>套字节Socket = (IP地址 : 端口号)</p></blockquote><p>于是一直认为<del>Socket其实就是在封装了TCP协议的实现</del>。</p><p>PS：在Java的API中，Socket类确实就是封装TCP协议的实现。</p><h2 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h2><p>关于Socket的这个误解一直伴随着我到网络编程的课程上，上课使用的编程语言是C#。在C#中创建一个Socket对象如下，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);</span><br></pre></td></tr></table></figure></p><p>该构造函数的参数含义：</p><p>第一参数定义了该Socket支持的协议族，AddressFamily.InterNetwork表示IPv4；</p><p>第二参数定义了该Socket的类型，SocketType.Stream表示TCP，此外还有Dgram(UDP)、Raw、Rdm、Seqpacket。</p><p>第三参数定义了该Socket支持协议，主要有IP、Tcp、Udp、Icmp、Ggp等。</p><p><a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.net.sockets.socket?view=netframework-4.7.1" target="_blank" rel="noopener">关于C#的Socket的更多说明</a></p><p>是不是和Java的Socket有大不同？到了这里，我才意识到我以前对Socket的理解太肤浅了。</p><h2 id="Socket究竟为何物？"><a href="#Socket究竟为何物？" class="headerlink" title="Socket究竟为何物？"></a>Socket究竟为何物？</h2><p>我们知道目前的TCP/IP网络模型，从上往下为：<br>应用层、运输层、网际层、网络接口层。</p><p>应用层包含众多应用协议，比如HTTP、SNMP、POP3等协议，这些协议的规定信息与数据报文在网络之中传输行为无关，只面向具体应用服务。</p><p>运输层就只有TCP与UDP协议，TCP协议通过握手机制、确认重传机制来提供可靠的连接，UDP则比较简单，因为提供不可靠的连接，所以不需要像TCP那样复杂。</p><p>网际层主要是提供网络中寻址的IP协议，还有用于数据包传输控制的多种路由协议、ICMP、IGMP等。</p><p>网络接口层包含了数据链路层和物理层，但在应用层软件开发中一般不需我们去关心。</p><p><strong>那么Socket和这些网络协议有什么关系呢？</strong></p><p>Socket主要和运输层和网际层这两层的协议有关，他们关系就像接口和实现类之间的关系。</p><p>Java中的Socket封装了TCP的实现，而在C#中Socket封装了多种协议的实现，通过构造函数的参数来选择Socket具体实现协议。所以Socket准确来说，应该是一个网络协议的编程接口，他不是为特定的协议设计。TCP、UDP协议都只是Socket的具体实现。</p><p>计算机网络课程教材上定义的Socket=(IP地址:端口号)，只有Socket的实现协议为运算层协议的时候才正确。当他的具体实现为ICMP(ping命令的数据包用的就是ICMP协议)时，更本不需要一个端口号。</p><p>参考:</p><ul><li><a href="https://www.zhihu.com/question/39541968" target="_blank" rel="noopener">TCP/IP、Http、Socket的区别? -知乎</a></li><li><a href="http://wiki.jikexueyuan.com/project/java-socket/socket-advanced.html" target="_blank" rel="noopener">Java TCP/IP Socket 编程</a></li></ul>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>Socket</tag>
-        <tag>网络编程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Android知识体系脑图]]></title>
-    <url>%2F2018%2F03%2F09%2FAndroid%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%2F</url>
-    <content type="text"><![CDATA[作为一个靠自己摸爬滚打、自主探究的Android程序员，常常迷失在复杂的Android系统之中，面对日新月异的新技术，我们竭力追赶，但是在开发中，还是常常陷入一些莫名奇妙的bug之中，有时在网上搜搜到了解决方案，但是也有可能已经过时了，在新的系统版本中不适用。如果能有一个详细的学习体系结构，相信对系统地学习Android开发是有事半功倍的作用的。前几天，就在网上了解到了别人总结的Android知识体系，于是速速收藏，以便学习查阅。 原文链接]]></content>
+      
+      
+        <tags>
+            
+            <tag> Socket </tag>
+            
+            <tag> 网络编程 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Android知识体系脑图</title>
+      <link href="/2018/03/09/Android%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/"/>
+      <content type="html"><![CDATA[<p>作为一个靠自己摸爬滚打、自主探究的Android程序员，常常迷失在复杂的Android系统之中，面对日新月异的新技术，我们竭力追赶，但是在开发中，还是常常陷入一些莫名奇妙的bug之中，有时在网上搜搜到了解决方案，但是也有可能已经过时了，在新的系统版本中不适用。如果能有一个详细的学习体系结构，相信对系统地学习Android开发是有事半功倍的作用的。前几天，就在网上了解到了别人总结的Android知识体系，于是速速收藏，以便学习查阅。<br>    <img src="https://i.loli.net/2018/03/09/5aa26967de76b.jpeg" alt="Android知识架构脑图.jpeg"><br>    <a href="https://www.diycode.cc/topics/1172" target="_blank" rel="noopener">原文链接</a></p>]]></content>
+      
       <categories>
-        <category>Android</category>
+          
+          <category> Android </category>
+          
       </categories>
-      <tags>
-        <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[关于]]></title>
-    <url>%2F2018%2F03%2F06%2F%E5%85%B3%E4%BA%8E%2F</url>
-    <content type="text"><![CDATA[我是…一个生性平和又勇于奋斗的偏佛系95后，一只Andoid程序猿，来自厂里，号称厂里的帅小伙。喜欢各种新奇的App，也喜欢喜欢研究与Android相关的各种黑科技。喜欢听音乐，口味偏向粤语歌和吉他曲。 关于该博客以前一直想搞一个个人博客，奈何博主在前端设计与技术这方面知识比较欠缺，所以一直跳票。但为了更好地记录自己的经历，在2018年3月初，在一个前端老铁的帮助下成功搭建了这个博客，在这鸣谢一下该老铁。该博客用Hexo+Github+Material主题进行搭建，用于个人的学习记录和日常分享。 关于博文本博客中的博文主要是个人的记录，所以不一定是百分百正确，如果您发现任何错误，请在评论区文明指出，本人将报着去伪存真的态度进行探讨，并表示对您表衷心的感谢，如果是开放性问题，也可各抒己见或求同存异，有朋自远方来，不亦悦乎？欢迎交流学习。部分内容是转载的，我会注明原链接，尊重原创作。 鸣谢 SM.MS 图床 更新时间：2018-03-12]]></content>
+      
+      
+        <tags>
+            
+            <tag> Android </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>关于</title>
+      <link href="/2018/03/06/%E5%85%B3%E4%BA%8E/"/>
+      <content type="html"><![CDATA[<h2 id="我是…"><a href="#我是…" class="headerlink" title="我是…"></a>我是…</h2><p>一个生性平和又勇于奋斗的偏佛系95后，一只Andoid程序猿，来自厂里，号称厂里的帅小伙。喜欢各种新奇的App，也喜欢喜欢研究与Android相关的各种黑科技。喜欢听音乐，口味偏向粤语歌和吉他曲。</p><h2 id="关于该博客"><a href="#关于该博客" class="headerlink" title="关于该博客"></a>关于该博客</h2><p>以前一直想搞一个个人博客，奈何博主在前端设计与技术这方面知识比较欠缺，所以一直跳票。但为了更好地记录自己的经历，在2018年3月初，在一个<a href="http://xuyonglin222.github.io" target="_blank" rel="noopener">前端老铁</a>的帮助下成功搭建了这个博客，在这鸣谢一下该老铁。该博客用Hexo+Github+Material主题进行搭建，用于个人的学习记录和日常分享。</p><h2 id="关于博文"><a href="#关于博文" class="headerlink" title="关于博文"></a>关于博文</h2><p>本博客中的博文主要是个人的记录，所以不一定是百分百正确，如果您发现任何错误，请在评论区文明指出，本人将报着去伪存真的态度进行探讨，并表示对您表衷心的感谢，如果是开放性问题，也可各抒己见或求同存异，有朋自远方来，不亦悦乎？欢迎交流学习。部分内容是转载的，我会注明原链接，尊重原创作。</p><h2 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h2><ol><li><a href="https://sm.ms" target="_blank" rel="noopener">SM.MS 图床</a></li></ol><p><strong>更新时间</strong>：2018-03-12</p>]]></content>
+      
       <categories>
-        <category>日常</category>
+          
+          <category> 日常 </category>
+          
       </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[友情链接]]></title>
-    <url>%2Flinks%2Findex.html</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
-    <title><![CDATA[标签云]]></title>
-    <url>%2Ftags%2Findex.html</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
-    <content type="text"></content>
-  </entry>
+      
+      
+    </entry>
+    
+  
+  
+    
+    <entry>
+      <title>时间轴</title>
+      <link href="/timeline/index.html"/>
+      <content type="html"><![CDATA[]]></content>
+    </entry>
+    
+    <entry>
+      <title>标签云</title>
+      <link href="/tags/index.html"/>
+      <content type="html"><![CDATA[]]></content>
+    </entry>
+    
+    <entry>
+      <title>友情链接</title>
+      <link href="/links/index.html"/>
+      <content type="html"><![CDATA[]]></content>
+    </entry>
+    
+  
 </search>

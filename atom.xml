@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://offensiveyy.github.io/"/>
-  <updated>2018-03-11T13:43:52.000Z</updated>
+  <updated>2018-03-12T13:43:52.000Z</updated>
   <id>http://offensiveyy.github.io/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>网络笔记之详解TCP（一）</title>
-    <link href="http://offensiveyy.github.io/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>http://offensiveyy.github.io/2018/03/11/网络笔记之详解TCP（一）/</id>
-    <published>2018-03-11T13:43:52.000Z</published>
-    <updated>2018-03-11T13:43:52.000Z</updated>
+    <link href="http://offensiveyy.github.io/2018/03/12/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://offensiveyy.github.io/2018/03/12/网络笔记之详解TCP（一）/</id>
+    <published>2018-03-12T13:43:52.000Z</published>
+    <updated>2018-03-12T13:43:52.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>  最近一直在复习计算机网络，在回顾了IP与UDP后，终于来到了TCP。在计算机网络的课程上，我第一次对TCP有了比较深入的了解，但是一直没有做过总结，以至于忘了TCP的很多细节。所以本次复习打算将这些细节尽快地记录下来。了解TCP的具体细节，有助于我们基于UDP开发出符合具体的业务的私有协议。</p><h3 id="TCP白话简介"><a href="#TCP白话简介" class="headerlink" title="TCP白话简介"></a>TCP白话简介</h3><p>  TCP在运输层提供了面向连接、可靠的字节流服务。所谓面向连接就是在开发发送数据前，需要先建立一个端到端的连接，这一点类似于通过电话之前的拨号，直到对面接听才建立通话通道。所谓可靠性，就是指即使在网络不稳定的环境下，TCP仍然要保证传输数据的完整（网路断开的情况TCP也无能为力）。为了能够保证数据的可靠传输，TCP需要考虑的事情很多，比如数据被破坏、丢包、重复以及顺序混乱等，为此，TCP设计了校验和、序列号、确认重答、重发控制、连接管理及窗口控制等机制。</p><p>  PS：尽管TCP能保证数据的可靠传输，但在弱网的情况下，TCP的传输效率很低，所以在信号不是很好地方，数据加载很慢。所以，有时需要开发者基于UDP制定自己的控制协议。</p><h3 id="TCP首部"><a href="#TCP首部" class="headerlink" title="TCP首部"></a>TCP首部</h3><p>  TCP和UDP一样封装在一个IP数据报中，TCP首部的数据格式，<br>  <img src="https://i.loli.net/2018/03/12/5aa6745b4abec.png" alt="TCP首部.png"></p><p>  <strong>源端口(16bit)</strong>: 发送端的端口号;</p><p>  <strong>目的端口(16bit)</strong>: 接收端的端口号;</p><p>  <strong>序列号(32bit)</strong>: 该数据报的TCP标识，实际上是TCP段中第一个字节的序号，每发送一个数据报，该字段就累加发送的数据长度。该字段不会从0开始，而是在握手的过程确定一个初始序号(ISN),之后在该值上进行累积加。假设握手后主机A第一个数据报的序号为A，包含的数据为a字节，那主机A在发送第二个数据报时，其序号为A+a。</p><p>  <strong>确认号(32bit)</strong>: 指下次应该接收接收的数据的序列号。主机A发送第一数据包后，如果主机B回了一个确认报，那么该确认报的确认号为A+a。如果主机A收到了确认号为B的确认报，可认为B序号之前的数据报全部被正常接收。该字段只有当控制位中的ACK=1时，才有效。</p><p>  <strong>数据偏移(4bit)</strong>: 标识TCP数据报中数据偏离TCP开头的位置，可以看成是TCP首部的长度。</p><p>  <strong>保留位(6bit)</strong>: 当前没有意义。</p><p>  <strong>控制位(6bit)</strong>:</p><blockquote><p> URG = 1时，表示紧急指针有意义，需要处理。</p><p> ACK = 1时，表示确认号有意义，实际上除了第一个握手包，其他的包都为1。</p><p> PSH = 1时，表示应该将数据立即交给上层应用协议。默认存入TCP的数据缓存区。</p><p> RST = 1时，表示TCP连接存在异常，应该强制断开。</p><p> SYN = 1时，表示该数据报为握手报，连接建立后SYN=0.</p><p> FIN = 1时，表示今后不会再有数据进行传输，只有在断开连接的四次握手中才会出现。</p></blockquote><p>  <strong>窗口大小(16bit)</strong>: TCP在传输过程中一个次传输多少个字节的数据取决一个滑动窗口机制，该机制通过该值指明下次能接收的数据大小，该字段可以用于拥塞控制。或者自己的缓存区快满了，通知对方减慢数据的发送。</p><p>  <strong>检验和(16bit)</strong>: 和UDP协议一样，表示整个TCP数据报的校验和，计算方法也和UDP一样。</p><p>  <strong>紧急指针(16bit)</strong>: URG = 1时有效，表示本报文段中紧急数据末尾相对序列号的偏移量即数据的首位到紧急指针的位置为止为紧急数据。</p><h3 id="TCP三次握手与四次握手"><a href="#TCP三次握手与四次握手" class="headerlink" title="TCP三次握手与四次握手"></a>TCP三次握手与四次握手</h3><p>TCP三次握手的意义是建立一个连接，确认连接的两端都可用。</p><p>TCP通过四次握手关闭连接。</p><p>一图言尽：</p><p><img src="https://i.loli.net/2018/03/12/5aa68bed94834.png" alt="TCP三次握手和四次握手.png"></p><h3 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h3><p>由于TCP内容比较多，关于滑动窗口、超时重传、拥塞控制等内容，后续进行记录。</p>]]></content>
     
@@ -64,9 +64,9 @@
       <category term="计算机网络" scheme="http://offensiveyy.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="UDP" scheme="http://offensiveyy.github.io/tags/UDP/"/>
-    
       <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="UDP" scheme="http://offensiveyy.github.io/tags/UDP/"/>
     
   </entry>
   
@@ -118,9 +118,9 @@
       <category term="计算机网络" scheme="http://offensiveyy.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
       <category term="https" scheme="http://offensiveyy.github.io/tags/https/"/>
+    
+      <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
