@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Kotlin:告别findViewById]]></title>
+    <url>%2F2018%2F03%2F31%2FKotlin%E5%91%8A%E5%88%ABfindViewById%2F</url>
+    <content type="text"><![CDATA[背景关于Kotlin，个人在Google发布前就已经关注了，前段时间曾经看着文档学了一些，但是一直没有没有项目中使用。最近上学校里面的移动应用开发课，需要写一些小作业，索性拿作业来练练手。 告别findViewById相信很多人都对Android开发中，使用findViewbyId来获取布局的中控件感到繁琐，好在有ButterKnife这样神奇的第三方依赖注入库，让我们能够减少很多模板代码。不过当你使用Kotlin进行开发时，Kotlin官方已经开发了Kotlin Android Extensions(kotlin-gradle-plugin的一部分),帮我们完成控件绑定的任务。 如何使用？ 配置Module的build.gradle 如果你的工程是Kotlin工程，那么只需在需要的Module的build.gradle中，添加 apply plugin: ‘kotlin-android-extensions’ 在Activity的源代码中，引入相应的synthetic properties import kotlinx.android.synthetic.main.&lt;layout>.* 为布局文件名。比如 //MainActivity.kt import kotlinx.android.synthetic.main.activity_main.* class MainActivity : AppCompatActivity() { override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) setContentView(R.layout.activity_main) tv_name.text = &quot;Ksxy&quot; } } //activity_main.xml &lt;TextView android:id=&quot;@+id/tv_name&quot; android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot;/&gt;]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Kotlin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Android开发杂记]]></title>
+    <url>%2F2018%2F03%2F31%2FAndroid%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0%2F</url>
+    <content type="text"><![CDATA[前言在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。 Android Assets目录 Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助AssetManager。使用Context.getAssetManager()可以获取实例。 注：assets下可以有子目录，引入文件时url的根目录为assets。 val assets = getAssetManager() val inStream = assets.open(&quot;img/qrcode.png&quot;) //文件路径:assets/img/qrcode.png val bitmap = BitmapFactory.decodeStream(inStream) inStream.close() string.xml中字符串插值 string.xml中， &lt;string name=”stu_name”>名字: %s&lt;/string> 代码中， tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”) %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00 %d ： 表示整数 %f： 表示浮点数 %s ： 表示字符串 持续更新 2018-3-31]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>开发笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java虚拟机内存模型]]></title>
+    <url>%2F2018%2F03%2F30%2FJava%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[引言最近在面试的过程中，被问及了关于Java虚拟机的问题，虽然以前自己有过大致的了解，但是面试时有些紧张，没有回忆上来。索性查阅后做个总结。 正文运行时数据区域 程序计数器: 程序计数器是一块比较小的内存空间，记录了当前线程所执行的字节码的行号，和CPU中的指令计数寄存器类似。每个线程都有一个独立的程序计数器，互不影响。如果线程执行的是Java方法，那么计数器记录着的是正在执行的虚拟机字节码指令的地址，如果执行的为Native方法，计数器为空。 Java虚拟机栈: Java虚拟机和程序计数器一样为线程私有，它的生命周期和线程相同。描述了Java方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、操作数栈、动态链接、方法口等信息。递归调用层数比较多时的，就有可能导致该部分内存的溢出（StackOverflowError）。 本地方法栈: 本地方法栈和Java虚拟机栈功能类似，区别在一个前者为Native方法提供服务，后台为Java方法服务。 Java堆: Java堆是Java虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的区域，在虚拟机启动时创建。用于存放对象实例。同时Java堆也是垃圾收集器管理的主要区域。Java堆还可以细分为: 新生代和老年代。 方法区(别名Non-Heap): 方法区和Java堆一样是线程共享的，用于存储已被加载的类的信息、常量、静态变量、即时编译器编译后的代码等数据。 运行时常量池: 为方法区的一部分，Class文件除了有类的版本、字段、方法、接口等描述信息外，还有有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用。 直接内存: 直接内存并不虚拟机运行时数据区的一部分。在JDK1.4之中新加入的NIO类，基于通道（Channel）和缓冲区（Buffer）的IO方式，就是使用了Native函数直接分配内存，然后通过一个存储在Java堆中的DirectByteBuffer对象对这个块内存进行操作。 参考:《深入理解Java虚拟机》]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>虚拟机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[图解Activity/Fragment生命周期]]></title>
     <url>%2F2018%2F03%2F13%2FAndroid-Activity-Fragment%E8%B6%85%E8%AF%A6%E7%BB%86%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%2F</url>
     <content type="text"><![CDATA[前言关于Activity和Fragment的生命周期，是每个Android开发者必须熟悉掌握的，最近在网上发现了一张超详细的关于这两者生命周期的图, 于是结合自己的理解进行了学习。 正文先上图，来源 说明 经典的生命周期就赘述。从整个生命周期来说，onCreate和onDestroy是配对出现，分别在Activity创建与销毁时执行一次；onStart和onStop分别标识是否可见，可被多次调用；onResume和onPause分别标识是否在前台，同样可被多次调用。这里需要注意的是onPause，在从当前Activity启动另一个Activity时会，先调用当前Activity的onPause，然后才调用新启动的Activity的onCreate，当完成新Activity的启动后，才调用原来的Activity的Stop(),为了不造成启动卡顿，不能再onPause中做耗时的操作。 onSaveInstanceState()与onReStoreInstanceState() 这两个方法都不属于Activity的正常生命周期，也不保证一定会被调用。onSaveIntanceState()只有Activity”容易”被销毁时（比如内存不足可能被销毁），才会被调用；当Activity被重建时，系统会调用onRestoreInstanceState()来恢复已经保存的视图。 《阿里Android开发手册》第三章第2条: 【推荐】Activity#onSaveInstanceState()方法不是 Activity 生命周期方法，也不保证一定会被调用。它是用来在 Activity 被意外销毁时保存 UI 状态的，只能用于保存临时性数据，例如 UI 控件的属性等，不能跟数据的持久化存储混为一谈。持久化存储应该在 Activity#onPause()/onStop()中实行。 关于onSaveInstanceState的调用时机 onPostCreate()、onPostResume() onPostCreate()在调用onStart() 和onRestoreInstanceState(Bundle)后调用，这意味着这时候大多数初始工作已经完成，而又还没有完全显示出来。有时候我需要在获取某个View的大小，在OnCreate中获取时，View还没有来得及测量，大小为0，所以我们可以在该方法中获取。onPostResume()也可以干类似的事情。 onContentChanged() onContentChanged()是Activity中的一个回调方法，当Activity的布局改动即setContentView()或者addContentView()方法执行完毕时就会调用该方法。 onAttachedToWindow() onAttachedToWindow是在第一次onDraw前调用的。也就是我们写的View在没有绘制出来时调用的，但只会调用一次。 onUserInteraction() ，onUserLeaveHint() 这两个同样不是Activity的正常生命周期函数。根据官方的介绍，onUserInteraction(),当Activity发生任何按触碰事件，就会调用，主要用来监视用户是否在与当前Activity进行交互。onUserLeaveHint(),用户离开当前Activity，比如按Home，Activity进入后台时调用,在调用onUserLeaveHint之前，会调用onUserInteraction。 另外,如果使用FragmentActivity(AppCompatActivity继承于FragmentActivity),z则还要注意以下两个回调： onResumeFragments 该函数在onResume之后进行调用，官方文档里面介绍，Fragment的onResume将分发给onResumeFragments，而经过我的测试，在Activity onRsume的时候，Fragment也会调用onRsume，但在Activity#onRsume中，你无法肯定Fragment已经完全resumed，如果在onResume调用FragmentTransactions#commit，可能导致状态丢失, 但onResumeFragments是在Fragment的onResume之后调用。 《阿里Android开发手册》第三章第7条: 【 推 荐 】 添 加 Fragment 时 ， 确 保 FragmentTransaction#commit() 在Activity#onPostResume()或者 FragmentActivity#onResumeFragments()内调用。不要随意使用 FragmentTransaction#commitAllowingStateLoss()来代替，任何commitAllowingStateLoss()的使用必须经过 code review，确保无负面影响。 onAttachFragment 每当Fragment调用onAttach后调用该方法, 如果Fragment尚未调用onCreate，会在Fragment#onCreate前调用。 关于Activity/Fragment的生命周期，我写了个Demo：这里]]></content>
@@ -9,14 +45,14 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Activity生命周期</tag>
-        <tag>Fragment生命周期</tag>
+        <tag>Activity</tag>
+        <tag>Fragment</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[网络笔记之详解TCP（一）]]></title>
     <url>%2F2018%2F03%2F12%2F%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
-    <content type="text"><![CDATA[前言 最近一直在复习计算机网络，在回顾了IP与UDP后，终于来到了TCP。在计算机网络的课程上，我第一次对TCP有了比较深入的了解，但是一直没有做过总结，以至于忘了TCP的很多细节。所以本次复习打算将这些细节尽快地记录下来。了解TCP的具体细节，有助于我们基于UDP开发出符合具体的业务的私有协议。 TCP白话简介 TCP在运输层提供了面向连接、可靠的字节流服务。所谓面向连接就是在开发发送数据前，需要先建立一个端到端的连接，这一点类似于通过电话之前的拨号，直到对面接听才建立通话通道。所谓可靠性，就是指即使在网络不稳定的环境下，TCP仍然要保证传输数据的完整（网路断开的情况TCP也无能为力）。为了能够保证数据的可靠传输，TCP需要考虑的事情很多，比如数据被破坏、丢包、重复以及顺序混乱等，为此，TCP设计了校验和、序列号、确认重答、重发控制、连接管理及窗口控制等机制。 PS：尽管TCP能保证数据的可靠传输，但在弱网的情况下，TCP的传输效率很低，所以在信号不是很好地方，数据加载很慢。所以，有时需要开发者基于UDP制定自己的控制协议。 TCP首部 TCP和UDP一样封装在一个IP数据报中，TCP首部的数据格式， 源端口(16bit): 发送端的端口号; 目的端口(16bit): 接收端的端口号; 序列号(32bit): 该数据报的TCP标识，实际上是TCP段中第一个字节的序号，每发送一个数据报，该字段就累加发送的数据长度。该字段不会从0开始，而是在握手的过程确定一个初始序号(ISN),之后在该值上进行累积加。假设握手后主机A第一个数据报的序号为A，包含的数据为a字节，那主机A在发送第二个数据报时，其序号为A+a。 确认号(32bit): 指下次应该接收接收的数据的序列号。主机A发送第一数据包后，如果主机B回了一个确认报，那么该确认报的确认号为A+a。如果主机A收到了确认号为B的确认报，可认为B序号之前的数据报全部被正常接收。该字段只有当控制位中的ACK=1时，才有效。 数据偏移(4bit): 标识TCP数据报中数据偏离TCP开头的位置，可以看成是TCP首部的长度。 保留位(6bit): 当前没有意义。 控制位(6bit): URG = 1时，表示紧急指针有意义，需要处理。 ACK = 1时，表示确认号有意义，实际上除了第一个握手包，其他的包都为1。 PSH = 1时，表示应该将数据立即交给上层应用协议。默认存入TCP的数据缓存区。 RST = 1时，表示TCP连接存在异常，应该强制断开。 SYN = 1时，表示该数据报为握手报，连接建立后SYN=0. FIN = 1时，表示今后不会再有数据进行传输，只有在断开连接的四次握手中才会出现。 窗口大小(16bit): TCP在传输过程中一个次传输多少个字节的数据取决一个滑动窗口机制，该机制通过该值指明下次能接收的数据大小，该字段可以用于拥塞控制。或者自己的缓存区快满了，通知对方减慢数据的发送。 检验和(16bit): 和UDP协议一样，表示整个TCP数据报的校验和，计算方法也和UDP一样。 紧急指针(16bit): URG = 1时有效，表示本报文段中紧急数据末尾相对序列号的偏移量即数据的首位到紧急指针的位置为止为紧急数据。 TCP三次握手与四次握手TCP三次握手的意义是建立一个连接，确认连接的两端都可用。 TCP通过四次握手关闭连接。 一图言尽： 后续由于TCP内容比较多，关于滑动窗口、超时重传、拥塞控制等内容，后续进行记录。]]></content>
+    <content type="text"><![CDATA[前言 最近一直在复习计算机网络，在回顾了IP与UDP后，终于来到了TCP。在计算机网络的课程上，我第一次对TCP有了比较深入的了解，但是一直没有做过总结，以至于忘了TCP的很多细节。所以本次复习打算将这些细节尽快地记录下来。了解TCP的具体细节，有助于我们基于UDP开发出符合具体的业务的私有协议。 TCP白话简介 TCP在运输层提供了面向连接、可靠的字节流服务。所谓面向连接就是在开发发送数据前，需要先建立一个端到端的连接，这一点类似于通过电话之前的拨号，直到对面接听才建立通话通道。所谓可靠性，就是指即使在网络不稳定的环境下，TCP仍然要保证传输数据的完整（网路断开的情况TCP也无能为力）。为了能够保证数据的可靠传输，TCP需要考虑的事情很多，比如数据被破坏、丢包、重复以及顺序混乱等，为此，TCP设计了校验和、序列号、确认重答、重发控制、连接管理及窗口控制等机制。 PS：尽管TCP能保证数据的可靠传输，但在弱网的情况下，TCP的传输效率很低，所以在信号不是很好地方，数据加载很慢。所以，有时需要开发者基于UDP制定自己的控制协议。 TCP首部 TCP和UDP一样封装在一个IP数据报中，TCP首部的数据格式， 源端口(16bit): 发送端的端口号; 目的端口(16bit): 接收端的端口号; 序列号(32bit): 表示发送数据包中TCP段第一个字节的序号，每发送一个数据报，该字段就累加发送的数据长度。该字段不会从0开始，而是在握手的过程确定一个初始序号(ISN),之后在该值上进行累积加。假设握手后主1第一个数据报的序号为A，包含的数据为a字节，那主机1在发送第二个数据报时，其序号为A+a。 确认号(32bit): 指下次应该接收的数据的第一个字节的序列号。主机1发送第一数据包后，如果主机2回了一个确认报，那么该确认报的确认号为A+a。如果主机1收到了确认号为B的确认报，可认为B序号之前的数据报全部被正常接收，这意味着如果发生了数据包缺失，确认序号会一直为缺失的那部分数据的确认序号。该字段只有当控制位中的ACK=1时，才有效。 数据偏移(4bit): 标识TCP数据报中数据偏离TCP开头的位置，可以看成是TCP首部的长度单位为字。 保留位(6bit): 当前没有意义。 控制位(6bit): URG = 1时，表示紧急指针有意义，需要处理。 ACK = 1时，表示确认号有意义，实际上除了第一个握手包，其他的包都为1。 PSH = 1时，表示应该将数据立即交给上层应用协议。默认存入TCP的数据缓存区。 RST = 1时，表示TCP连接存在异常，应该强制断开，不会有四次握手过程。 SYN = 1时，表示该数据报为握手报，连接建立后SYN=0. FIN = 1时，表示今后不会再有数据进行传输，只有在断开连接的四次握手中才会出现。 窗口大小(16bit): TCP在传输过程中一个次传输多少个字节的数据取决一个滑动窗口机制，该机制通过该值指明下次能接收的数据大小，该字段可以用于拥塞控制。或者自己的缓存区快满了，通知对方减慢数据的发送。由于TCP是全双工工作的，所以连接双方都有各自的滑动窗口。 检验和(16bit): 和UDP协议一样，表示整个TCP数据报的校验和，计算方法也和UDP一样，TCP的检验和为必选项。 紧急指针(16bit): URG = 1时有效，表示本报文段中紧急数据末尾相对序列号的偏移量，指明了紧急数据的结束位置。 TCP三次握手与四次握手TCP三次握手的意义是建立一个连接，确认连接的两端都可用。 主机A发送一个SYN=1的数据包，携带着A到B方向的ISN。 主机B收到数据包后，回了一个应答包（SYN=1，ACK=1），该应答同时也包含了B到A方向的ISN。 主机A回一个应答包（ACK=1），同时连接建立。 TCP通过四次握手关闭连接。 主机A向主机B发送一个FIN=1的握手包，表示以后不需要发数据了，关闭A到B方向上连接。 主机B收到数据报后，回一个应答吧。主机A收到后，连接处于半关闭状态（主机A任可以接受数据，并进行应答）。 传输完最后的数据后，主机B发送FIN=1的握手包，表示同样的意义。 主机A收到后，回一个应答包，然后等待2MSL后，断开连接。 注：主机A（主动关闭的一端）在发送完最后一个ACK包后，要等一个2MSL的时长。一方面，避免主机B没有接收到ACK包，导致连接一直不关闭，因为如果主机B没有接收到ACK包，将重发FIN包，在2MSL的时间可以被主机A接受。另一方面，在2MSL期间，该连接的端口不能被其他程序使用，对于”迟到”的数据报都将被丢弃，避免了”迟到”数据包对新连接的影响。 后续由于TCP内容比较多，关于滑动窗口机制、慢启动机制、超时和重传机制等内容，后续进行记录。]]></content>
       <categories>
         <category>计算机网络</category>
       </categories>
@@ -40,13 +76,13 @@
   <entry>
     <title><![CDATA[网络笔记之IP报文首部]]></title>
     <url>%2F2018%2F03%2F11%2F%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8BIP%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8%2F</url>
-    <content type="text"><![CDATA[IP协议白话简介IP协议工作在TCP/IP网络模型的网际层，主要作用是为网络中的路由提供路由依据，其包括目的地（目的IP）、出发地（源IP），类似于邮递包裹上面快递单信息。给上层服务提供不可靠、无连接的传输服务。 问题：为啥IP协议是不可靠、无连接的？ 首先，不可靠是指它不能保证IP数据报能成功到达目的地。IP协议仅提供尽力的传输服务。如果因为某些原因发生丢包，IP协议不会提供任何反馈。而IP协议也不需要提供多余的反馈，因为可靠性由上层的TCP协议提供，而错误反馈可以通过ICMP协议来提供。简单地说，就是专业的事由专门的协议来做，IP协议的专业就只是传输。 IP首部 字段说明 版本(4bit):IP报文所使用的IP版本，目前通常是4（IPV4）。 首部长度(4bit):IP报文首部的长度，单位为字，IPv4报文头部该字段通常为5, 5字=20byte 服务类型TOC(8bit):描述该数据包的上层服务类型，主要作用是给路由决策提供参考，比如，给不同服务设置优先级，那么路由时可以优先处理优先级高的数据报。 长度(16bit):整个IP数据报的长度，单位为byte。 标识(16bit):唯一地标识主机发送的每份数据报，通常每份发一份报文它的值就会加1,达到最大值后重置。（该字段通常被称为IPid，据说某些校园网的多终端检测机制可以通过统计该字段，来计算该字段在坐标系中的分布来判断是否为多终端上网） 标志(3bit)、片偏移(13bit):这两个字段和IP分片相关，从上面IP报文的长度字段可知，一个IP报文最长为65535byte，实际传输的数据通常大于这个值，所以需要分成多个数据报。实际传输时，是否需要分成多个数据报，还取决于数据数据链路层一个叫MTU的值–链路层一个数据帧的最大数据长度。 标志的3个bit分别表示：保留位、不分片、更多的片；不分片该字段为010,分片则除了包含最后一片的数据报，其他的都为001。 如果不分片，片偏移没有意义，值为0；如果分片，该字段的值表示该片偏移原始数据开始处的位置，用于分片重组, IP标识相同的分片最终会被重组在一起。 生存时间TTL(8bit): 该字段表示报文可以经过的最多路由器数，初始值由源主机设定（通常32或64），每进过一个路由器，该值减1，当为0时，将会被路由器丢弃，并向源主机发送ICMP报文。路由追踪命令就是基于该字段实现的。 协议(8bit):该数据报承载的上层协议类型。 首部检验和(16bit):该字段用于校验该报文的头部信息是否有误，有误的数据报会被丢弃。具体的计算方法是先将该字段置0，然后把首部分割为多个16bit的二进制，然后对他们进行二进制反码求和。最后将算出来的结果填入。校验时同样是使用的二进制反码求和。]]></content>
+    <content type="text"><![CDATA[IP协议白话简介IP协议工作在TCP/IP网络模型的网际层，主要作用是为网络中的路由提供路由依据，其包括目的地（目的IP）、出发地（源IP），类似于邮递包裹上面快递单信息。给上层服务提供不可靠、无连接的传输服务。 问题：为啥IP协议是不可靠、无连接的？ 首先，不可靠是指它不能保证IP数据报能成功到达目的地。IP协议仅提供尽力的传输服务。如果因为某些原因发生丢包，IP协议不会提供任何反馈。而IP协议也不需要提供多余的反馈，因为可靠性由上层的TCP协议提供，而错误反馈可以通过ICMP协议来提供。简单地说，就是专业的事由专门的协议来做，IP协议的专业就只是传输。 IP首部 字段说明 版本(4bit):IP报文所使用的IP版本，目前通常是4（IPV4）。 首部长度(4bit):IP报文首部的长度，单位为字，IPv4报文头部该字段通常为5, 5字=20byte 服务类型TOC(8bit):描述该数据包的上层服务类型，主要作用是给路由决策提供参考，比如，给不同服务设置优先级，那么路由时可以优先处理优先级高的数据报。 长度(16bit):整个IP数据报的长度，单位为byte。 标识(16bit):唯一地标识主机发送的每份数据报，通常每份发一份报文它的值就会加1,达到最大值后重置。（该字段通常被称为IPid，据说某些校园网的多终端检测机制可以通过统计该字段，来计算该字段在坐标系中的分布来判断是否为多终端上网） 标志(3bit)、片偏移(13bit):这两个字段和IP分片相关，从上面IP报文的长度字段可知，一个IP报文最长为65535byte，实际传输的数据通常大于这个值，所以需要分成多个数据报。实际传输时，是否需要分成多个数据报，还取决于数据数据链路层一个叫MTU的值–链路层一个数据帧的最大数据长度。 标志的3个bit分别表示：保留位、不分片、更多的片；不分片该字段为010,分片则除了包含最后一片的数据报，其他的都为001。 如果不分片，片偏移没有意义；如果分片，该字段的值表示该片偏移原始数据开始处的位置，用于分片重组, IP标识相同的分片最终会被重组在一起。 生存时间TTL(8bit): 该字段表示报文可以经过的最多路由器数，初始值由源主机设定（通常32或64），每进过一个路由器，该值减1，当为0时，将会被路由器丢弃，并向源主机发送ICMP报文。路由追踪命令就是基于该字段实现的。 协议(8bit):该数据报承载的上层协议类型。 首部检验和(16bit):该字段用于校验该报文的头部信息是否有误，有误的数据报会被丢弃。具体的计算方法是先将该字段置0，然后把首部分割为多个16bit的二进制，然后对他们进行二进制反码求和。最后将算出来的结果填入。校验时同样是使用的二进制反码求和。]]></content>
       <categories>
         <category>计算机网络</category>
       </categories>
       <tags>
         <tag>计算机网络</tag>
-        <tag>IP协议</tag>
+        <tag>IP</tag>
       </tags>
   </entry>
   <entry>
@@ -93,8 +129,8 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[标签云]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[Java垃圾回收]]></title>
+    <url>%2FJava%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.html</url>
     <content type="text"></content>
   </entry>
   <entry>
@@ -105,6 +141,11 @@
   <entry>
     <title><![CDATA[友情链接]]></title>
     <url>%2Flinks%2Findex.html</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[标签云]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>

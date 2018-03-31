@@ -43,7 +43,7 @@
     
     <title>
         
-            Https之SSL/TLS握手 | 
+            Android开发杂记 | 
         
         Ksxy&#39;s Blog
     </title>
@@ -54,7 +54,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content=",https,计算机网络">
+    <meta name="keywords" content=",Android,开发笔记">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -215,7 +215,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Ksxy&#39;s Blog">
-    <meta name="msapplication-starturl" content="http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/">
+    <meta name="msapplication-starturl" content="http://offensiveyy.github.io/2018/03/31/Android开发杂记/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Ksxy&#39;s Blog">
@@ -230,16 +230,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/">
+    <meta property="og:url" content="http://offensiveyy.github.io/2018/03/31/Android开发杂记/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Https之SSL/TLS握手 | Ksxy&#39;s Blog">
+    <meta property="og:title" content="Android开发杂记 | Ksxy&#39;s Blog">
     <meta property="og:image" content="/img/favicon1.png">
     <meta property="og:description" content="">
-    <meta property="og:article:tag" content="https"> <meta property="og:article:tag" content="计算机网络"> 
+    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="开发笔记"> 
 
     
-        <meta property="article:published_time" content="Sat Mar 10 2018 21:02:48 GMT+0800">
-        <meta property="article:modified_time" content="Sun Mar 18 2018 11:06:47 GMT+0800">
+        <meta property="article:published_time" content="Sat Mar 31 2018 15:57:45 GMT+0800">
+        <meta property="article:modified_time" content="Sat Mar 31 2018 15:57:45 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -247,7 +247,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/index.html" />
+        <link rel="canonical" href="http://offensiveyy.github.io/2018/03/31/Android开发杂记/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -259,10 +259,10 @@
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": "http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/index.html",
-    "headline": "Https之SSL/TLS握手",
-    "datePublished": "Sat Mar 10 2018 21:02:48 GMT+0800",
-    "dateModified": "Sun Mar 18 2018 11:06:47 GMT+0800",
+    "mainEntityOfPage": "http://offensiveyy.github.io/2018/03/31/Android开发杂记/index.html",
+    "headline": "Android开发杂记",
+    "datePublished": "Sat Mar 31 2018 15:57:45 GMT+0800",
+    "dateModified": "Sat Mar 31 2018 15:57:45 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "空山新雨",
@@ -280,7 +280,7 @@
             "url": "/img/favicon1.png"
         }
     },
-    "keywords": ",https,计算机网络",
+    "keywords": ",Android,开发笔记",
     "description": "",
 }
 </script>
@@ -346,7 +346,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HTTPS白话简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">HTTPS白话简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关于TSL-SSL"><span class="post-toc-number">2.</span> <span class="post-toc-text">关于TSL/SSL</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#加密解密基本原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">加密解密基本原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SSL-TLS握手"><span class="post-toc-number">4.</span> <span class="post-toc-text">SSL/TLS握手</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Android"><span class="post-toc-number">2.</span> <span class="post-toc-text">Android</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#持续更新-2018-3-31"><span class="post-toc-number">3.</span> <span class="post-toc-text">持续更新 2018-3-31</span></a></li></ol>
     </ul>
     
 
@@ -378,7 +378,7 @@
         
     
             <p class="article-headline-p">
-                Https之SSL/TLS握手
+                Android开发杂记
             </p>
         </div>
 
@@ -397,7 +397,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>空山新雨</strong>
-        <span>3月 10, 2018</span>
+        <span>3月 31, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -419,7 +419,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/">
+        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://offensiveyy.github.io/2018/03/31/Android开发杂记/">
     
 </ul>
 
@@ -433,7 +433,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/https/">https</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/计算机网络/">计算机网络</a>
+        <a class="post_tag-link" href="/tags/Android/">Android</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/开发笔记/">开发笔记</a>
     </ul>
     
 
@@ -450,7 +450,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Https之SSL/TLS握手&url=http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/index.html&pic=http://offensiveyy.github.io/img/favicon1.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Android开发杂记&url=http://offensiveyy.github.io/2018/03/31/Android开发杂记/index.html&pic=http://offensiveyy.github.io/img/favicon1.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -465,7 +465,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://offensiveyy.github.io/2018/03/31/Android开发杂记/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -477,7 +477,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Https之SSL/TLS握手&summary=&pics=http://offensiveyy.github.io/img/favicon1.png&url=http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Android开发杂记&summary=&pics=http://offensiveyy.github.io/img/favicon1.png&url=http://offensiveyy.github.io/2018/03/31/Android开发杂记/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -486,7 +486,7 @@
 
     <!-- Share Telegram -->
     
-        <a class="post_share-link" href="https://telegram.me/share/url?url=http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/index.html&text=Https之SSL/TLS握手" target="_blank">
+        <a class="post_share-link" href="https://telegram.me/share/url?url=http://offensiveyy.github.io/2018/03/31/Android开发杂记/index.html&text=Android开发杂记" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Telegram
             </li>
@@ -502,40 +502,34 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h3 id="HTTPS白话简介"><a href="#HTTPS白话简介" class="headerlink" title="HTTPS白话简介"></a>HTTPS白话简介</h3><p>  相信对于大多数开发人员，Https并不陌生，在http协议基础上套上一个加密解密的过程，就是Https，而完成加密解密的部分就是SSL(Secure Sockets Layer, 安全套字节层)。<br>  <a href="https://i.loli.net/2018/03/10/5aa3dc30b9086.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/03/10/5aa3dc30b9086.png" alt="https协议.png"></a></p>
-<h3 id="关于TSL-SSL"><a href="#关于TSL-SSL" class="headerlink" title="关于TSL/SSL"></a>关于TSL/SSL</h3><p>  1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是没有发布；之后在1995年正式发布了SSL 2.0, 但很快发现严重漏；1996年，SSL 3.0版问世，并得到大规模应用。之后在1999年，由互联网标准化组织ISOC接管，并升级成为TSL(Transport Layer Security)。所以TSL和SSL是同一个协议。</p>
-<h3 id="加密解密基本原理"><a href="#加密解密基本原理" class="headerlink" title="加密解密基本原理"></a>加密解密基本原理</h3><p>  TSL在不同的阶段使用了不同的加密方式。</p>
-<p>  在握手阶段，使用的是公钥加，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。握手的主要目的是完成客户端与服务端之间的验证，同时约定一个随机密钥种子；</p>
-<p>  在数据传输阶段，所用的加密方式为对称加密(AES)，经过握手阶段后，客户端和服务端保存着同一个密钥种，在之后的数据传输中，客户端和服务器端使用同一个密钥进行加密解密。同时，该密钥还被用于作为HMAC的key，用于数据完整性、可靠性的校验。</p>
-<p>  <strong>问题：握手阶段，如何保证公钥不被篡改？</strong></p>
-<p>  实际上，客户端一开始向服务端请求的是一个数字证书，数字证书中包含了公钥、该数字证书的签发机构、改签发机构的数字签名等信息。客户端通过检验证书的合法性来判断包含公钥是否可信。</p>
-<p>  至于为啥数字证书的方案可行，这就要涉及到信息安全的理论知识了，这里不深入。签发证书的机构如果是权威机构CA，则该证书是CA证书，可信任。如果不是，则提示证书不可信。</p>
-<p>  <strong>问题：为啥在数据传输阶段不用公钥加密？</strong></p>
-<p>  因为公钥加密实际上就的非对称加密，非对称加密的数序理论依据导致了非对称加密的成本比较高，所以通常只用于少量数据的传输，而对称加密是通过非线性变换等方式实现的加密，加密成本比较低，性能相对非对称加密高。</p>
-<h3 id="SSL-TLS握手"><a href="#SSL-TLS握手" class="headerlink" title="SSL/TLS握手"></a>SSL/TLS握手</h3><p>  从上面的原理可总结出SSL/TLS握手的过程：</p>
-<ol>
-<li>客户端向服务器端索要并验证公钥。</li>
-<li>双方协商生成”对话密钥”。</li>
-</ol>
-<p><strong>握手详细过程</strong>：</p>
-<p><a href="https://i.loli.net/2018/03/10/5aa3f5f34a00f.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/03/10/5aa3f5f34a00f.png" alt="SSL握手.png"></a></p>
-<ol>
-<li><p>客户端发出请求（ClientHello）</p>
-<p>客户端先向服务器发出加密通信的请求，请求内容：<br>支持的协议版本（比如TLS 1.0版）、随机数A（用于生产对称密钥）、支持的加密方法（比如RSA公钥加密）。</p>
-</li>
-<li><p>服务器回应（SeverHello）</p>
-<p>服务器收到客户端请求后，向客户端发出回应，回应内容：<br>确认使用的协议版本、随机数B、确认使用的加密方法、服务器证书。</p>
-<p>如果服务器需要验证客户端身份，还回要求客户端提供证书，该证书通常需要提前安装。</p>
-</li>
-<li><p>客户端回应</p>
-<p>客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。如果证书没有问题，客户端就会从证书中取出服务器的公钥。</p>
-<p>然后发送回应服务器：随机数C（用服务器公钥进行加密）、编码改变通知（表示随后的信息都将用双方商定的加密方法和密钥发送）、客户端握手结束通知（表示客户端的握手阶段已经结束）。</p>
-</li>
-<li><p>服务器的最后回应</p>
-<p>服务器收到客户端的随机数C之后，计算生成本次会话所用的”会话密钥”，向客户端回应：编码改变通知、服务器握手结束通知。</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p>
+<h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ol>
+<li><p>Assets目录<br> Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。<br> 注：assets下可以有子目录，引入文件时url的根目录为assets。</p>
+<pre><code>val assets = getAssetManager()
+val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.png
+val bitmap = BitmapFactory.decodeStream(inStream)
+inStream.close()
+</code></pre></li>
+<li><p>string.xml中字符串插值</p>
+<blockquote>
+<p>string.xml中，</p>
+<p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p>
+<p>代码中，</p>
+<p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p>
+</blockquote>
+<ul>
+<li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li>
+<li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li>
+<li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li>
+<li>%d ：   表示整数</li>
+</ul>
+<ul>
+<li>%f：  表示浮点数</li>
+<li>%s  ： 表示字符串</li>
+</ul>
 </li>
 </ol>
-
+<h3 id="持续更新-2018-3-31"><a href="#持续更新-2018-3-31" class="headerlink" title="持续更新 2018-3-31"></a>持续更新 2018-3-31</h3>
         
     
 
@@ -564,7 +558,7 @@
             repo: 'OffensiveYY.github.io',
             owner: 'OffensiveYY',
             admin: ['OffensiveYY'],
-			id: 'Sat Mar 10 2018 21:02:48 GMT+0800',
+			id: 'Sat Mar 31 2018 15:57:45 GMT+0800',
             // facebook-like distraction free mode
             distractionFreeMode: false
         })
@@ -585,7 +579,7 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/03/11/网络笔记之IP报文首部/" id="post_nav-newer" class="prev-content">
+        <a href="/2018/03/31/Kotlin告别findViewById/" id="post_nav-newer" class="prev-content">
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
                 <i class="material-icons">arrow_back</i>
             </button>
@@ -599,7 +593,7 @@
 
     <!-- Next Nav -->
     
-        <a href="/2018/03/10/记我对Socket的误解/" id="post_nav-older" class="next-content">
+        <a href="/2018/03/30/Java虚拟机内存模型/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">

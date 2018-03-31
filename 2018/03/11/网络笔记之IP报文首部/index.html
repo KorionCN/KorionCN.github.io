@@ -54,7 +54,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content=",计算机网络,IP协议">
+    <meta name="keywords" content=",计算机网络,IP">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -235,7 +235,7 @@
     <meta property="og:title" content="网络笔记之IP报文首部 | Ksxy&#39;s Blog">
     <meta property="og:image" content="/img/favicon1.png">
     <meta property="og:description" content="">
-    <meta property="og:article:tag" content="计算机网络"> <meta property="og:article:tag" content="IP协议"> 
+    <meta property="og:article:tag" content="计算机网络"> <meta property="og:article:tag" content="IP"> 
 
     
         <meta property="article:published_time" content="Sun Mar 11 2018 14:36:04 GMT+0800">
@@ -280,7 +280,7 @@
             "url": "/img/favicon1.png"
         }
     },
-    "keywords": ",计算机网络,IP协议",
+    "keywords": ",计算机网络,IP",
     "description": "",
 }
 </script>
@@ -433,7 +433,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/IP协议/">IP协议</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/计算机网络/">计算机网络</a>
+        <a class="post_tag-link" href="/tags/IP/">IP</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/计算机网络/">计算机网络</a>
     </ul>
     
 
@@ -514,7 +514,7 @@
 <li><strong>标识(16bit)</strong>:唯一地标识主机发送的每份数据报，通常每份发一份报文它的值就会加1,达到最大值后重置。（该字段通常被称为IPid，据说某些校园网的多终端检测机制可以通过统计该字段，来计算该字段在坐标系中的分布来判断是否为多终端上网）</li>
 <li><strong>标志(3bit)</strong>、<strong>片偏移(13bit)</strong>:这两个字段和IP分片相关，从上面IP报文的长度字段可知，一个IP报文最长为65535byte，实际传输的数据通常大于这个值，所以需要分成多个数据报。实际传输时，是否需要分成多个数据报，还取决于数据数据链路层一个叫MTU的值–链路层一个数据帧的最大数据长度。<ul>
 <li>标志的3个bit分别表示：保留位、不分片、更多的片；不分片该字段为010,分片则除了包含最后一片的数据报，其他的都为001。</li>
-<li>如果不分片，片偏移没有意义，值为0；如果分片，该字段的值表示该片偏移原始数据开始处的位置，用于分片重组, IP标识相同的分片最终会被重组在一起。</li>
+<li>如果不分片，片偏移没有意义；如果分片，该字段的值表示该片偏移原始数据开始处的位置，用于分片重组, IP标识相同的分片最终会被重组在一起。</li>
 </ul>
 </li>
 <li><strong>生存时间TTL(8bit)</strong>: 该字段表示报文可以经过的最多路由器数，初始值由源主机设定（通常32或64），每进过一个路由器，该值减1，当为0时，将会被路由器丢弃，并向源主机发送ICMP报文。路由追踪命令就是基于该字段实现的。</li>
@@ -677,7 +677,7 @@
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">8</span></a>
+                <a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">11</span></a>
             </ul>
         </li>
         
@@ -695,7 +695,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/日常/">日常<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机网络/">计算机网络<span class="sidebar_archives-count">5</span></a>
+                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/Java/">Java<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/日常/">日常<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机网络/">计算机网络<span class="sidebar_archives-count">5</span></a>
             </ul>
         </li>
         
