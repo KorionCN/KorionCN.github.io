@@ -43,7 +43,7 @@
     
     <title>
         
-            友情链接 | 
+            Java类加载机制 | 
         
         Ksxy&#39;s Blog
     </title>
@@ -54,7 +54,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content="">
+    <meta name="keywords" content=",虚拟机,Java">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -215,7 +215,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Ksxy&#39;s Blog">
-    <meta name="msapplication-starturl" content="http://offensiveyy.github.io/links/">
+    <meta name="msapplication-starturl" content="http://offensiveyy.github.io/2018/04/07/Java类加载机制/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Ksxy&#39;s Blog">
@@ -230,13 +230,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://offensiveyy.github.io/links/">
+    <meta property="og:url" content="http://offensiveyy.github.io/2018/04/07/Java类加载机制/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="友情链接 | Ksxy&#39;s Blog">
+    <meta property="og:title" content="Java类加载机制 | Ksxy&#39;s Blog">
     <meta property="og:image" content="/img/favicon1.png">
     <meta property="og:description" content="">
-    
+    <meta property="og:article:tag" content="虚拟机"> <meta property="og:article:tag" content="Java"> 
 
+    
+        <meta property="article:published_time" content="Sat Apr 07 2018 19:30:41 GMT+0800">
+        <meta property="article:modified_time" content="Sat Apr 07 2018 19:30:41 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -244,13 +247,43 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://offensiveyy.github.io/links/index.html" />
+        <link rel="canonical" href="http://offensiveyy.github.io/2018/04/07/Java类加载机制/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://offensiveyy.github.io/2018/04/07/Java类加载机制/index.html",
+    "headline": "Java类加载机制",
+    "datePublished": "Sat Apr 07 2018 19:30:41 GMT+0800",
+    "dateModified": "Sat Apr 07 2018 19:30:41 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "空山新雨",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.webp"
+        },
+        "description": "Be a man with program"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Ksxy&#39;s Blog",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon1.png"
+        }
+    },
+    "keywords": ",虚拟机,Java",
+    "description": "",
+}
+</script>
 
 
     
@@ -286,133 +319,308 @@
 
                     <!-- Post TOC -->
 
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正文"><span class="post-toc-number">2.</span> <span class="post-toc-text">正文</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#类的生命周期"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">类的生命周期</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#类加载的几个过程"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">类加载的几个过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#类加载器"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">类加载器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#双亲委派模型"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">双亲委派模型</span></a></li></ol></li></ol>
+    </ul>
+    
+
+
+
 
 <!-- Layouts -->
 
-    <!-- Single Links Page -->
-    <style>
-    .md-links {
-        min-height: calc(100% - 120px - 5pc - 6em);
-        text-align: center;
-        overflow: auto;
-        padding: 0;
-        margin: 0 auto;
-        max-width: 320px;
-    }
+    <!-- Post Module -->
+    <div class="material-post_container">
 
-    @media screen and (min-width: 680px) {
-        .md-links {
-            max-width: 640px;
-        }
-    }
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 
-    @media screen and (min-width: 1000px) {
-        .md-links {
-            max-width: 960px;
-        }
-    }
-
-    @media screen and (min-width: 1320px) {
-        .md-links {
-            max-width: 1280px;
-        }
-    }
-
-    @media screen and (min-width: 1640px) {
-        .md-links {
-            max-width: 1600px;
-        }
-    }
-
-    @media screen and (max-width: 480px) {
-        .md-links {
-            min-height: calc(100% - 200px - 5pc - 6em);
-            margin-top: 6em;
-        }
-    }
-
-    .md-links-item {
-        background: #fff;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
-        height: 72px;
-        line-height: 15px;
-        margin: 20px 10px;
-        padding: 0px 0px;
-        transition: box-shadow 0.25s;
-    }
-
-    .md-links a {
-        color: #333;
-        text-decoration: none;
-    }
-
-    .md-links li {
-        width: 300px;
-        float: left;
-        list-style: none;
-    }
-
-    .md-links-item img {
-        float: left;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 11px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
-    }
-
-    .md-links-item:hover {
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .md-links-item a:hover{
-        cursor: pointer;
-    }
-
-    .md-links-title {
-        font-size: 20px;
-        line-height: 50px;
-    }
-
-    #scheme-Paradox .mdl-mini-footer{
-        clear: left;
-    }
-    #bottom{
-        position: relative;
-    }
-</style>
-
-<ul class="md-links">
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
-            <li class="md-links-item">
-                <a href="https://rimochiko.github.io" title="阿糕家后院" target="_blank">
-                    <img src="https://rimochiko.github.io/images/avatar.jpg" alt="阿糕家后院" height="72px"/>
-                    <span class="md-links-title">阿糕家后院</span><br />
-                    <span>一枚呆萌的前端萌妹子的技术博客</span>
-                </a>
-            </li>
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
         
-            <li class="md-links-item">
-                <a href="https://xuyonglin222.github.io" title="庚庚" target="_blank">
-                    <img src="https://xuyonglin222.github.io/images/pig.jpg" alt="庚庚" height="72px"/>
-                    <span class="md-links-title">庚庚</span><br />
-                    <span>一个前端文艺青年的技术博客</span>
-                </a>
-            </li>
-        
+    
+            <p class="article-headline-p">
+                Java类加载机制
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.webp" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>空山新雨</strong>
+        <span>4月 07, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://offensiveyy.github.io/2018/04/07/Java类加载机制/">
     
 </ul>
 
-<script type="text/ls-javascript" id="page-links-script">
-    var adjustFooter = function() {
-        if( ($('#bottom').offset().top + $('#bottom').outerHeight() )<$(window).height() ) {
-            var footerBottom = $(window).height() - $('#bottom').outerHeight() - $('#bottom').offset().top;
-            $('#bottom').css('bottom', '-' + footerBottom + 'px');
-        }
-    };
-    $(document).ready(function() {
-        adjustFooter();
-    });
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Java/">Java</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/虚拟机/">虚拟机</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Java类加载机制&url=http://offensiveyy.github.io/2018/04/07/Java类加载机制/index.html&pic=http://offensiveyy.github.io/img/favicon1.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+
+    <!-- Share Facebook -->
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://offensiveyy.github.io/2018/04/07/Java类加载机制/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Java类加载机制&summary=&pics=http://offensiveyy.github.io/img/favicon1.png&url=http://offensiveyy.github.io/2018/04/07/Java类加载机制/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+        <a class="post_share-link" href="https://telegram.me/share/url?url=http://offensiveyy.github.io/2018/04/07/Java类加载机制/index.html&text=Java类加载机制" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Telegram
+            </li>
+        </a>
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  Java虚拟机将类的数据从Class文件中加载到内存中，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的过程，称为类加载。</p>
+<p>  PS：Class文件指描述了一个类的结构的、具有特定构造的二进制字节串，可以是磁盘上的class文件，也可以是网络上的字节流。</p>
+<p>  本文主要内容：</p>
+<ol>
+<li>类的生命周期</li>
+<li>类加载的几个过程</li>
+<li>类加载器</li>
+<li>双亲委派模型</li>
+</ol>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h4><p>  类从被加载到虚拟机内存到卸载出内存，包括以下几个过程：<br>  <img src="https://i.loli.net/2018/04/07/5ac8b410d47be.png" alt="Java类加载.png"></p>
+<h4 id="类加载的几个过程"><a href="#类加载的几个过程" class="headerlink" title="类加载的几个过程"></a>类加载的几个过程</h4><ol>
+<li><p>加载</p>
+<p>该过程是类加载的第一个过程，在该阶段，虚拟机需要干一下三件事：</p>
+<ul>
+<li>通过一个类的全限定名来获取定义此类的二进制字节流。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
+<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口。</li>
+</ul>
+<p>在这个阶段，可以使用系统提供的类引导加载器来完成，也可以通过自定义的类加载器完成。重写一个类加载群的loadClass()方法去控制字节流的获取方式。</p>
+<p>PS:数组类不通过类加载进行创建，而是由Java虚拟机直接创建。</p>
+<p>加载阶段完成后，虚拟机外部的二进制字节流就按照虚拟机所需格式存储在方法区之中，然后再方法区中实例化一个Class类对象。（类的加载过程和连接阶段的部分过程是交叉的。）</p>
+</li>
+<li><p>验证</p>
+<p>该阶段的目的是为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。（文件格式验证、 元数据验证、 字节码验证、 符号引用验证）</p>
+</li>
+<li><p>准备</p>
+<p>该阶段正式为类变量分配内存并设置类变量的初始化值。这里所说的变量为类静态变量，初始值是指类型的默认值，比如int为0、boolean为false。不是在类中显式指定的初始化值。（类的初始化值，会有有虚拟机自动生成的类构造器&lt;clinit>()方法进行赋值）</p>
+</li>
+<li><p>解析</p>
+<p>该阶段主要完成将类中的符号引用（类名、字段名、方法名）替换为直接引用（指针、相对偏移量或一个能定位到目标的句柄），包括类或接口的解析、字段解析、类的方法解析，最终将类或接口、字段和方法的引用替换成对内存位置的直接引用。</p>
+</li>
+<li><p>初始化</p>
+<p>该阶段虚拟机通过执行&lt;clinit>()方法对类中的变量或者资源进行初始化。</p>
+<ul>
+<li>&lt;clinit>()方法</li>
+</ul>
+<p>&lt;clinit>()方法是由编译器收集类中的所有类变量赋值动作和静态语句块（static{}块）中的语句合并产生的。</p>
+<p>&lt;clinit>()方法不需要显示地调用父类的构造器，虚拟机的类初始化规则保证了执行子类的<clinit>()方法前，父类的&lt;clinit>()方法已经被执行完成。</clinit></p>
+<p>接口中的不能使用静态语句块，但是如果接口有赋值操作，同样会生成一个&lt;clinit>()方法.</p>
+<p>虚拟机会保证一个类的&lt;clinit>方法在多线程环境中被正确地加锁、同步，确保线程安全。同一个类加载器下，一个类的&lt;clinit>()只会被执行一次。</p>
+<ul>
+<li>必定会初始化的情况</li>
+</ul>
+<p>1）new创建一个类实例、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候，如果类没有进行初始化，则需要触发其初始化。</p>
+<p>2）使用java.lang.reflect包的方法对类进行反射调用时，如果类没有进行初始化，则需要触发其初始化。</p>
+<p>3）当初始化一个类时，发现其父类没有初始化，则需要先初始化其父类。</p>
+<p>4）当虚拟机启动时，虚拟机会初始化包含mian()的那个类。</p>
+</li>
+</ol>
+<h4 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h4><p>  完成”通过一个类的全限定名来获取描述此类的二进制字节流”这个动作的代码模块称为类加载器。</p>
+<p>  类加载不仅仅实现了类的加载动作，对于任意一个类，都需要由加载它的类加载器和这个类本身一同确立其在Java虚拟机中的唯一性，即比较两个类是否”相等”（Class对象的equels()、instanceof、isInstance()、isAssignableFrom()返回的结果），要在这两个是由同一个类加载器加载的前提下才有意义，否则，即使这两个类来自同一个Class文件，被同一个虚拟机加载，如果由不同的类加载器加载，也不能算相等。</p>
+<h4 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h4>
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <!-- 使用 Gitalk -->
+<div id="gitalk-comment">
+    <!-- Gitalk 评论框 -->
+<div id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<script>
+    var gitalk = new Gitalk({
+            clientID: '75bcf2914933be136252',
+            clientSecret: '491c7624f23dc52c60b611dfc1786011dd8fe346',
+            repo: 'OffensiveYY.github.io',
+            owner: 'OffensiveYY',
+            admin: ['OffensiveYY'],
+			id: 'Sat Apr 07 2018 19:30:41 GMT+0800',
+            // facebook-like distraction free mode
+            distractionFreeMode: false
+        })
+   gitalk.render('gitalk-container')
 </script>
+</div>
+<style>
+    #gitalk-comment {
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
 
+                
+            </div>
 
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/03/31/Kotlin告别findViewById/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
 
 
 
@@ -609,6 +817,14 @@ It will not impact the appearance and can give developers a lot of support :)
 </aside>
 
                     
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
 
                     
 

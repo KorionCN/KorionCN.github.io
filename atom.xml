@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://offensiveyy.github.io/"/>
-  <updated>2018-03-31T08:29:55.000Z</updated>
+  <updated>2018-04-07T11:30:41.000Z</updated>
   <id>http://offensiveyy.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java类加载机制</title>
+    <link href="http://offensiveyy.github.io/2018/04/07/Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
+    <id>http://offensiveyy.github.io/2018/04/07/Java类加载机制/</id>
+    <published>2018-04-07T11:30:41.000Z</published>
+    <updated>2018-04-07T11:30:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  Java虚拟机将类的数据从Class文件中加载到内存中，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的过程，称为类加载。</p><p>  PS：Class文件指描述了一个类的结构的、具有特定构造的二进制字节串，可以是磁盘上的class文件，也可以是网络上的字节流。</p><p>  本文主要内容：</p><ol><li>类的生命周期</li><li>类加载的几个过程</li><li>类加载器</li><li>双亲委派模型</li></ol><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h4><p>  类从被加载到虚拟机内存到卸载出内存，包括以下几个过程：<br>  <img src="https://i.loli.net/2018/04/07/5ac8b410d47be.png" alt="Java类加载.png"></p><h4 id="类加载的几个过程"><a href="#类加载的几个过程" class="headerlink" title="类加载的几个过程"></a>类加载的几个过程</h4><ol><li><p>加载</p><p>该过程是类加载的第一个过程，在该阶段，虚拟机需要干一下三件事：</p><ul><li>通过一个类的全限定名来获取定义此类的二进制字节流。</li><li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li><li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口。</li></ul><p>在这个阶段，可以使用系统提供的类引导加载器来完成，也可以通过自定义的类加载器完成。重写一个类加载群的loadClass()方法去控制字节流的获取方式。</p><p>PS:数组类不通过类加载进行创建，而是由Java虚拟机直接创建。</p><p>加载阶段完成后，虚拟机外部的二进制字节流就按照虚拟机所需格式存储在方法区之中，然后再方法区中实例化一个Class类对象。（类的加载过程和连接阶段的部分过程是交叉的。）</p></li><li><p>验证</p><p>该阶段的目的是为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。（文件格式验证、 元数据验证、 字节码验证、 符号引用验证）</p></li><li><p>准备</p><p>该阶段正式为类变量分配内存并设置类变量的初始化值。这里所说的变量为类静态变量，初始值是指类型的默认值，比如int为0、boolean为false。不是在类中显式指定的初始化值。（类的初始化值，会有有虚拟机自动生成的类构造器&lt;clinit>()方法进行赋值）</p></li><li><p>解析</p><p>该阶段主要完成将类中的符号引用（类名、字段名、方法名）替换为直接引用（指针、相对偏移量或一个能定位到目标的句柄），包括类或接口的解析、字段解析、类的方法解析，最终将类或接口、字段和方法的引用替换成对内存位置的直接引用。</p></li><li><p>初始化</p><p>该阶段虚拟机通过执行&lt;clinit>()方法对类中的变量或者资源进行初始化。</p><ul><li>&lt;clinit>()方法</li></ul><p>&lt;clinit>()方法是由编译器收集类中的所有类变量赋值动作和静态语句块（static{}块）中的语句合并产生的。</p><p>&lt;clinit>()方法不需要显示地调用父类的构造器，虚拟机的类初始化规则保证了执行子类的<clinit>()方法前，父类的&lt;clinit>()方法已经被执行完成。</clinit></p><p>接口中的不能使用静态语句块，但是如果接口有赋值操作，同样会生成一个&lt;clinit>()方法.</p><p>虚拟机会保证一个类的&lt;clinit>方法在多线程环境中被正确地加锁、同步，确保线程安全。同一个类加载器下，一个类的&lt;clinit>()只会被执行一次。</p><ul><li>必定会初始化的情况</li></ul><p>1）new创建一个类实例、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候，如果类没有进行初始化，则需要触发其初始化。</p><p>2）使用java.lang.reflect包的方法对类进行反射调用时，如果类没有进行初始化，则需要触发其初始化。</p><p>3）当初始化一个类时，发现其父类没有初始化，则需要先初始化其父类。</p><p>4）当虚拟机启动时，虚拟机会初始化包含mian()的那个类。</p></li></ol><h4 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h4><p>  完成”通过一个类的全限定名来获取描述此类的二进制字节流”这个动作的代码模块称为类加载器。</p><p>  类加载不仅仅实现了类的加载动作，对于任意一个类，都需要由加载它的类加载器和这个类本身一同确立其在Java虚拟机中的唯一性，即比较两个类是否”相等”（Class对象的equels()、instanceof、isInstance()、isAssignableFrom()返回的结果），要在这两个是由同一个类加载器加载的前提下才有意义，否则，即使这两个类来自同一个Class文件，被同一个虚拟机加载，如果由不同的类加载器加载，也不能算相等。</p><h4 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h4>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h3&gt;&lt;p&gt;  Java虚拟机将类的数据从Class文件中加载到内存中，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="http://offensiveyy.github.io/categories/Java/"/>
+    
+    
+      <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    
+      <category term="Java" scheme="http://offensiveyy.github.io/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>Kotlin:告别findViewById</title>
@@ -37,9 +64,9 @@
       <category term="Android" scheme="http://offensiveyy.github.io/categories/Android/"/>
     
     
-      <category term="开发笔记" scheme="http://offensiveyy.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
-    
       <category term="Kotlin" scheme="http://offensiveyy.github.io/tags/Kotlin/"/>
+    
+      <category term="开发笔记" scheme="http://offensiveyy.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
@@ -72,13 +99,41 @@
   </entry>
   
   <entry>
+    <title>Java垃圾回收</title>
+    <link href="http://offensiveyy.github.io/2018/03/30/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
+    <id>http://offensiveyy.github.io/2018/03/30/Java垃圾回收/</id>
+    <published>2018-03-30T15:47:51.000Z</published>
+    <updated>2018-03-30T15:47:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  关于Java虚拟机的垃圾回收机制（GC）的学习笔记。</p><h4 id="主要记录"><a href="#主要记录" class="headerlink" title="主要记录"></a>主要记录</h4><ol><li>如何确定哪些对象可以回收？</li><li>Java中的四种引用</li><li>几种垃圾回收的算法思想</li></ol><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="对象是否存活"><a href="#对象是否存活" class="headerlink" title="对象是否存活"></a>对象是否存活</h4><p>  Java中的对象实例主要存在于Java虚拟机的堆中，在垃圾收集器对堆中的实例进行回收之前，首先要确定哪些对象还可以”存活”，哪些可以回收。关于Java虚拟机的内存模型可以查看<a href="https://offensiveyy.github.io/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">该文章</a></p><h5 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1. 引用计数法"></a>1. 引用计数法</h5><p>  在刚学Java的时候就知道了这种方法，该方法和C++中的智能指针的思想差不多，给对象添加一个引用计算器，每当有一个地方引用它时，计数器的值就加1；当连接失效时，计数器减1；当计数器的值为0时，表示该该对象不存在任何引用，因此需要被回收。</p><p>  该方法比较简单，但是不能解决对象之间互相循环引用的问题。比如，A对象引用B对象，而B对象引用了A对象，除此之外，A、B对象均无其他引用，那么把A、B对象看成一个整体，则这两个对象都应该被回收，而他们的引用计数器均不为0.</p><h5 id="2-可达性分析算法"><a href="#2-可达性分析算法" class="headerlink" title="2. 可达性分析算法"></a>2. 可达性分析算法</h5><p>  在该算法中，需要从一系列称为”GCRoots”的对象开始，以这些对象为起点，分析他的引用对象，然后从他引用的对象向下分析其引用的对象，所走过的路径称为引用链（最终形成一个个连通图）。当一个对象到GCRoots没有任何引用链（从GCRoots对象不可达），则证明此对象不可用。如果学过图论，相信很容易理解。</p><p>  <strong>哪些对象属于GCRoots对象？</strong></p><blockquote><ol><li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li><li>方法区中类静态属性引用的对象</li><li>方法区中常量引用的对象</li><li>本地方法栈中Native方法引用的对象</li></ol></blockquote><h4 id="Java中的四种引用"><a href="#Java中的四种引用" class="headerlink" title="Java中的四种引用"></a>Java中的四种引用</h4><p>在JDK1.2后，Java对引用的概念进行了扩充，引入了强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）。</p><ul><li>强引用：代码间普遍存在，如”Object obj = new Object()”中的obj。只要存在强引用，对象就不会被回收。</li><li>软引用：对应Java中的SoftReference类，描述一些<strong>有用但是非必需</strong>的对象，关联的对象会在系统将要发生内存溢出异常前，列入下次回收的名单中。</li><li>弱引用：对应Java中的WeakReference类, 描述<strong>非必须</strong>的对象，关联的对象会在下次内存回收时参与回收，无论内存是否足够。</li><li>虚引用：对应Java中的PhantomReference类最弱的一种引用，一个对象是否有虚引用的存在，完全不会对其生存构成影响，也无法通过虚引用来取得一个对象实例。为一对象设置虚引用的唯一目的就是在这个对象被会回收时收到一个系统通知。</li></ul><h4 id="几种垃圾回收算法思想"><a href="#几种垃圾回收算法思想" class="headerlink" title="几种垃圾回收算法思想"></a>几种垃圾回收算法思想</h4><h5 id="1-标记-清除算法"><a href="#1-标记-清除算法" class="headerlink" title="1. 标记-清除算法"></a>1. 标记-清除算法</h5><p>  该算法包括”标记”和”清除”两个阶段：首先标记出所有需要回收的对象，在标记完后统一回收所有被标记的对象。<br>  该算法主要有两种不足：</p><ul><li>标记和清除两个过程的效率都不高；</li><li>标记清除后会产生大量不连续的内存碎片，空间碎片太多可能导致以后需要分配大对象时，无法找到足够的连续内存而不得不提前出发另一次垃圾收集动作。</li></ul><h5 id="2-复制算法"><a href="#2-复制算法" class="headerlink" title="2. 复制算法"></a>2. 复制算法</h5><p>  该算法会把内存划分为大小相等的两块，每次只使用其中的一块，当这一块内存呢用完时，就将还存活的对象复制到另一快上，然后再把已使用的内存空间一次清理掉。</p><ul><li>优点：不需要考虑内存碎片，复制时只需移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。</li><li>不足：内存缩小为原来的一半。</li></ul><p>但实际上，该算法主要用于新生代区域，而且不需要按照1:1的比分割空间。新生代的特点就是每次回收都会有大多数对象被回收，根据这个特点，可以将内存划分为一块比较大的Eden空间和两块比较小的Survivor空间（8:1:1），每次使用Eden和其中一个块Survivor。当回收时，将Eden和Survivor中还活着的对象一次性复制到另外一块Survivor空间上，最后清理掉Eden和刚才用过的Survivor空间。当Survivor空间不够用时，可以借用老年代进行分配担保。</p><h5 id="3-标记-整理算法"><a href="#3-标记-整理算法" class="headerlink" title="3.标记-整理算法"></a>3.标记-整理算法</h5><p>  该算法和标记-清除相类似，不过在标记对象后，需要将所有存活的对象都移动到一端，然后直接清除掉端边界以外的内存。<br>  由于老年代中对象的存活率比较高，所以老年代使用复制算法时需要进行的复制操作比较多，代价比较高，所以更适合标记-整理算法。</p><h5 id="4-分代收集算法"><a href="#4-分代收集算法" class="headerlink" title="4. 分代收集算法"></a>4. 分代收集算法</h5><p>  其实就是将堆划分为新生代和老年代，根据两者不同的特点使用不同的垃圾收集算法。在新生代中，每次垃圾回收都会有大批对象死去，只有少量存活，选用复制算法。而老年代中因为对象存活率高、没有额外的空间进行分配担保，必须使用“标记-清除”或者“标记-整理”算法进行回收。</p><p>  参考:《深入理解Java虚拟机》</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h3&gt;&lt;p&gt;  关于Java虚拟机的垃圾回收机制（GC）的学习笔记。&lt;/p&gt;
+&lt;h4 id=&quot;主要记录&quot;&gt;&lt;a href=&quot;#主要记录&quot; class=&quot;
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="http://offensiveyy.github.io/categories/Java/"/>
+    
+    
+      <category term="Java GC" scheme="http://offensiveyy.github.io/tags/Java-GC/"/>
+    
+      <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Java虚拟机内存模型</title>
     <link href="http://offensiveyy.github.io/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
     <id>http://offensiveyy.github.io/2018/03/30/Java虚拟机内存模型/</id>
     <published>2018-03-30T11:59:21.000Z</published>
     <updated>2018-03-30T11:59:21.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>最近在面试的过程中，被问及了关于Java虚拟机的问题，虽然以前自己有过大致的了解，但是面试时有些紧张，没有回忆上来。索性查阅后做个总结。</p><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h4><p><img src="https://i.loli.net/2018/03/30/5abe3b29a3406.png" alt="Java虚拟机内存模型.png"></p><ul><li><strong>程序计数器</strong>: 程序计数器是一块比较小的内存空间，记录了当前<strong>线程</strong>所执行的字节码的行号，和CPU中的指令计数寄存器类似。每个线程都有一个独立的程序计数器，互不影响。如果线程执行的是Java方法，那么计数器记录着的是正在执行的虚拟机字节码指令的地址，如果执行的为Native方法，计数器为空。</li></ul><ul><li><strong>Java虚拟机栈</strong>: Java虚拟机和程序计数器一样为线程私有，它的生命周期和线程相同。描述了Java方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、操作数栈、动态链接、方法口等信息。递归调用层数比较多时的，就有可能导致该部分内存的溢出（StackOverflowError）。</li></ul><ul><li><strong>本地方法栈</strong>: 本地方法栈和Java虚拟机栈功能类似，区别在一个前者为Native方法提供服务，后台为Java方法服务。</li></ul><ul><li><p><strong>Java堆</strong>: Java堆是Java虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的区域，在虚拟机启动时创建。用于存放对象实例。同时Java堆也是垃圾收集器管理的主要区域。Java堆还可以细分为: 新生代和老年代。</p></li><li><p><strong>方法区(别名Non-Heap)</strong>: 方法区和Java堆一样是线程共享的，用于存储已被加载的类的信息、常量、静态变量、即时编译器编译后的代码等数据。</p><ul><li>运行时常量池: 为方法区的一部分，Class文件除了有类的版本、字段、方法、接口等描述信息外，还有有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用。</li></ul></li></ul><ul><li><strong>直接内存</strong>: 直接内存并不虚拟机运行时数据区的一部分。在JDK1.4之中新加入的NIO类，基于通道（Channel）和缓冲区（Buffer）的IO方式，就是使用了Native函数直接分配内存，然后通过一个存储在Java堆中的DirectByteBuffer对象对这个块内存进行操作。</li></ul><p>参考:《深入理解Java虚拟机》</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>最近在面试的过程中，被问及了关于Java虚拟机的问题，虽然以前自己有过大致的了解，但是面试时有些紧张，没有回忆上来。索性查阅后做个总结。</p><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h4><p><img src="https://i.loli.net/2018/03/30/5abe3b29a3406.png" alt="Java虚拟机内存模型.png"></p><ul><li><strong>程序计数器</strong>: 程序计数器是一块比较小的内存空间，记录了当前<strong>线程</strong>所执行的字节码的行号，和CPU中的指令计数寄存器类似。每个线程都有一个独立的程序计数器，互不影响。如果线程执行的是Java方法，那么计数器记录着的是正在执行的虚拟机字节码指令的地址，如果执行的为Native方法，计数器为空。</li></ul><ul><li><strong>Java虚拟机栈</strong>: Java虚拟机和程序计数器一样为线程私有，它的生命周期和线程相同。描述了Java方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、操作数栈、动态链接、方法口等信息。递归调用层数比较多时的，就有可能导致该部分内存的溢出（StackOverflowError）。</li></ul><ul><li><strong>本地方法栈</strong>: 本地方法栈和Java虚拟机栈功能类似，区别在一个前者为Native方法提供服务，后台为Java方法服务。</li></ul><ul><li><p><strong>Java堆</strong>: Java堆是Java虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的区域，在虚拟机启动时创建。用于存放对象实例。同时Java堆也是垃圾收集器管理的主要区域。在分代收集算法中，Java堆还可以细分为: 新生代和老年代。根据新生代和老年代的不同特点，采用不同是收集算法。</p></li><li><p><strong>方法区(别名Non-Heap)</strong>: 方法区和Java堆一样是线程共享的，用于存储已被加载的类的信息、常量、静态变量、即时编译器编译后的代码等数据。类被加载后，会生成对应Class的实例，该实例同样保存在方法区。</p><ul><li>运行时常量池: 为方法区的一部分，Class文件除了有类的版本、字段、方法、接口等描述信息外，还有有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用。</li></ul></li></ul><ul><li><strong>直接内存</strong>: 直接内存并不虚拟机运行时数据区的一部分。在JDK1.4之中新加入的NIO类，基于通道（Channel）和缓冲区（Buffer）的IO方式，就是使用了Native函数直接分配内存，然后通过一个存储在Java堆中的DirectByteBuffer对象对这个块内存进行操作。</li></ul><p>参考:《深入理解Java虚拟机》</p>]]></content>
     
     <summary type="html">
     
@@ -92,9 +147,9 @@
       <category term="Java" scheme="http://offensiveyy.github.io/categories/Java/"/>
     
     
-      <category term="Java" scheme="http://offensiveyy.github.io/tags/Java/"/>
-    
       <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    
+      <category term="内存模型" scheme="http://offensiveyy.github.io/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
     
   </entry>
   
