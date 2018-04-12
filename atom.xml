@@ -89,9 +89,9 @@
       <category term="Android" scheme="http://offensiveyy.github.io/categories/Android/"/>
     
     
-      <category term="Kotlin" scheme="http://offensiveyy.github.io/tags/Kotlin/"/>
-    
       <category term="开发笔记" scheme="http://offensiveyy.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="Kotlin" scheme="http://offensiveyy.github.io/tags/Kotlin/"/>
     
   </entry>
   
@@ -145,9 +145,9 @@
       <category term="Java" scheme="http://offensiveyy.github.io/categories/Java/"/>
     
     
-      <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
-    
       <category term="Java GC" scheme="http://offensiveyy.github.io/tags/Java-GC/"/>
+    
+      <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
     
   </entry>
   
