@@ -75,7 +75,7 @@
     <published>2018-03-31T08:29:55.000Z</published>
     <updated>2018-03-31T08:29:55.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>关于Kotlin，个人在Google发布前就已经关注了，前段时间曾经看着文档学了一些，但是一直没有没有项目中使用。最近上学校里面的移动应用开发课，需要写一些小作业，索性拿作业来练练手。</p><h3 id="告别findViewById"><a href="#告别findViewById" class="headerlink" title="告别findViewById"></a>告别findViewById</h3><p>相信很多人都对Android开发中，使用findViewbyId来获取布局的中控件感到繁琐，好在有ButterKnife这样神奇的第三方依赖注入库，让我们能够减少很多模板代码。不过当你使用Kotlin进行开发时，Kotlin官方已经开发了<a href="https://kotlinlang.org/docs/tutorials/android-plugin.html" target="_blank" rel="noopener">Kotlin Android Extensions</a>(kotlin-gradle-plugin的一部分),帮我们完成控件绑定的任务。</p><h4 id="如何使用？"><a href="#如何使用？" class="headerlink" title="如何使用？"></a>如何使用？</h4><ol><li><p>配置Module的build.gradle</p><p>如果你的工程是Kotlin工程，那么只需在需要的Module的build.gradle中，添加</p><blockquote><p>apply plugin: ‘kotlin-android-extensions’</p></blockquote></li><li><p>在Activity的源代码中，引入相应的synthetic properties</p><blockquote><p>import kotlinx.android.synthetic.main.&lt;layout>.*</p></blockquote><p><layout>为布局文件名。比如</layout></p><pre><code>//MainActivity.ktimport kotlinx.android.synthetic.main.activity_main.*class MainActivity : AppCompatActivity() {  override fun onCreate(savedInstanceState: Bundle?) {  super.onCreate(savedInstanceState)  setContentView(R.layout.activity_main)  tv_name.text = &quot;Ksxy&quot;  }}//activity_main.xml&lt;TextViewandroid:id=&quot;@+id/tv_name&quot;android:layout_width=&quot;wrap_content&quot;android:layout_height=&quot;wrap_content&quot;/&gt;</code></pre></li></ol>]]></content>
+    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>关于Kotlin，个人在Google发布前就已经关注了，前段时间曾经看着文档学了一些，但是一直没有没有项目中使用。最近上学校里面的移动应用开发课，需要写一些小作业，索性拿作业来练练手。</p><h3 id="告别findViewById"><a href="#告别findViewById" class="headerlink" title="告别findViewById"></a>告别findViewById</h3><p>相信很多人都对Android开发中，使用findViewbyId来获取布局的中控件感到繁琐，好在有ButterKnife这样神奇的第三方依赖注入库，让我们能够减少很多模板代码。不过当你使用Kotlin进行开发时，Kotlin官方已经开发了<a href="https://kotlinlang.org/docs/tutorials/android-plugin.html" target="_blank" rel="noopener">Kotlin Android Extensions</a>(kotlin-gradle-plugin的一部分),帮我们完成控件绑定的任务。</p><h4 id="如何使用？"><a href="#如何使用？" class="headerlink" title="如何使用？"></a>如何使用？</h4><ol><li><p>配置Module的build.gradle</p><p>如果你的工程是Kotlin工程，那么只需在需要的Module的build.gradle中，添加</p><blockquote><p>apply plugin: ‘kotlin-android-extensions’</p></blockquote></li><li><p>在Activity的源代码中，引入相应的synthetic properties</p><blockquote><p>import kotlinx.android.synthetic.main.&lt;layout>.*</p></blockquote><p>&lt;layout>为布局文件名。比如</p><pre><code>//MainActivity.ktimport kotlinx.android.synthetic.main.activity_main.*class MainActivity : AppCompatActivity() {  override fun onCreate(savedInstanceState: Bundle?) {  super.onCreate(savedInstanceState)  setContentView(R.layout.activity_main)  tv_name.text = &quot;Ksxy&quot;  }}//activity_main.xml&lt;TextViewandroid:id=&quot;@+id/tv_name&quot;android:layout_width=&quot;wrap_content&quot;android:layout_height=&quot;wrap_content&quot;/&gt;</code></pre></li></ol>]]></content>
     
     <summary type="html">
     
@@ -145,9 +145,9 @@
       <category term="Java" scheme="http://offensiveyy.github.io/categories/Java/"/>
     
     
-      <category term="Java GC" scheme="http://offensiveyy.github.io/tags/Java-GC/"/>
-    
       <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    
+      <category term="Java GC" scheme="http://offensiveyy.github.io/tags/Java-GC/"/>
     
   </entry>
   

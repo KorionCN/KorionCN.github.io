@@ -26,7 +26,7 @@
   <entry>
     <title><![CDATA[Kotlin:告别findViewById]]></title>
     <url>%2F2018%2F03%2F31%2FKotlin%E5%91%8A%E5%88%ABfindViewById%2F</url>
-    <content type="text"><![CDATA[背景关于Kotlin，个人在Google发布前就已经关注了，前段时间曾经看着文档学了一些，但是一直没有没有项目中使用。最近上学校里面的移动应用开发课，需要写一些小作业，索性拿作业来练练手。 告别findViewById相信很多人都对Android开发中，使用findViewbyId来获取布局的中控件感到繁琐，好在有ButterKnife这样神奇的第三方依赖注入库，让我们能够减少很多模板代码。不过当你使用Kotlin进行开发时，Kotlin官方已经开发了Kotlin Android Extensions(kotlin-gradle-plugin的一部分),帮我们完成控件绑定的任务。 如何使用？ 配置Module的build.gradle 如果你的工程是Kotlin工程，那么只需在需要的Module的build.gradle中，添加 apply plugin: ‘kotlin-android-extensions’ 在Activity的源代码中，引入相应的synthetic properties import kotlinx.android.synthetic.main.&lt;layout>.* 为布局文件名。比如 //MainActivity.kt import kotlinx.android.synthetic.main.activity_main.* class MainActivity : AppCompatActivity() { override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) setContentView(R.layout.activity_main) tv_name.text = &quot;Ksxy&quot; } } //activity_main.xml &lt;TextView android:id=&quot;@+id/tv_name&quot; android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot;/&gt;]]></content>
+    <content type="text"><![CDATA[背景关于Kotlin，个人在Google发布前就已经关注了，前段时间曾经看着文档学了一些，但是一直没有没有项目中使用。最近上学校里面的移动应用开发课，需要写一些小作业，索性拿作业来练练手。 告别findViewById相信很多人都对Android开发中，使用findViewbyId来获取布局的中控件感到繁琐，好在有ButterKnife这样神奇的第三方依赖注入库，让我们能够减少很多模板代码。不过当你使用Kotlin进行开发时，Kotlin官方已经开发了Kotlin Android Extensions(kotlin-gradle-plugin的一部分),帮我们完成控件绑定的任务。 如何使用？ 配置Module的build.gradle 如果你的工程是Kotlin工程，那么只需在需要的Module的build.gradle中，添加 apply plugin: ‘kotlin-android-extensions’ 在Activity的源代码中，引入相应的synthetic properties import kotlinx.android.synthetic.main.&lt;layout>.* &lt;layout>为布局文件名。比如 //MainActivity.kt import kotlinx.android.synthetic.main.activity_main.* class MainActivity : AppCompatActivity() { override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) setContentView(R.layout.activity_main) tv_name.text = &quot;Ksxy&quot; } } //activity_main.xml &lt;TextView android:id=&quot;@+id/tv_name&quot; android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot;/&gt;]]></content>
       <categories>
         <category>Android</category>
       </categories>
@@ -55,8 +55,8 @@
         <category>Java</category>
       </categories>
       <tags>
-        <tag>Java GC</tag>
         <tag>虚拟机</tag>
+        <tag>Java GC</tag>
       </tags>
   </entry>
   <entry>
