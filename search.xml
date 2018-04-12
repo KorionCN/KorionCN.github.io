@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Git常用命令]]></title>
     <url>%2F2018%2F04%2F11%2FGit%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[概述Git是我们开发者常用的、便捷的分布式版本控制工具，它既可以创建本地管理仓库，也可以同步远程仓库上，在合作开中充当着重要角色。熟练使用Git有利于我们的开发和代码维护，但是由于本人常常忘记一些命令，所以在这对开发中容易忘记的命令进行记录。 关于Git的使用教程，推荐廖雪峰老师教程:《Git教程》 正文基本概念Git命令格式:git &lt;command> [&lt;revision>…] – [&lt;file>…] Git中工作区、暂存区、版本库、远程仓库： 工作区: git init命令初始化的目录，通常就是工程的根目录（比如，./gitProject），git init命令执行完后，会在工作区目录下生成.git目录（./gitProject/.git）。 暂存区: 存放git add命令提交的文件，git add 命令执行完后，文件的记录首先会被添加到暂存区，表示对这个文件进行版本控制。 git status： 查看暂存区的记录，以及工作区中哪些文件被修改. git diff: 查看暂存区和工作区中哪些文件做了哪些修改. (git diff – ) git rm –cached file: 删除暂存区中的文件记录。 版本库: 记录git commit命令提交的记录，每个记录保存着一个版本的文件。所有提交记录形成一个链状的版本库。 git log: 查看commit历史记录 git reflog: 查看对版本库的操作记录，包括commit、reset git reset –hard commit_id: 回滚到commit_id版本，同时产生一次reset记录 git rm file: 从版本库中删除一个文件，这意味着不对该文件进行版本控制 远程仓库: 比如Github、码云上面的仓库… git remote -v: 查看远程仓库地址 分支: Git支持多分支管理，每个分支相对独立，每个分支有各自的提交记录，分支的存在便于不同功能模块的并行开发。Git默认的主分支为master。 git branch: 查看分支，’*‘ 表示当前所在分支。 HEAD: HEAD是版本库中一个指向当前分支当前版本的一个指针（表示当前版本），默认指向git log中最新的版本。 HEAD^: 表示上一个版本记录.（HEAD^^、HEAD^^^依次类推） HEAD~1: 表示上一个版本记录.(HEAD~n, n=1,2,3,… 依次类推) 回滚 git checkout git checkout – 从暂存区恢复指定文件到工作区 git checkout – . 从暂存区恢复已经缓存的文件到工作区 git checkout HEAD 从HEAD指向的版本中恢复指定文件到工作区和暂存区 git checkout HEAD . 从HEAD指向的版本中恢复已经提交的文件到工作区和暂存区 git reset git reset HEAD 撤销已add暂存区的记录，不影响工作区的文件 git reset HEAD . git reset –hard HEAD^ 回滚到上个版本，撤销缓存区，影响工作区 分支控制 git branch 查看所有分支, “*“表示当前所在分支。 -d: 删除某个分支 git checkout &lt;branch_name&gt; 切换到分支 -b: 创建并切换到某个分支 git merge &lt;branch_name&gt; 将某分支合并到当前分支 远程仓库&amp;同步 git remote -v 查看远程仓库地址 git remote add &lt;仓库别名&gt; &lt;仓库url&gt; 添加远程仓库 git remoet set-url &lt;仓库别名&gt; &lt;仓库url&gt; 修改远程仓库url git push &lt;仓库别名&gt; &lt;分支&gt; 同步某分支到远程仓库 git push -f &lt;仓库别名&gt; &lt;分支&gt; 强制同步某分支到远程仓库，覆盖远程仓库. 很实用，很危险 持续更新: 2018/4/11]]></content>
+    <content type="text"><![CDATA[概述Git是我们开发者常用的、便捷的分布式版本控制工具，它既可以创建本地管理仓库，也可以同步远程仓库上，在合作开中充当着重要角色。熟练使用Git有利于我们的开发和代码维护，但是由于本人常常忘记一些命令，所以在这对开发中容易忘记的命令进行记录。 关于Git的使用教程，推荐廖雪峰老师教程:《Git教程》 正文基础概念Git命令格式:git &lt;command> [&lt;revision>…] – [&lt;file>…] Git中工作区、暂存区、版本库、远程仓库： 工作区: git init命令初始化的目录，通常就是工程的根目录（比如，./gitProject），git init命令执行完后，会在工作区目录下生成.git目录（./gitProject/.git）。 暂存区: 存放git add命令提交的文件，git add 命令执行完后，文件的记录首先会被添加到暂存区，表示对这个文件进行版本控制。 git status： 查看暂存区的记录，以及工作区中哪些文件被修改. git diff: 查看暂存区和工作区中哪些文件做了哪些修改. (git diff – ) git rm –cached file: 删除暂存区中的文件记录。 版本库: 记录git commit命令提交的记录，每个记录保存着一个版本的文件。所有提交记录形成一个链状的版本库。 git log: 查看commit历史记录 git reflog: 查看对版本库的操作记录，包括commit、reset git reset –hard commit_id: 回滚到commit_id版本，同时产生一次reset记录 git rm file: 从版本库中删除一个文件，这意味着不对该文件进行版本控制 远程仓库: 比如Github、码云上面的仓库… git remote -v: 查看远程仓库地址 分支: Git支持多分支管理，每个分支相对独立，每个分支有各自的提交记录，分支的存在便于不同功能模块的并行开发。Git默认的主分支为master。 git branch: 查看分支，’*‘ 表示当前所在分支。 HEAD: HEAD是版本库中一个指向当前分支当前版本的一个指针（表示当前版本），默认指向git log中最新的版本。 HEAD^: 表示上一个版本记录.（HEAD^^、HEAD^^^依次类推） HEAD~1: 表示上一个版本记录.(HEAD~n, n=1,2,3,… 依次类推) 回滚 git checkout git checkout – 从暂存区恢复指定文件到工作区 git checkout – . 从暂存区恢复已经缓存的文件到工作区 git checkout HEAD 从HEAD指向的版本中恢复指定文件到工作区和暂存区 git checkout HEAD . 从HEAD指向的版本中恢复已经提交的文件到工作区和暂存区 git reset git reset HEAD 撤销已add暂存区的记录，不影响工作区的文件 git reset HEAD . git reset –hard HEAD^ 回滚到上个版本，撤销缓存区，影响工作区 分支控制 git branch 查看所有分支, “*“表示当前所在分支。 -d: 删除某个分支 git checkout &lt;branch_name&gt; 切换到分支 -b: 创建并切换到某个分支 git merge &lt;branch_name&gt; 将某分支合并到当前分支 远程仓库&amp;同步 git remote -v 查看远程仓库地址 git remote add &lt;仓库别名&gt; &lt;仓库url&gt; 添加远程仓库 git remoet set-url &lt;仓库别名&gt; &lt;仓库url&gt; 修改远程仓库url git push &lt;仓库别名&gt; &lt;分支&gt; 同步某分支到远程仓库 git push -f &lt;仓库别名&gt; &lt;分支&gt; 强制同步某分支到远程仓库，覆盖远程仓库. 很实用，很危险 持续更新: 2018/4/11]]></content>
       <categories>
         <category>开发工具</category>
       </categories>
@@ -55,8 +55,8 @@
         <category>Java</category>
       </categories>
       <tags>
-        <tag>虚拟机</tag>
         <tag>Java GC</tag>
+        <tag>虚拟机</tag>
       </tags>
   </entry>
   <entry>
@@ -169,13 +169,13 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
+    <title><![CDATA[标签云]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[标签云]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[时间轴]]></title>
+    <url>%2Ftimeline%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>

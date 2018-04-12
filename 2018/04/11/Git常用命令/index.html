@@ -346,7 +346,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正文"><span class="post-toc-number">2.</span> <span class="post-toc-text">正文</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基本概念"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">基本概念</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#回滚"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">回滚</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分支控制"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">分支控制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#远程仓库-amp-同步"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">远程仓库&amp;同步</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#持续更新-2018-4-11"><span class="post-toc-number">3.</span> <span class="post-toc-text">持续更新: 2018/4/11</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正文"><span class="post-toc-number">2.</span> <span class="post-toc-text">正文</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基础概念"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">基础概念</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#回滚"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">回滚</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分支控制"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">分支控制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#远程仓库-amp-同步"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">远程仓库&amp;同步</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#持续更新-2018-4-11"><span class="post-toc-number">3.</span> <span class="post-toc-text">持续更新: 2018/4/11</span></a></li></ol>
     </ul>
     
 
@@ -365,17 +365,8 @@
                 
     <!-- Paradox Post Header -->
     
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-            <script type="text/ls-javascript" id="post-thumbnail-script">
-    var randomNum = Math.floor(Math.random() * 19 + 1);
-
-    $('.post_thumbnail-random').attr('data-original', 'http://p71wxz0gm.bkt.clouddn.com//image/random/material-' + randomNum + '.png');
-    $('.post_thumbnail-random').addClass('lazy');
-</script>
-
-        
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://p71wxz0gm.bkt.clouddn.com/image/post/Git%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5.jpg)">
     
             <p class="article-headline-p">
                 Git常用命令
@@ -504,7 +495,7 @@
     
         <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Git是我们开发者常用的、便捷的分布式版本控制工具，它既可以创建本地管理仓库，也可以同步远程仓库上，在合作开中充当着重要角色。熟练使用Git有利于我们的开发和代码维护，但是由于本人常常忘记一些命令，所以在这对开发中容易忘记的命令进行记录。</p>
 <p>关于Git的使用教程，推荐廖雪峰老师教程:<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">《Git教程》</a></p>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>Git命令格式:<br>git &lt;command> [&lt;revision>…] – [&lt;file>…]</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><p>Git命令格式:<br>git &lt;command> [&lt;revision>…] – [&lt;file>…]</p>
 <p>Git中工作区、暂存区、版本库、远程仓库：</p>
 <ul>
 <li><p>工作区: git init命令初始化的目录，通常就是工程的根目录（比如，./gitProject），git init命令执行完后，会在工作区目录下生成.git目录（./gitProject/.git）。</p>
