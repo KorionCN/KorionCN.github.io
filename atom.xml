@@ -102,7 +102,7 @@
     <published>2018-03-31T07:57:45.000Z</published>
     <updated>2018-03-31T07:57:45.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ol><li><p>Assets目录<br> Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。<br> 注：assets下可以有子目录，引入文件时url的根目录为assets。</p><pre><code>val assets = getAssetManager()val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.pngval bitmap = BitmapFactory.decodeStream(inStream)inStream.close()</code></pre></li><li><p>string.xml中字符串插值</p><blockquote><p>string.xml中，</p><p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p><p>代码中，</p><p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p></blockquote><ul><li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li><li>%d ：   表示整数</li></ul><ul><li>%f：  表示浮点数</li><li>%s  ： 表示字符串</li></ul></li></ol><h3 id="持续更新-2018-3-31"><a href="#持续更新-2018-3-31" class="headerlink" title="持续更新 2018-3-31"></a>持续更新 2018-3-31</h3>]]></content>
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ol><li><p>Assets目录<br> Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。<br> 注：assets下可以有子目录，引入文件时url的根目录为assets。</p><pre><code>val assets = getAssetManager()val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.pngval bitmap = BitmapFactory.decodeStream(inStream)inStream.close()</code></pre></li><li><p>string.xml中字符串插值</p><blockquote><p>string.xml中，</p><p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p><p>代码中，</p><p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p></blockquote><ul><li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li><li>%d ：   表示整数</li></ul><ul><li>%f：  表示浮点数</li><li>%s  ： 表示字符串</li></ul></li></ol><ol><li><p>ListView隐藏scrollbar</p><blockquote><p>android:scrollbars=”none”</p><p>setVerticalScrollBarEnabled(true);</p></blockquote></li></ol><h3 id="持续更新-2018-3-31"><a href="#持续更新-2018-3-31" class="headerlink" title="持续更新 2018-3-31"></a>持续更新 2018-3-31</h3>]]></content>
     
     <summary type="html">
     
@@ -145,9 +145,9 @@
       <category term="Java" scheme="http://offensiveyy.github.io/categories/Java/"/>
     
     
-      <category term="Java GC" scheme="http://offensiveyy.github.io/tags/Java-GC/"/>
-    
       <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    
+      <category term="Java GC" scheme="http://offensiveyy.github.io/tags/Java-GC/"/>
     
   </entry>
   

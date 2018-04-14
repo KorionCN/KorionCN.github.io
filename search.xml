@@ -38,7 +38,7 @@
   <entry>
     <title><![CDATA[Android开发杂记]]></title>
     <url>%2F2018%2F03%2F31%2FAndroid%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0%2F</url>
-    <content type="text"><![CDATA[前言在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。 Android Assets目录 Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助AssetManager。使用Context.getAssetManager()可以获取实例。 注：assets下可以有子目录，引入文件时url的根目录为assets。 val assets = getAssetManager() val inStream = assets.open(&quot;img/qrcode.png&quot;) //文件路径:assets/img/qrcode.png val bitmap = BitmapFactory.decodeStream(inStream) inStream.close() string.xml中字符串插值 string.xml中， &lt;string name=”stu_name”>名字: %s&lt;/string> 代码中， tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”) %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00 %d ： 表示整数 %f： 表示浮点数 %s ： 表示字符串 持续更新 2018-3-31]]></content>
+    <content type="text"><![CDATA[前言在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。 Android Assets目录 Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助AssetManager。使用Context.getAssetManager()可以获取实例。 注：assets下可以有子目录，引入文件时url的根目录为assets。 val assets = getAssetManager() val inStream = assets.open(&quot;img/qrcode.png&quot;) //文件路径:assets/img/qrcode.png val bitmap = BitmapFactory.decodeStream(inStream) inStream.close() string.xml中字符串插值 string.xml中， &lt;string name=”stu_name”>名字: %s&lt;/string> 代码中， tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”) %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00 %d ： 表示整数 %f： 表示浮点数 %s ： 表示字符串 ListView隐藏scrollbar android:scrollbars=”none” setVerticalScrollBarEnabled(true); 持续更新 2018-3-31]]></content>
       <categories>
         <category>Android</category>
       </categories>
@@ -55,8 +55,8 @@
         <category>Java</category>
       </categories>
       <tags>
-        <tag>Java GC</tag>
         <tag>虚拟机</tag>
+        <tag>Java GC</tag>
       </tags>
   </entry>
   <entry>
@@ -169,13 +169,13 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[标签云]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[时间轴]]></title>
+    <url>%2Ftimeline%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
+    <title><![CDATA[标签云]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>
