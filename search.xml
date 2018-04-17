@@ -31,8 +31,8 @@
         <category>Android</category>
       </categories>
       <tags>
-        <tag>开发笔记</tag>
         <tag>Kotlin</tag>
+        <tag>开发笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -55,8 +55,8 @@
         <category>Java</category>
       </categories>
       <tags>
-        <tag>虚拟机</tag>
         <tag>Java GC</tag>
+        <tag>虚拟机</tag>
       </tags>
   </entry>
   <entry>
@@ -169,13 +169,13 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
+    <title><![CDATA[标签云]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[标签云]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[时间轴]]></title>
+    <url>%2Ftimeline%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>
