@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://offensiveyy.github.io/"/>
-  <updated>2018-04-11T08:15:28.000Z</updated>
+  <updated>2018-05-01T16:25:45.000Z</updated>
   <id>http://offensiveyy.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>五一干了些啥</title>
+    <link href="http://offensiveyy.github.io/2018/05/02/%E4%BA%94%E4%B8%80%E5%B9%B2%E4%BA%9B%E5%95%A5/"/>
+    <id>http://offensiveyy.github.io/2018/05/02/五一干些啥/</id>
+    <published>2018-05-01T16:25:45.000Z</published>
+    <updated>2018-05-01T16:25:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>   今年的五一连同周末，只放了三天假。最近这段时间，自己一直不在状态，至于为啥不在状态，可能是因为自从拿到实习offer后，没有什么压力有关吧。另一方面，自己期待的事情也没有如愿进行，某人再也不联系我，以前天天聊得还开心，直到某天，我在找不到对方感兴趣的事情，于是慢慢就没有怎么联系了。唉！</p><p>   不过，这些都不应该成为自己变得懒散的原因吧。最近一直是一种咸鱼的状态，上课不听，看书学习不专注，出去玩也没有啥兴趣。前天晚上，和妹妹视频聊天后，她很担忧的和我说，要有活力一点。emm…，我看起来有那么负能量么？</p><p>   假期这几天，打了不少游戏，还看两部电影《环太平洋2》还有《金刚:骷髅岛》，尽管一开始就有心理准备，不过看完这两部后，还是感觉有点失望，可能是对前作评价比较高吧。具体为啥失望，我就不展开了，因为我不是专业的影评。</p><p>   (其实是因为我懒，不想为了表达内心的吐槽，思考如何去表达。^_^)</p><p>   昨天，在B站上了解到了《Unnatural》,是一部关于非自然死亡的日剧，剧中的主角们（法医）通过解剖死者的尸体，查明其真正的死因，揭露隐藏在死亡背后的案件真相。总体的观感挺错的，剧情不拖沓，基本上每一集都是一个独立的案件，但有不缺乏转折，第一集60分钟的剧情，就有两处大转折。另外，从开头的故事，就一直穿插着一个名为”红色金鱼”的暗线，作为故事最后的boss剧情线，好像这是日剧的惯用方式。再之，就是有的故事实际上是反映了现实。嗯~，我一向就比较喜欢这种能够反映现实同时又能引起观众的思考，或者对某些事物的关注的作品。<br>   于是，今天，我花了一天时间把10集一口气看完了。。。嘿嘿。之前国内的热播剧《法医秦明》好像也是这类电视剧，不过我没有看过，有机会去翻出来看看。@_@</p><p>   这几天要说一点都没有学习倒也不是，好歹第一天待在实验室，看了一点书，还在LintCode上刷了几道题。（自我安慰一下Y_Y）</p><p>   不过，令我感触最大的还是，了解到了有很优秀的同学，一直都很努力，也很厉害。具体多厉害，可以看看她的blog。<a href="https://www.zuozuovera.com/" target="_blank" rel="noopener">Click Here</a></p><p>   唉，每隔一段时间，我都会去反思后自己的所作，值得吗？时间匆匆过隙，流失的时间无法挽回，休闲过后，是该回归奋斗的主题了！Fighting！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;   今年的五一连同周末，只放了三天假。最近这段时间，自己一直不在状态，至于为啥不在状态，可能是因为自从拿到实习offer后，没有什么压力有关吧。另一方面，自己期待的事情也没有如愿进行，某人再也不联系我，以前天天聊得还开心，直到某天，我在找不到对方感兴趣的事情，于是慢慢就没
+      
+    
+    </summary>
+    
+      <category term="日常" scheme="http://offensiveyy.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Git常用命令</title>
@@ -89,9 +112,9 @@
       <category term="Android" scheme="http://offensiveyy.github.io/categories/Android/"/>
     
     
-      <category term="Kotlin" scheme="http://offensiveyy.github.io/tags/Kotlin/"/>
-    
       <category term="开发笔记" scheme="http://offensiveyy.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="Kotlin" scheme="http://offensiveyy.github.io/tags/Kotlin/"/>
     
   </entry>
   
