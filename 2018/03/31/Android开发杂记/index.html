@@ -532,9 +532,52 @@ inStream.close()
 <ol>
 <li><p>ListView隐藏scrollbar</p>
 <blockquote>
-<p>android:scrollbars=”none”</p>
-<p>setVerticalScrollBarEnabled(true);</p>
+<p>android:scrollbars=”none”<br>或<br>ListView#setVerticalScrollBarEnabled(true);</p>
 </blockquote>
+</li>
+</ol>
+<ol>
+<li><p>沉浸式状态栏适配</p>
+<p>  第三方库: <a href="https://github.com/Zackratos/UltimateBar" target="_blank" rel="noopener">UltimateBar</a></p>
+</li>
+</ol>
+<ol>
+<li><p>根据文件名，获取其资源ID</p>
+<ul>
+<li><p>获取状态栏高度:</p>
+<pre><code>resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)
+val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)
+</code></pre></li>
+</ul>
+</li>
+<li><p>Android版本判断</p>
+<pre><code>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}
+</code></pre></li>
+<li><p>6.0 动态权限申请</p>
+<pre><code>if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+        //如果没有获得该权限
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){
+            //如果需要向用户说明申请权限的理由
+            //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true
+        }
+        //申请权限
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)
+    }
+
+override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {
+    when(requestCode){
+        CONTACTS_PERMISSION_CODE -&gt; {
+            if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){
+                //申请成功
+            }else{
+
+            }
+            return
+        }
+    }
+
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+</code></pre><p> }</p>
 </li>
 </ol>
 <h3 id="持续更新-2018-3-31"><a href="#持续更新-2018-3-31" class="headerlink" title="持续更新 2018-3-31"></a>持续更新 2018-3-31</h3>
@@ -693,7 +736,7 @@ inStream.close()
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">12</span></a>
+                <a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">12</span></a>
             </ul>
         </li>
         
@@ -711,7 +754,7 @@ inStream.close()
             </a>
             <ul class="dropdown-menu">
                 <li>
-                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/Java/">Java<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/开发工具/">开发工具<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/日常/">日常<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机网络/">计算机网络<span class="sidebar_archives-count">5</span></a>
+                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/Java/">Java<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/开发工具/">开发工具<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/日常/">日常<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机网络/">计算机网络<span class="sidebar_archives-count">5</span></a>
             </ul>
         </li>
         

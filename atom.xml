@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://offensiveyy.github.io/"/>
-  <updated>2018-05-01T16:25:45.000Z</updated>
+  <updated>2018-05-06T04:17:00.000Z</updated>
   <id>http://offensiveyy.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AS_替换Window终端为bash</title>
+    <link href="http://offensiveyy.github.io/2018/05/06/AS-%E6%9B%BF%E6%8D%A2Window%E7%BB%88%E7%AB%AF%E4%B8%BAbash/"/>
+    <id>http://offensiveyy.github.io/2018/05/06/AS-替换Window终端为bash/</id>
+    <published>2018-05-06T04:17:00.000Z</published>
+    <updated>2018-05-06T04:17:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>  现在，基本上Android开发使用的IDE都是Android Studio，Android Studio既美观又强大。不过，在Windows平台下，AS中使用的Terminal默认是Windows的Cmd，用着体验很不好，自动补齐都没有，使用git相关命令时，特别不方便。（Linux、Mos请无视）</p><p>  所以，今天试着将Terminal替换成<a href="https://git-scm.com/" target="_blank" rel="noopener">Git for windows</a>的bash。</p><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol><li><p>安装Git for window</p><p>到<a href="https://git-scm.com/" target="_blank" rel="noopener">官网</a>上下载，对应的版本（.exe），安装过程略。安装时记住安装路径就可以了。</p><p>默认安装路径:C:\Program Files\Git</p></li><li><p>在AS中进行修改Terminal指向bash</p><p>File-&gt; settings -&gt; Tools -&gt; Terminal</p><p>修改Shell path为Git安装目录下的\bin\bash.exe, 如图，</p><p><img src="https://i.loli.net/2018/05/06/5aee88c2d37e2.png" alt="TIM图片20180506124528.png"></p><p>关掉原来的Terminal，再启动就是bash了。</p><p><strong>Ok！搞定</strong></p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h3&gt;&lt;p&gt;  现在，基本上Android开发使用的IDE都是Android Studio，Android Studio既美观又强大。不过，在Windo
+      
+    
+    </summary>
+    
+      <category term="开发工具" scheme="http://offensiveyy.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="Android Studio" scheme="http://offensiveyy.github.io/tags/Android-Studio/"/>
+    
+      <category term="Bash" scheme="http://offensiveyy.github.io/tags/Bash/"/>
+    
+  </entry>
   
   <entry>
     <title>五一干了些啥</title>
@@ -125,7 +152,7 @@
     <published>2018-03-31T07:57:45.000Z</published>
     <updated>2018-03-31T07:57:45.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ol><li><p>Assets目录<br> Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。<br> 注：assets下可以有子目录，引入文件时url的根目录为assets。</p><pre><code>val assets = getAssetManager()val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.pngval bitmap = BitmapFactory.decodeStream(inStream)inStream.close()</code></pre></li><li><p>string.xml中字符串插值</p><blockquote><p>string.xml中，</p><p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p><p>代码中，</p><p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p></blockquote><ul><li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li><li>%d ：   表示整数</li></ul><ul><li>%f：  表示浮点数</li><li>%s  ： 表示字符串</li></ul></li></ol><ol><li><p>ListView隐藏scrollbar</p><blockquote><p>android:scrollbars=”none”</p><p>setVerticalScrollBarEnabled(true);</p></blockquote></li></ol><h3 id="持续更新-2018-3-31"><a href="#持续更新-2018-3-31" class="headerlink" title="持续更新 2018-3-31"></a>持续更新 2018-3-31</h3>]]></content>
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ol><li><p>Assets目录<br> Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。<br> 注：assets下可以有子目录，引入文件时url的根目录为assets。</p><pre><code>val assets = getAssetManager()val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.pngval bitmap = BitmapFactory.decodeStream(inStream)inStream.close()</code></pre></li><li><p>string.xml中字符串插值</p><blockquote><p>string.xml中，</p><p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p><p>代码中，</p><p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p></blockquote><ul><li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li><li>%d ：   表示整数</li></ul><ul><li>%f：  表示浮点数</li><li>%s  ： 表示字符串</li></ul></li></ol><ol><li><p>ListView隐藏scrollbar</p><blockquote><p>android:scrollbars=”none”<br>或<br>ListView#setVerticalScrollBarEnabled(true);</p></blockquote></li></ol><ol><li><p>沉浸式状态栏适配</p><p>  第三方库: <a href="https://github.com/Zackratos/UltimateBar" target="_blank" rel="noopener">UltimateBar</a></p></li></ol><ol><li><p>根据文件名，获取其资源ID</p><ul><li><p>获取状态栏高度:</p><pre><code>resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)</code></pre></li></ul></li><li><p>Android版本判断</p><pre><code>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}</code></pre></li><li><p>6.0 动态权限申请</p><pre><code>if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){        //如果没有获得该权限        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){            //如果需要向用户说明申请权限的理由            //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true        }        //申请权限        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)    }override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {    when(requestCode){        CONTACTS_PERMISSION_CODE -&gt; {            if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){                //申请成功            }else{            }            return        }    }    super.onRequestPermissionsResult(requestCode, permissions, grantResults)</code></pre><p> }</p></li></ol><h3 id="持续更新-2018-3-31"><a href="#持续更新-2018-3-31" class="headerlink" title="持续更新 2018-3-31"></a>持续更新 2018-3-31</h3>]]></content>
     
     <summary type="html">
     
@@ -305,9 +332,9 @@
       <category term="计算机网络" scheme="http://offensiveyy.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
       <category term="IP" scheme="http://offensiveyy.github.io/tags/IP/"/>
+    
+      <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -332,9 +359,9 @@
       <category term="计算机网络" scheme="http://offensiveyy.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="https" scheme="http://offensiveyy.github.io/tags/https/"/>
-    
       <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="https" scheme="http://offensiveyy.github.io/tags/https/"/>
     
   </entry>
   

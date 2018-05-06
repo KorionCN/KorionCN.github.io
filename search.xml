@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[AS_替换Window终端为bash]]></title>
+    <url>%2F2018%2F05%2F06%2FAS-%E6%9B%BF%E6%8D%A2Window%E7%BB%88%E7%AB%AF%E4%B8%BAbash%2F</url>
+    <content type="text"><![CDATA[起因 现在，基本上Android开发使用的IDE都是Android Studio，Android Studio既美观又强大。不过，在Windows平台下，AS中使用的Terminal默认是Windows的Cmd，用着体验很不好，自动补齐都没有，使用git相关命令时，特别不方便。（Linux、Mos请无视） 所以，今天试着将Terminal替换成Git for windows的bash。 步骤 安装Git for window 到官网上下载，对应的版本（.exe），安装过程略。安装时记住安装路径就可以了。 默认安装路径:C:\Program Files\Git 在AS中进行修改Terminal指向bash File-&gt; settings -&gt; Tools -&gt; Terminal 修改Shell path为Git安装目录下的\bin\bash.exe, 如图， 关掉原来的Terminal，再启动就是bash了。 Ok！搞定]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>Android Studio</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[五一干了些啥]]></title>
     <url>%2F2018%2F05%2F02%2F%E4%BA%94%E4%B8%80%E5%B9%B2%E4%BA%9B%E5%95%A5%2F</url>
     <content type="text"><![CDATA[今年的五一连同周末，只放了三天假。最近这段时间，自己一直不在状态，至于为啥不在状态，可能是因为自从拿到实习offer后，没有什么压力有关吧。另一方面，自己期待的事情也没有如愿进行，某人再也不联系我，以前天天聊得还开心，直到某天，我在找不到对方感兴趣的事情，于是慢慢就没有怎么联系了。唉！ 不过，这些都不应该成为自己变得懒散的原因吧。最近一直是一种咸鱼的状态，上课不听，看书学习不专注，出去玩也没有啥兴趣。前天晚上，和妹妹视频聊天后，她很担忧的和我说，要有活力一点。emm…，我看起来有那么负能量么？ 假期这几天，打了不少游戏，还看两部电影《环太平洋2》还有《金刚:骷髅岛》，尽管一开始就有心理准备，不过看完这两部后，还是感觉有点失望，可能是对前作评价比较高吧。具体为啥失望，我就不展开了，因为我不是专业的影评。 (其实是因为我懒，不想为了表达内心的吐槽，思考如何去表达。^_^) 昨天，在B站上了解到了《Unnatural》,是一部关于非自然死亡的日剧，剧中的主角们（法医）通过解剖死者的尸体，查明其真正的死因，揭露隐藏在死亡背后的案件真相。总体的观感挺错的，剧情不拖沓，基本上每一集都是一个独立的案件，但有不缺乏转折，第一集60分钟的剧情，就有两处大转折。另外，从开头的故事，就一直穿插着一个名为”红色金鱼”的暗线，作为故事最后的boss剧情线，好像这是日剧的惯用方式。再之，就是有的故事实际上是反映了现实。嗯~，我一向就比较喜欢这种能够反映现实同时又能引起观众的思考，或者对某些事物的关注的作品。 于是，今天，我花了一天时间把10集一口气看完了。。。嘿嘿。之前国内的热播剧《法医秦明》好像也是这类电视剧，不过我没有看过，有机会去翻出来看看。@_@ 这几天要说一点都没有学习倒也不是，好歹第一天待在实验室，看了一点书，还在LintCode上刷了几道题。（自我安慰一下Y_Y） 不过，令我感触最大的还是，了解到了有很优秀的同学，一直都很努力，也很厉害。具体多厉害，可以看看她的blog。Click Here 唉，每隔一段时间，我都会去反思后自己的所作，值得吗？时间匆匆过隙，流失的时间无法挽回，休闲过后，是该回归奋斗的主题了！Fighting！]]></content>
@@ -46,7 +58,7 @@
   <entry>
     <title><![CDATA[Android开发杂记]]></title>
     <url>%2F2018%2F03%2F31%2FAndroid%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0%2F</url>
-    <content type="text"><![CDATA[前言在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。 Android Assets目录 Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助AssetManager。使用Context.getAssetManager()可以获取实例。 注：assets下可以有子目录，引入文件时url的根目录为assets。 val assets = getAssetManager() val inStream = assets.open(&quot;img/qrcode.png&quot;) //文件路径:assets/img/qrcode.png val bitmap = BitmapFactory.decodeStream(inStream) inStream.close() string.xml中字符串插值 string.xml中， &lt;string name=”stu_name”>名字: %s&lt;/string> 代码中， tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”) %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00 %d ： 表示整数 %f： 表示浮点数 %s ： 表示字符串 ListView隐藏scrollbar android:scrollbars=”none” setVerticalScrollBarEnabled(true); 持续更新 2018-3-31]]></content>
+    <content type="text"><![CDATA[前言在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。 Android Assets目录 Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助AssetManager。使用Context.getAssetManager()可以获取实例。 注：assets下可以有子目录，引入文件时url的根目录为assets。 val assets = getAssetManager() val inStream = assets.open(&quot;img/qrcode.png&quot;) //文件路径:assets/img/qrcode.png val bitmap = BitmapFactory.decodeStream(inStream) inStream.close() string.xml中字符串插值 string.xml中， &lt;string name=”stu_name”>名字: %s&lt;/string> 代码中， tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”) %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00 %d ： 表示整数 %f： 表示浮点数 %s ： 表示字符串 ListView隐藏scrollbar android:scrollbars=”none”或ListView#setVerticalScrollBarEnabled(true); 沉浸式状态栏适配 第三方库: UltimateBar 根据文件名，获取其资源ID 获取状态栏高度: resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;) val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId) Android版本判断 if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){} 6.0 动态权限申请 if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){ //如果没有获得该权限 if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){ //如果需要向用户说明申请权限的理由 //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true } //申请权限 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE) } override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) { when(requestCode){ CONTACTS_PERMISSION_CODE -&gt; { if (grantResults[0] == PackageManager.PERMISSION_GRANTED){ //申请成功 }else{ } return } } super.onRequestPermissionsResult(requestCode, permissions, grantResults) } 持续更新 2018-3-31]]></content>
       <categories>
         <category>Android</category>
       </categories>
@@ -124,8 +136,8 @@
         <category>计算机网络</category>
       </categories>
       <tags>
-        <tag>计算机网络</tag>
         <tag>IP</tag>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
@@ -136,8 +148,8 @@
         <category>计算机网络</category>
       </categories>
       <tags>
-        <tag>https</tag>
         <tag>计算机网络</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -172,11 +184,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
     <title><![CDATA[标签云]]></title>
     <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
@@ -184,6 +191,11 @@
   <entry>
     <title><![CDATA[友情链接]]></title>
     <url>%2Flinks%2Findex.html</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[时间轴]]></title>
+    <url>%2Ftimeline%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>
