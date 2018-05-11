@@ -9,8 +9,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>开发笔记</tag>
         <tag>ContactsContract</tag>
+        <tag>开发笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -202,18 +202,13 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
     <title><![CDATA[标签云]]></title>
     <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title></title>
-    <url>%2FREADME.html</url>
-    <content type="text"><![CDATA[Introduction ths repository is the static web file of my peasional blog powered by Hexo. view my blog -&gt;]]></content>
+    <title><![CDATA[时间轴]]></title>
+    <url>%2Ftimeline%2Findex.html</url>
+    <content type="text"></content>
   </entry>
 </search>
