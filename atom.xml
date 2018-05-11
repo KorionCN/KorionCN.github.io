@@ -2,12 +2,12 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Ksxy&#39;s Blog</title>
   
-  
+  <subtitle>个人技术博客 Android开发</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://offensiveyy.github.io/"/>
+  <link href="http://korioncn.github.io/"/>
   <updated>2018-05-06T04:17:00.000Z</updated>
-  <id>http://offensiveyy.github.io/</id>
+  <id>http://korioncn.github.io/</id>
   
   <author>
     <name>空山新雨</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>AS替换Window终端为bash</title>
-    <link href="http://offensiveyy.github.io/2018/05/06/AS-%E6%9B%BF%E6%8D%A2Window%E7%BB%88%E7%AB%AF%E4%B8%BAbash/"/>
-    <id>http://offensiveyy.github.io/2018/05/06/AS-替换Window终端为bash/</id>
+    <link href="http://korioncn.github.io/2018/05/06/AS-%E6%9B%BF%E6%8D%A2Window%E7%BB%88%E7%AB%AF%E4%B8%BAbash/"/>
+    <id>http://korioncn.github.io/2018/05/06/AS-替换Window终端为bash/</id>
     <published>2018-05-06T04:17:00.000Z</published>
     <updated>2018-05-06T04:17:00.000Z</updated>
     
@@ -34,19 +34,19 @@
     
     </summary>
     
-      <category term="开发工具" scheme="http://offensiveyy.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+      <category term="开发工具" scheme="http://korioncn.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
     
-      <category term="Android Studio" scheme="http://offensiveyy.github.io/tags/Android-Studio/"/>
+      <category term="Android Studio" scheme="http://korioncn.github.io/tags/Android-Studio/"/>
     
-      <category term="Bash" scheme="http://offensiveyy.github.io/tags/Bash/"/>
+      <category term="Bash" scheme="http://korioncn.github.io/tags/Bash/"/>
     
   </entry>
   
   <entry>
     <title>五一干了些啥</title>
-    <link href="http://offensiveyy.github.io/2018/05/02/%E4%BA%94%E4%B8%80%E5%B9%B2%E4%BA%9B%E5%95%A5/"/>
-    <id>http://offensiveyy.github.io/2018/05/02/五一干些啥/</id>
+    <link href="http://korioncn.github.io/2018/05/02/%E4%BA%94%E4%B8%80%E5%B9%B2%E4%BA%9B%E5%95%A5/"/>
+    <id>http://korioncn.github.io/2018/05/02/五一干些啥/</id>
     <published>2018-05-01T16:25:45.000Z</published>
     <updated>2018-05-01T16:25:45.000Z</updated>
     
@@ -61,15 +61,15 @@
     
     </summary>
     
-      <category term="日常" scheme="http://offensiveyy.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
+      <category term="日常" scheme="http://korioncn.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
     
     
   </entry>
   
   <entry>
     <title>Git常用命令</title>
-    <link href="http://offensiveyy.github.io/2018/04/11/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
-    <id>http://offensiveyy.github.io/2018/04/11/Git常用命令/</id>
+    <link href="http://korioncn.github.io/2018/04/11/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://korioncn.github.io/2018/04/11/Git常用命令/</id>
     <published>2018-04-11T08:15:28.000Z</published>
     <updated>2018-04-11T08:15:28.000Z</updated>
     
@@ -84,17 +84,17 @@
     
     </summary>
     
-      <category term="开发工具" scheme="http://offensiveyy.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+      <category term="开发工具" scheme="http://korioncn.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
     
-      <category term="Git" scheme="http://offensiveyy.github.io/tags/Git/"/>
+      <category term="Git" scheme="http://korioncn.github.io/tags/Git/"/>
     
   </entry>
   
   <entry>
     <title>Java类加载机制</title>
-    <link href="http://offensiveyy.github.io/2018/04/07/Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
-    <id>http://offensiveyy.github.io/2018/04/07/Java类加载机制/</id>
+    <link href="http://korioncn.github.io/2018/04/07/Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
+    <id>http://korioncn.github.io/2018/04/07/Java类加载机制/</id>
     <published>2018-04-07T11:30:41.000Z</published>
     <updated>2018-04-07T11:30:41.000Z</updated>
     
@@ -109,19 +109,19 @@
     
     </summary>
     
-      <category term="Java" scheme="http://offensiveyy.github.io/categories/Java/"/>
+      <category term="Java" scheme="http://korioncn.github.io/categories/Java/"/>
     
     
-      <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+      <category term="虚拟机" scheme="http://korioncn.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
     
-      <category term="Java" scheme="http://offensiveyy.github.io/tags/Java/"/>
+      <category term="Java" scheme="http://korioncn.github.io/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>Kotlin:告别findViewById</title>
-    <link href="http://offensiveyy.github.io/2018/03/31/Kotlin%E5%91%8A%E5%88%ABfindViewById/"/>
-    <id>http://offensiveyy.github.io/2018/03/31/Kotlin告别findViewById/</id>
+    <link href="http://korioncn.github.io/2018/03/31/Kotlin%E5%91%8A%E5%88%ABfindViewById/"/>
+    <id>http://korioncn.github.io/2018/03/31/Kotlin告别findViewById/</id>
     <published>2018-03-31T08:29:55.000Z</published>
     <updated>2018-03-31T08:29:55.000Z</updated>
     
@@ -136,19 +136,19 @@
     
     </summary>
     
-      <category term="Android" scheme="http://offensiveyy.github.io/categories/Android/"/>
+      <category term="Android" scheme="http://korioncn.github.io/categories/Android/"/>
     
     
-      <category term="开发笔记" scheme="http://offensiveyy.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
+      <category term="开发笔记" scheme="http://korioncn.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
     
-      <category term="Kotlin" scheme="http://offensiveyy.github.io/tags/Kotlin/"/>
+      <category term="Kotlin" scheme="http://korioncn.github.io/tags/Kotlin/"/>
     
   </entry>
   
   <entry>
     <title>Android开发杂记</title>
-    <link href="http://offensiveyy.github.io/2018/03/31/Android%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/"/>
-    <id>http://offensiveyy.github.io/2018/03/31/Android开发杂记/</id>
+    <link href="http://korioncn.github.io/2018/03/31/Android%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/"/>
+    <id>http://korioncn.github.io/2018/03/31/Android开发杂记/</id>
     <published>2018-03-31T07:57:45.000Z</published>
     <updated>2018-05-05T07:57:45.000Z</updated>
     
@@ -164,23 +164,23 @@
     
     </summary>
     
-      <category term="Android" scheme="http://offensiveyy.github.io/categories/Android/"/>
+      <category term="Android" scheme="http://korioncn.github.io/categories/Android/"/>
     
     
-      <category term="Android" scheme="http://offensiveyy.github.io/tags/Android/"/>
+      <category term="Android" scheme="http://korioncn.github.io/tags/Android/"/>
     
-      <category term="开发笔记" scheme="http://offensiveyy.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
+      <category term="开发笔记" scheme="http://korioncn.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>Java垃圾回收</title>
-    <link href="http://offensiveyy.github.io/2018/03/30/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
-    <id>http://offensiveyy.github.io/2018/03/30/Java垃圾回收/</id>
+    <link href="http://korioncn.github.io/2018/03/30/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
+    <id>http://korioncn.github.io/2018/03/30/Java垃圾回收/</id>
     <published>2018-03-30T15:47:51.000Z</published>
     <updated>2018-03-30T15:47:51.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  关于Java虚拟机的垃圾回收机制（GC）的学习笔记。</p><h4 id="主要记录"><a href="#主要记录" class="headerlink" title="主要记录"></a>主要记录</h4><ol><li>如何确定哪些对象可以回收？</li><li>Java中的四种引用</li><li>几种垃圾回收的算法思想</li></ol><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="对象是否存活"><a href="#对象是否存活" class="headerlink" title="对象是否存活"></a>对象是否存活</h4><p>  Java中的对象实例主要存在于Java虚拟机的堆中，在垃圾收集器对堆中的实例进行回收之前，首先要确定哪些对象还可以”存活”，哪些可以回收。关于Java虚拟机的内存模型可以查看<a href="https://offensiveyy.github.io/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">该文章</a></p><h5 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1. 引用计数法"></a>1. 引用计数法</h5><p>  在刚学Java的时候就知道了这种方法，该方法和C++中的智能指针的思想差不多，给对象添加一个引用计算器，每当有一个地方引用它时，计数器的值就加1；当连接失效时，计数器减1；当计数器的值为0时，表示该该对象不存在任何引用，因此需要被回收。</p><p>  该方法比较简单，但是不能解决对象之间互相循环引用的问题。比如，A对象引用B对象，而B对象引用了A对象，除此之外，A、B对象均无其他引用，那么把A、B对象看成一个整体，则这两个对象都应该被回收，而他们的引用计数器均不为0.</p><h5 id="2-可达性分析算法"><a href="#2-可达性分析算法" class="headerlink" title="2. 可达性分析算法"></a>2. 可达性分析算法</h5><p>  在该算法中，需要从一系列称为”GCRoots”的对象开始，以这些对象为起点，分析他的引用对象，然后从他引用的对象向下分析其引用的对象，所走过的路径称为引用链（最终形成一个个连通图）。当一个对象到GCRoots没有任何引用链（从GCRoots对象不可达），则证明此对象不可用。如果学过图论，相信很容易理解。</p><p>  <strong>哪些对象属于GCRoots对象？</strong></p><blockquote><ol><li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li><li>方法区中类静态属性引用的对象</li><li>方法区中常量引用的对象</li><li>本地方法栈中Native方法引用的对象</li></ol></blockquote><h4 id="Java中的四种引用"><a href="#Java中的四种引用" class="headerlink" title="Java中的四种引用"></a>Java中的四种引用</h4><p>在JDK1.2后，Java对引用的概念进行了扩充，引入了强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）。</p><ul><li>强引用：代码间普遍存在，如”Object obj = new Object()”中的obj。只要存在强引用，对象就不会被回收。</li><li>软引用：对应Java中的SoftReference类，描述一些<strong>有用但是非必需</strong>的对象，关联的对象会在系统将要发生内存溢出异常前，列入下次回收的名单中。</li><li>弱引用：对应Java中的WeakReference类, 描述<strong>非必须</strong>的对象，关联的对象会在下次内存回收时参与回收，无论内存是否足够。</li><li>虚引用：对应Java中的PhantomReference类最弱的一种引用，一个对象是否有虚引用的存在，完全不会对其生存构成影响，也无法通过虚引用来取得一个对象实例。为一对象设置虚引用的唯一目的就是在这个对象被会回收时收到一个系统通知。</li></ul><h4 id="几种垃圾回收算法思想"><a href="#几种垃圾回收算法思想" class="headerlink" title="几种垃圾回收算法思想"></a>几种垃圾回收算法思想</h4><h5 id="1-标记-清除算法"><a href="#1-标记-清除算法" class="headerlink" title="1. 标记-清除算法"></a>1. 标记-清除算法</h5><p>  该算法包括”标记”和”清除”两个阶段：首先标记出所有需要回收的对象，在标记完后统一回收所有被标记的对象。<br>  该算法主要有两种不足：</p><ul><li>标记和清除两个过程的效率都不高；</li><li>标记清除后会产生大量不连续的内存碎片，空间碎片太多可能导致以后需要分配大对象时，无法找到足够的连续内存而不得不提前出发另一次垃圾收集动作。</li></ul><h5 id="2-复制算法"><a href="#2-复制算法" class="headerlink" title="2. 复制算法"></a>2. 复制算法</h5><p>  该算法会把内存划分为大小相等的两块，每次只使用其中的一块，当这一块内存呢用完时，就将还存活的对象复制到另一快上，然后再把已使用的内存空间一次清理掉。</p><ul><li>优点：不需要考虑内存碎片，复制时只需移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。</li><li>不足：内存缩小为原来的一半。</li></ul><p>但实际上，该算法主要用于新生代区域，而且不需要按照1:1的比分割空间。新生代的特点就是每次回收都会有大多数对象被回收，根据这个特点，可以将内存划分为一块比较大的Eden空间和两块比较小的Survivor空间（8:1:1），每次使用Eden和其中一个块Survivor。当回收时，将Eden和Survivor中还活着的对象一次性复制到另外一块Survivor空间上，最后清理掉Eden和刚才用过的Survivor空间。当Survivor空间不够用时，可以借用老年代进行分配担保。</p><h5 id="3-标记-整理算法"><a href="#3-标记-整理算法" class="headerlink" title="3.标记-整理算法"></a>3.标记-整理算法</h5><p>  该算法和标记-清除相类似，不过在标记对象后，需要将所有存活的对象都移动到一端，然后直接清除掉端边界以外的内存。<br>  由于老年代中对象的存活率比较高，所以老年代使用复制算法时需要进行的复制操作比较多，代价比较高，所以更适合标记-整理算法。</p><h5 id="4-分代收集算法"><a href="#4-分代收集算法" class="headerlink" title="4. 分代收集算法"></a>4. 分代收集算法</h5><p>  其实就是将堆划分为新生代和老年代，根据两者不同的特点使用不同的垃圾收集算法。在新生代中，每次垃圾回收都会有大批对象死去，只有少量存活，选用复制算法。而老年代中因为对象存活率高、没有额外的空间进行分配担保，必须使用“标记-清除”或者“标记-整理”算法进行回收。</p><p>  参考:《深入理解Java虚拟机》</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  关于Java虚拟机的垃圾回收机制（GC）的学习笔记。</p><h4 id="主要记录"><a href="#主要记录" class="headerlink" title="主要记录"></a>主要记录</h4><ol><li>如何确定哪些对象可以回收？</li><li>Java中的四种引用</li><li>几种垃圾回收的算法思想</li></ol><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="对象是否存活"><a href="#对象是否存活" class="headerlink" title="对象是否存活"></a>对象是否存活</h4><p>  Java中的对象实例主要存在于Java虚拟机的堆中，在垃圾收集器对堆中的实例进行回收之前，首先要确定哪些对象还可以”存活”，哪些可以回收。关于Java虚拟机的内存模型可以查看<a href="https://offensiveyy.github.io/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener">该文章</a></p><h5 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1. 引用计数法"></a>1. 引用计数法</h5><p>  在刚学Java的时候就知道了这种方法，该方法和C++中的智能指针的思想差不多，给对象添加一个引用计算器，每当有一个地方引用它时，计数器的值就加1；当连接失效时，计数器减1；当计数器的值为0时，表示该该对象不存在任何引用，因此需要被回收。</p><p>  该方法比较简单，但是不能解决对象之间互相循环引用的问题。比如，A对象引用B对象，而B对象引用了A对象，除此之外，A、B对象均无其他引用，那么把A、B对象看成一个整体，则这两个对象都应该被回收，而他们的引用计数器均不为0.</p><h5 id="2-可达性分析算法"><a href="#2-可达性分析算法" class="headerlink" title="2. 可达性分析算法"></a>2. 可达性分析算法</h5><p>  在该算法中，需要从一系列称为”GCRoots”的对象开始，以这些对象为起点，分析他的引用对象，然后从他引用的对象向下分析其引用的对象，所走过的路径称为引用链（最终形成一个个连通图）。当一个对象到GCRoots没有任何引用链（从GCRoots对象不可达），则证明此对象不可用。如果学过图论，相信很容易理解。</p><p>  <strong>哪些对象属于GCRoots对象？</strong></p><blockquote><ol><li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li><li>方法区中类静态属性引用的对象</li><li>方法区中常量引用的对象</li><li>本地方法栈中Native方法引用的对象</li></ol></blockquote><h4 id="Java中的四种引用"><a href="#Java中的四种引用" class="headerlink" title="Java中的四种引用"></a>Java中的四种引用</h4><p>在JDK1.2后，Java对引用的概念进行了扩充，引入了强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）。</p><ul><li>强引用：代码间普遍存在，如”Object obj = new Object()”中的obj。只要存在强引用，对象就不会被回收。</li><li>软引用：对应Java中的SoftReference类，描述一些<strong>有用但是非必需</strong>的对象，关联的对象会在系统将要发生内存溢出异常前，列入下次回收的名单中。</li><li>弱引用：对应Java中的WeakReference类, 描述<strong>非必须</strong>的对象，关联的对象会在下次内存回收时参与回收，无论内存是否足够。</li><li>虚引用：对应Java中的PhantomReference类最弱的一种引用，一个对象是否有虚引用的存在，完全不会对其生存构成影响，也无法通过虚引用来取得一个对象实例。为一对象设置虚引用的唯一目的就是在这个对象被会回收时收到一个系统通知。</li></ul><h4 id="几种垃圾回收算法思想"><a href="#几种垃圾回收算法思想" class="headerlink" title="几种垃圾回收算法思想"></a>几种垃圾回收算法思想</h4><h5 id="1-标记-清除算法"><a href="#1-标记-清除算法" class="headerlink" title="1. 标记-清除算法"></a>1. 标记-清除算法</h5><p>  该算法包括”标记”和”清除”两个阶段：首先标记出所有需要回收的对象，在标记完后统一回收所有被标记的对象。<br>  该算法主要有两种不足：</p><ul><li>标记和清除两个过程的效率都不高；</li><li>标记清除后会产生大量不连续的内存碎片，空间碎片太多可能导致以后需要分配大对象时，无法找到足够的连续内存而不得不提前出发另一次垃圾收集动作。</li></ul><h5 id="2-复制算法"><a href="#2-复制算法" class="headerlink" title="2. 复制算法"></a>2. 复制算法</h5><p>  该算法会把内存划分为大小相等的两块，每次只使用其中的一块，当这一块内存呢用完时，就将还存活的对象复制到另一快上，然后再把已使用的内存空间一次清理掉。</p><ul><li>优点：不需要考虑内存碎片，复制时只需移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。</li><li>不足：内存缩小为原来的一半。</li></ul><p>但实际上，该算法主要用于新生代区域，而且不需要按照1:1的比分割空间。新生代的特点就是每次回收都会有大多数对象被回收，根据这个特点，可以将内存划分为一块比较大的Eden空间和两块比较小的Survivor空间（8:1:1），每次使用Eden和其中一个块Survivor。当回收时，将Eden和Survivor中还活着的对象一次性复制到另外一块Survivor空间上，最后清理掉Eden和刚才用过的Survivor空间。当Survivor空间不够用时，可以借用老年代进行分配担保。</p><h5 id="3-标记-整理算法"><a href="#3-标记-整理算法" class="headerlink" title="3.标记-整理算法"></a>3.标记-整理算法</h5><p>  该算法和标记-清除相类似，不过在标记对象后，需要将所有存活的对象都移动到一端，然后直接清除掉端边界以外的内存。<br>  由于老年代中对象的存活率比较高，所以老年代使用复制算法时需要进行的复制操作比较多，代价比较高，所以更适合标记-整理算法。</p><h5 id="4-分代收集算法"><a href="#4-分代收集算法" class="headerlink" title="4. 分代收集算法"></a>4. 分代收集算法</h5><p>  其实就是将堆划分为新生代和老年代，根据两者不同的特点使用不同的垃圾收集算法。在新生代中，每次垃圾回收都会有大批对象死去，只有少量存活，选用复制算法。而老年代中因为对象存活率高、没有额外的空间进行分配担保，必须使用“标记-清除”或者“标记-整理”算法进行回收。</p><p>  参考:《深入理解Java虚拟机》</p>]]></content>
     
     <summary type="html">
     
@@ -192,19 +192,19 @@
     
     </summary>
     
-      <category term="Java" scheme="http://offensiveyy.github.io/categories/Java/"/>
+      <category term="Java" scheme="http://korioncn.github.io/categories/Java/"/>
     
     
-      <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+      <category term="Java GC" scheme="http://korioncn.github.io/tags/Java-GC/"/>
     
-      <category term="Java GC" scheme="http://offensiveyy.github.io/tags/Java-GC/"/>
+      <category term="虚拟机" scheme="http://korioncn.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
     
   </entry>
   
   <entry>
     <title>Java虚拟机内存模型</title>
-    <link href="http://offensiveyy.github.io/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
-    <id>http://offensiveyy.github.io/2018/03/30/Java虚拟机内存模型/</id>
+    <link href="http://korioncn.github.io/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
+    <id>http://korioncn.github.io/2018/03/30/Java虚拟机内存模型/</id>
     <published>2018-03-30T11:59:21.000Z</published>
     <updated>2018-03-30T11:59:21.000Z</updated>
     
@@ -219,23 +219,23 @@
     
     </summary>
     
-      <category term="Java" scheme="http://offensiveyy.github.io/categories/Java/"/>
+      <category term="Java" scheme="http://korioncn.github.io/categories/Java/"/>
     
     
-      <category term="内存模型" scheme="http://offensiveyy.github.io/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
+      <category term="虚拟机" scheme="http://korioncn.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
     
-      <category term="虚拟机" scheme="http://offensiveyy.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+      <category term="内存模型" scheme="http://korioncn.github.io/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
     
   </entry>
   
   <entry>
     <title>图解Activity/Fragment生命周期</title>
-    <link href="http://offensiveyy.github.io/2018/03/13/Android-Activity-Fragment%E8%B6%85%E8%AF%A6%E7%BB%86%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
-    <id>http://offensiveyy.github.io/2018/03/13/Android-Activity-Fragment超详细生命周期/</id>
+    <link href="http://korioncn.github.io/2018/03/13/Android-Activity-Fragment%E8%B6%85%E8%AF%A6%E7%BB%86%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
+    <id>http://korioncn.github.io/2018/03/13/Android-Activity-Fragment超详细生命周期/</id>
     <published>2018-03-13T06:02:14.000Z</published>
     <updated>2018-03-13T06:02:14.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>关于Activity和Fragment的生命周期，是每个Android开发者必须熟悉掌握的，最近在网上发现了一张超详细的关于这两者生命周期的图, 于是结合自己的理解进行了学习。</p><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>先上图，<a href="https://github.com/xxv/android-lifecycle" target="_blank" rel="noopener">来源</a><br><img src="https://i.loli.net/2018/03/13/5aa76bdd4d05c.png" alt="complete_android_fragment_lifecycle.png"></p><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol><li><p>经典的生命周期就赘述。从整个生命周期来说，onCreate和onDestroy是配对出现，分别在Activity创建与销毁时执行一次；onStart和onStop分别标识是否可见，可被多次调用；onResume和onPause分别标识是否在前台，同样可被多次调用。这里需要注意的是onPause，在从当前Activity启动另一个Activity时会，先调用当前Activity的onPause，然后才调用新启动的Activity的onCreate，当完成新Activity的启动后，才调用原来的Activity的Stop(),为了不造成启动卡顿，不能再onPause中做耗时的操作。</p></li><li><p>onSaveInstanceState()与onReStoreInstanceState()</p><p>这两个方法都不属于Activity的正常生命周期，也不保证一定会被调用。onSaveIntanceState()只有Activity”容易”被销毁时（比如内存不足可能被销毁），才会被调用；当Activity被重建时，系统会调用onRestoreInstanceState()来恢复已经保存的视图。</p><blockquote><p>《阿里Android开发手册》第三章第2条:</p><p>【推荐】Activity#onSaveInstanceState()方法不是 Activity 生命周期方法，也不保证<br>一定会被调用。它是用来在 Activity 被意外销毁时保存 UI 状态的，只能用于保存临<br>时性数据，例如 UI 控件的属性等，不能跟数据的持久化存储混为一谈。持久化存储<br>应该在 Activity#onPause()/onStop()中实行。</p></blockquote><p><a href="https://www.jianshu.com/p/89e0a7533dbe" target="_blank" rel="noopener">关于onSaveInstanceState的调用时机</a></p></li><li><p>onPostCreate()、onPostResume()</p><p>onPostCreate()在调用onStart() 和onRestoreInstanceState(Bundle)后调用，这意味着这时候大多数初始工作已经完成，而又还没有完全显示出来。有时候我需要在获取某个View的大小，在OnCreate中获取时，View还没有来得及测量，大小为0，所以我们可以在该方法中获取。onPostResume()也可以干类似的事情。</p></li><li><p>onContentChanged()</p><p>onContentChanged()是Activity中的一个回调方法，当Activity的布局改动即setContentView()或者addContentView()方法执行完毕时就会调用该方法。</p></li><li><p>onAttachedToWindow()</p><p>onAttachedToWindow是在第一次onDraw前调用的。也就是我们写的View在没有绘制出来时调用的，但只会调用一次。</p></li><li><p>onUserInteraction() ，onUserLeaveHint()</p><p>这两个同样不是Activity的正常生命周期函数。根据官方的介绍，onUserInteraction(),当Activity发生任何按触碰事件，就会调用，主要用来监视用户是否在与当前Activity进行交互。onUserLeaveHint(),用户离开当前Activity，比如按Home，Activity进入后台时调用,在调用onUserLeaveHint之前，会调用onUserInteraction。</p><p><strong>另外</strong>,如果使用FragmentActivity(AppCompatActivity继承于FragmentActivity),z则还要注意以下两个回调：</p></li><li><p>onResumeFragments</p><p>该函数在onResume之后进行调用，官方文档里面介绍，Fragment的onResume将分发给onResumeFragments，而经过我的测试，在Activity onRsume的时候，Fragment也会调用onRsume，但在Activity#onRsume中，你无法肯定Fragment已经完全resumed，如果在onResume调用FragmentTransactions#commit，可能导致<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0616/3050.html" target="_blank" rel="noopener">状态丢失</a>, 但onResumeFragments是在Fragment的onResume之后调用。</p><blockquote><p>《阿里Android开发手册》第三章第7条:</p><p>【 推 荐 】 添 加 Fragment 时 ， 确 保 FragmentTransaction#commit() 在<br>Activity#onPostResume()或者 FragmentActivity#onResumeFragments()内调用。<br>不要随意使用 FragmentTransaction#commitAllowingStateLoss()来代替，任何<br>commitAllowingStateLoss()的使用必须经过 code review，确保无负面影响。</p></blockquote></li><li><p>onAttachFragment</p><p>每当Fragment调用onAttach后调用该方法, 如果Fragment尚未调用onCreate，会在Fragment#onCreate前调用。</p></li></ol><p>关于Activity/Fragment的生命周期，我写了个Demo：<a href="https://gitee.com/ksxy/ActivityLifeCycleAnalysisDemo" target="_blank" rel="noopener">这里</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>关于Activity和Fragment的生命周期，是每个Android开发者必须熟悉掌握的，最近在网上发现了一张超详细的关于这两者生命周期的图, 于是结合自己的理解进行了学习。</p><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>先上图，<a href="https://github.com/xxv/android-lifecycle" target="_blank" rel="noopener">来源</a><br><img src="https://i.loli.net/2018/03/13/5aa76bdd4d05c.png" alt="complete_android_fragment_lifecycle.png"></p><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol><li><p>经典的生命周期就赘述。从整个生命周期来说，onCreate和onDestroy是配对出现，分别在Activity创建与销毁时执行一次；onStart和onStop分别标识是否可见，可被多次调用；onResume和onPause分别标识是否在前台，同样可被多次调用。这里需要注意的是onPause，在从当前Activity启动另一个Activity时会，先调用当前Activity的onPause，然后才调用新启动的Activity的onCreate，当完成新Activity的启动后，才调用原来的Activity的Stop(),为了不造成启动卡顿，不能再onPause中做耗时的操作。</p></li><li><p>onSaveInstanceState()与onReStoreInstanceState()</p><p>这两个方法都不属于Activity的正常生命周期，也不保证一定会被调用。onSaveIntanceState()只有Activity”容易”被销毁时（比如内存不足可能被销毁），才会被调用；当Activity被重建时，系统会调用onRestoreInstanceState()来恢复已经保存的视图。</p><blockquote><p>《阿里Android开发手册》第三章第2条:</p><p>【推荐】Activity#onSaveInstanceState()方法不是 Activity 生命周期方法，也不保证<br>一定会被调用。它是用来在 Activity 被意外销毁时保存 UI 状态的，只能用于保存临<br>时性数据，例如 UI 控件的属性等，不能跟数据的持久化存储混为一谈。持久化存储<br>应该在 Activity#onPause()/onStop()中实行。</p></blockquote><p><a href="https://www.jianshu.com/p/89e0a7533dbe" target="_blank" rel="noopener">关于onSaveInstanceState的调用时机</a></p></li><li><p>onPostCreate()、onPostResume()</p><p>onPostCreate()在调用onStart() 和onRestoreInstanceState(Bundle)后调用，这意味着这时候大多数初始工作已经完成，而又还没有完全显示出来。有时候我需要在获取某个View的大小，在OnCreate中获取时，View还没有来得及测量，大小为0，所以我们可以在该方法中获取。onPostResume()也可以干类似的事情。</p></li><li><p>onContentChanged()</p><p>onContentChanged()是Activity中的一个回调方法，当Activity的布局改动即setContentView()或者addContentView()方法执行完毕时就会调用该方法。</p></li><li><p>onAttachedToWindow()</p><p>onAttachedToWindow是在第一次onDraw前调用的。也就是我们写的View在没有绘制出来时调用的，但只会调用一次。</p></li><li><p>onUserInteraction() ，onUserLeaveHint()</p><p>这两个同样不是Activity的正常生命周期函数。根据官方的介绍，onUserInteraction(),当Activity发生任何按触碰事件，就会调用，主要用来监视用户是否在与当前Activity进行交互。onUserLeaveHint(),用户离开当前Activity，比如按Home，Activity进入后台时调用,在调用onUserLeaveHint之前，会调用onUserInteraction。</p><p><strong>另外</strong>,如果使用FragmentActivity(AppCompatActivity继承于FragmentActivity),则还要注意以下两个回调：</p></li><li><p>onResumeFragments</p><p>该函数在onResume之后进行调用，官方文档里面介绍，FragmentActivity的onResume将分发给onResumeFragments，而经过我的测试，在Activity onRsume的时候，Fragment也会调用onRsume，但在Activity#onRsume中，你无法肯定Fragment已经完全resumed，如果在onResume调用FragmentTransactions#commit，可能导致<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0616/3050.html" target="_blank" rel="noopener">状态丢失</a>, 但onResumeFragments是在Fragment的onResume之后调用。</p><blockquote><p>《阿里Android开发手册》第三章第7条:</p><p>【 推 荐 】 添 加 Fragment 时 ， 确 保 FragmentTransaction#commit() 在<br>Activity#onPostResume()或者 FragmentActivity#onResumeFragments()内调用。<br>不要随意使用 FragmentTransaction#commitAllowingStateLoss()来代替，任何<br>commitAllowingStateLoss()的使用必须经过 code review，确保无负面影响。</p></blockquote></li><li><p>onAttachFragment</p><p>每当Fragment调用onAttach后调用该方法, 如果Fragment尚未调用onCreate，会在Fragment#onCreate前调用。</p></li></ol><p>关于Activity/Fragment的生命周期，我写了个Demo：<a href="https://gitee.com/ksxy/ActivityLifeCycleAnalysisDemo" target="_blank" rel="noopener">这里</a></p>]]></content>
     
     <summary type="html">
     
@@ -246,21 +246,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://offensiveyy.github.io/categories/Android/"/>
+      <category term="Android" scheme="http://korioncn.github.io/categories/Android/"/>
     
     
-      <category term="Android" scheme="http://offensiveyy.github.io/tags/Android/"/>
+      <category term="Android" scheme="http://korioncn.github.io/tags/Android/"/>
     
-      <category term="Activity" scheme="http://offensiveyy.github.io/tags/Activity/"/>
+      <category term="Activity" scheme="http://korioncn.github.io/tags/Activity/"/>
     
-      <category term="Fragment" scheme="http://offensiveyy.github.io/tags/Fragment/"/>
+      <category term="Fragment" scheme="http://korioncn.github.io/tags/Fragment/"/>
     
   </entry>
   
   <entry>
     <title>网络笔记之详解TCP（一）</title>
-    <link href="http://offensiveyy.github.io/2018/03/12/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>http://offensiveyy.github.io/2018/03/12/网络笔记之详解TCP（一）/</id>
+    <link href="http://korioncn.github.io/2018/03/12/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://korioncn.github.io/2018/03/12/网络笔记之详解TCP（一）/</id>
     <published>2018-03-12T13:43:52.000Z</published>
     <updated>2018-03-12T13:43:52.000Z</updated>
     
@@ -275,19 +275,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://korioncn.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-      <category term="TCP" scheme="http://offensiveyy.github.io/tags/TCP/"/>
+      <category term="TCP" scheme="http://korioncn.github.io/tags/TCP/"/>
     
   </entry>
   
   <entry>
     <title>网络笔记之浅谈UDP</title>
-    <link href="http://offensiveyy.github.io/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B5%85%E8%B0%88UDP/"/>
-    <id>http://offensiveyy.github.io/2018/03/11/网络笔记之浅谈UDP/</id>
+    <link href="http://korioncn.github.io/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B5%85%E8%B0%88UDP/"/>
+    <id>http://korioncn.github.io/2018/03/11/网络笔记之浅谈UDP/</id>
     <published>2018-03-11T12:25:29.000Z</published>
     <updated>2018-03-11T12:25:29.000Z</updated>
     
@@ -302,19 +302,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://korioncn.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-      <category term="UDP" scheme="http://offensiveyy.github.io/tags/UDP/"/>
+      <category term="UDP" scheme="http://korioncn.github.io/tags/UDP/"/>
     
   </entry>
   
   <entry>
     <title>网络笔记之IP报文首部</title>
-    <link href="http://offensiveyy.github.io/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8BIP%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8/"/>
-    <id>http://offensiveyy.github.io/2018/03/11/网络笔记之IP报文首部/</id>
+    <link href="http://korioncn.github.io/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8BIP%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8/"/>
+    <id>http://korioncn.github.io/2018/03/11/网络笔记之IP报文首部/</id>
     <published>2018-03-11T06:36:04.000Z</published>
     <updated>2018-03-11T06:36:04.000Z</updated>
     
@@ -329,19 +329,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://korioncn.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-      <category term="IP" scheme="http://offensiveyy.github.io/tags/IP/"/>
+      <category term="IP" scheme="http://korioncn.github.io/tags/IP/"/>
     
   </entry>
   
   <entry>
     <title>Https之SSL/TLS握手</title>
-    <link href="http://offensiveyy.github.io/2018/03/10/Https%E4%B9%8BSSL-TSL%E6%8F%A1%E6%89%8B/"/>
-    <id>http://offensiveyy.github.io/2018/03/10/Https之SSL-TSL握手/</id>
+    <link href="http://korioncn.github.io/2018/03/10/Https%E4%B9%8BSSL-TSL%E6%8F%A1%E6%89%8B/"/>
+    <id>http://korioncn.github.io/2018/03/10/Https之SSL-TSL握手/</id>
     <published>2018-03-10T13:02:48.000Z</published>
     <updated>2018-03-18T03:06:47.621Z</updated>
     
@@ -356,19 +356,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="https" scheme="http://offensiveyy.github.io/tags/https/"/>
+      <category term="https" scheme="http://korioncn.github.io/tags/https/"/>
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://korioncn.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
   <entry>
     <title>记我对Socket的误解</title>
-    <link href="http://offensiveyy.github.io/2018/03/10/%E8%AE%B0%E6%88%91%E5%AF%B9Socket%E7%9A%84%E8%AF%AF%E8%A7%A3/"/>
-    <id>http://offensiveyy.github.io/2018/03/10/记我对Socket的误解/</id>
+    <link href="http://korioncn.github.io/2018/03/10/%E8%AE%B0%E6%88%91%E5%AF%B9Socket%E7%9A%84%E8%AF%AF%E8%A7%A3/"/>
+    <id>http://korioncn.github.io/2018/03/10/记我对Socket的误解/</id>
     <published>2018-03-10T05:35:43.000Z</published>
     <updated>2018-03-10T07:24:00.233Z</updated>
     
@@ -383,19 +383,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://offensiveyy.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="Socket" scheme="http://offensiveyy.github.io/tags/Socket/"/>
+      <category term="Socket" scheme="http://korioncn.github.io/tags/Socket/"/>
     
-      <category term="网络编程" scheme="http://offensiveyy.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+      <category term="网络编程" scheme="http://korioncn.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
   <entry>
     <title>Android知识体系脑图</title>
-    <link href="http://offensiveyy.github.io/2018/03/09/Android%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/"/>
-    <id>http://offensiveyy.github.io/2018/03/09/Android知识体系/</id>
+    <link href="http://korioncn.github.io/2018/03/09/Android%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/"/>
+    <id>http://korioncn.github.io/2018/03/09/Android知识体系/</id>
     <published>2018-03-09T08:40:31.000Z</published>
     <updated>2018-03-09T14:19:28.530Z</updated>
     
@@ -410,17 +410,17 @@
     
     </summary>
     
-      <category term="Android" scheme="http://offensiveyy.github.io/categories/Android/"/>
+      <category term="Android" scheme="http://korioncn.github.io/categories/Android/"/>
     
     
-      <category term="Android" scheme="http://offensiveyy.github.io/tags/Android/"/>
+      <category term="Android" scheme="http://korioncn.github.io/tags/Android/"/>
     
   </entry>
   
   <entry>
     <title>关于</title>
-    <link href="http://offensiveyy.github.io/2018/03/06/%E5%85%B3%E4%BA%8E/"/>
-    <id>http://offensiveyy.github.io/2018/03/06/关于/</id>
+    <link href="http://korioncn.github.io/2018/03/06/%E5%85%B3%E4%BA%8E/"/>
+    <id>http://korioncn.github.io/2018/03/06/关于/</id>
     <published>2018-03-06T15:47:26.000Z</published>
     <updated>2018-03-11T16:00:00.000Z</updated>
     
@@ -435,7 +435,7 @@
     
     </summary>
     
-      <category term="日常" scheme="http://offensiveyy.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
+      <category term="日常" scheme="http://korioncn.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
     
     
   </entry>
