@@ -534,8 +534,9 @@
 </blockquote>
 <p>于是一直认为<del>Socket其实就是在封装了TCP协议的实现</del>。</p>
 <p>PS：在Java的API中，Socket类确实就是封装TCP协议的实现。</p>
-<h2 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h2><p>关于Socket的这个误解一直伴随着我到网络编程的课程上，上课使用的编程语言是C#。在C#中创建一个Socket对象如下，<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Socket socket = <span class="keyword">new</span> Socket(AddressFamily.InterNetwork, SocketType.<span class="built_in">Stream</span>, ProtocolType.IP);</span><br></pre></td></tr></table></figure></p>
-<p>该构造函数的参数含义：</p>
+<h2 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h2><p>关于Socket的这个误解一直伴随着我到网络编程的课程上，上课使用的编程语言是C#。在C#中创建一个Socket对象如下，</p>
+<pre><code>  Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+</code></pre><p>该构造函数的参数含义：</p>
 <p>第一参数定义了该Socket支持的协议族，AddressFamily.InterNetwork表示IPv4；</p>
 <p>第二参数定义了该Socket的类型，SocketType.Stream表示TCP，此外还有Dgram(UDP)、Raw、Rdm、Seqpacket。</p>
 <p>第三参数定义了该Socket支持协议，主要有IP、Tcp、Udp、Icmp、Ggp等。</p>
@@ -580,7 +581,7 @@
 <script>
     var gitalk = new Gitalk({
             clientID: '75bcf2914933be136252',
-            clientSecret: '491c7624f23dc52c60b611dfc1786011dd8fe346',
+            clientSecret: '762aeb1682f06b3493ee44c9c833c4a7324a9e50',
             repo: 'KoroinCN.github.io',
             owner: 'KoroinCN',
             admin: ['KoroinCN'],

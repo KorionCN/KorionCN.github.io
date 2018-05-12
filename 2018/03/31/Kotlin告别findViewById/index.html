@@ -526,22 +526,22 @@
 <p>import kotlinx.android.synthetic.main.&lt;layout>.*</p>
 </blockquote>
 <p>&lt;layout>为布局文件名。比如</p>
-<pre><code>//MainActivity.kt
-import kotlinx.android.synthetic.main.activity_main.*
+<pre><code> //MainActivity.kt
+ import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-  super.onCreate(savedInstanceState)
-  setContentView(R.layout.activity_main)
-  tv_name.text = &quot;Ksxy&quot;
-  }
-}
+ class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+   super.onCreate(savedInstanceState)
+   setContentView(R.layout.activity_main)
+   tv_name.text = &quot;Ksxy&quot;
+   }
+ }
 
-//activity_main.xml
-&lt;TextView
-android:id=&quot;@+id/tv_name&quot;
-android:layout_width=&quot;wrap_content&quot;
-android:layout_height=&quot;wrap_content&quot;/&gt;
+ //activity_main.xml
+ &lt;TextView
+ android:id=&quot;@+id/tv_name&quot;
+ android:layout_width=&quot;wrap_content&quot;
+ android:layout_height=&quot;wrap_content&quot;/&gt;
 </code></pre></li>
 </ol>
 
@@ -569,7 +569,7 @@ android:layout_height=&quot;wrap_content&quot;/&gt;
 <script>
     var gitalk = new Gitalk({
             clientID: '75bcf2914933be136252',
-            clientSecret: '491c7624f23dc52c60b611dfc1786011dd8fe346',
+            clientSecret: '762aeb1682f06b3493ee44c9c833c4a7324a9e50',
             repo: 'KoroinCN.github.io',
             owner: 'KoroinCN',
             admin: ['KoroinCN'],
