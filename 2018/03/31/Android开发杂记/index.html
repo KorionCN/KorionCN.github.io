@@ -21,6 +21,8 @@
     <!-- dns prefetch -->
     <meta http-equiv="x-dns-prefetch-control" content="on">
 
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source"/>
+
 
 
 
@@ -77,8 +79,8 @@
 
     <!-- Import CSS -->
     
-        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
-        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/material.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/style.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
 
         
 
@@ -202,14 +204,14 @@
 <!-- Import Material Icons -->
 
 
-    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","/css/material-icons.css?pqhB/Rd/ab0H2+kZp0RDmw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/material-icons.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
 
 
 
 
     <!-- Import jQuery -->
     
-        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==", true)</script>
+        <script>lsloader.load("jq_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/jquery.min.js", true)</script>
     
 
     <!-- WebAPP Icons -->
@@ -289,6 +291,14 @@
     
 
     <!-- Analytics -->
+    
+        <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-119115192-1', 'auto');ga('send', 'pageview');
+</script>
     
     
     
@@ -503,36 +513,39 @@
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
         <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p>
-<h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><h4 id="Assets目录"><a href="#Assets目录" class="headerlink" title="Assets目录"></a>Assets目录</h4><pre><code>Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助**AssetManager**。使用Context.getAssetManager()可以获取实例。
-注：assets下可以有子目录，引入文件时url的根目录为assets。
-
-    val assets = getAssetManager()
-    val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.png
-    val bitmap = BitmapFactory.decodeStream(inStream)
-    inStream.close()
-</code></pre><h4 id="string-xml中字符串插值"><a href="#string-xml中字符串插值" class="headerlink" title="string.xml中字符串插值"></a>string.xml中字符串插值</h4><pre><code>&gt; string.xml中，
-&gt;
-&gt;    &lt;string name=&quot;stu_name&quot;\&gt;名字: %s&lt;/string\&gt;
-&gt;
-&gt; 代码中，
-&gt;
-&gt; tv_name.text = String.format(getResource().getString(R.string.stu_name), &quot;Mr.chen&quot;)
-
-* %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格
-* %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格
-* %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00
-* %d ：   表示整数
-- %f：  表示浮点数
-- %s  ： 表示字符串
-</code></pre><h4 id="ListView隐藏scrollbar"><a href="#ListView隐藏scrollbar" class="headerlink" title="ListView隐藏scrollbar"></a>ListView隐藏scrollbar</h4><pre><code>&gt; android:scrollbars=&quot;none&quot;
-&gt; 或
-&gt; ListView#setVerticalScrollBarEnabled(true);
-</code></pre><h4 id="沉浸式状态栏适配"><a href="#沉浸式状态栏适配" class="headerlink" title="沉浸式状态栏适配"></a>沉浸式状态栏适配</h4><pre><code>第三方库: [UltimateBar](https://github.com/Zackratos/UltimateBar)
-</code></pre><h4 id="根据文件名，获取其资源ID"><a href="#根据文件名，获取其资源ID" class="headerlink" title="根据文件名，获取其资源ID"></a>根据文件名，获取其资源ID</h4><pre><code>* 获取状态栏高度:
-
-        resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)
-        val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)
-</code></pre><h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}
+<h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><h4 id="Assets目录"><a href="#Assets目录" class="headerlink" title="Assets目录"></a>Assets目录</h4><p>Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。</p>
+<p>注：assets下可以有子目录，引入文件时url的根目录为assets。</p>
+<pre><code>val assets = getAssetManager()
+val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.png
+val bitmap = BitmapFactory.decodeStream(inStream)
+inStream.close()
+</code></pre><h4 id="string-xml中字符串插值"><a href="#string-xml中字符串插值" class="headerlink" title="string.xml中字符串插值"></a>string.xml中字符串插值</h4><blockquote>
+<p>string.xml中，</p>
+<p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p>
+<p>代码中，</p>
+<p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p>
+</blockquote>
+<ul>
+<li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li>
+<li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li>
+<li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li>
+<li>%d ：   表示整数<ul>
+<li>%f：  表示浮点数</li>
+<li>%s  ： 表示字符串</li>
+</ul>
+</li>
+</ul>
+<h4 id="ListView隐藏scrollbar"><a href="#ListView隐藏scrollbar" class="headerlink" title="ListView隐藏scrollbar"></a>ListView隐藏scrollbar</h4><blockquote>
+<p>android:scrollbars=”none”<br>或<br>ListView#setVerticalScrollBarEnabled(true);</p>
+</blockquote>
+<h4 id="沉浸式状态栏适配"><a href="#沉浸式状态栏适配" class="headerlink" title="沉浸式状态栏适配"></a>沉浸式状态栏适配</h4><p>第三方库: <a href="https://github.com/Zackratos/UltimateBar" target="_blank" rel="noopener">UltimateBar</a></p>
+<h4 id="根据文件名，获取其资源ID"><a href="#根据文件名，获取其资源ID" class="headerlink" title="根据文件名，获取其资源ID"></a>根据文件名，获取其资源ID</h4><ul>
+<li><p>获取状态栏高度:</p>
+<pre><code>resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)
+val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)
+</code></pre></li>
+</ul>
+<h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}
 </code></pre><h4 id="6-0-动态权限申请"><a href="#6-0-动态权限申请" class="headerlink" title="6.0 动态权限申请"></a>6.0 动态权限申请</h4><ul>
 <li><p>危险权限</p>
 <p>  <a href="https://developer.android.com/guide/topics/security/permissions?hl=zh-CN#normal-dangerous" target="_blank" rel="noopener">官方相关文档</a></p>
@@ -918,15 +931,15 @@ It will not impact the appearance and can give developers a lot of support :)
 
                     <!-- Import JS File -->
 
-    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==", true)</script>
+    <script>lsloader.load("lazyload_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/lazyload.min.js", true)</script>
 
 
 
-    <script>lsloader.load("js_js","/js/js.min.js?V/53wGualMuiPM3xoetD5Q==", true)</script>
+    <script>lsloader.load("js_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/js.min.js", true)</script>
 
 
 
-    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==", true)</script>
+    <script>lsloader.load("np_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/nprogress.js", true)</script>
 
 
 <script type="text/ls-javascript" id="NProgress-script">
@@ -976,6 +989,10 @@ It will not impact the appearance and can give developers a lot of support :)
 <!-- Import prettify js  -->
 
 
+    
+        <script>lsloader.load("hanabi","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/hanabi-browser-bundle.js", true)</script>
+    
+
 
 <!-- Window Load -->
 <!-- add class for prettify -->
@@ -986,6 +1003,10 @@ It will not impact the appearance and can give developers a lot of support :)
     });
 
     
+    
+        
+        
+        HanabiBrowser.start('pre code',false);
     
 </script>
 
