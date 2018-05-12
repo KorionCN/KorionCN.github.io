@@ -5,9 +5,9 @@
   <subtitle>个人技术博客 Android开发</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://korioncn.github.io/"/>
+  <link href="http://www.korion.cn/"/>
   <updated>2018-05-10T08:23:54.000Z</updated>
-  <id>http://korioncn.github.io/</id>
+  <id>http://www.korion.cn/</id>
   
   <author>
     <name>空山新雨</name>
@@ -18,12 +18,12 @@
   
   <entry>
     <title>Android:获取联系人信息</title>
-    <link href="http://korioncn.github.io/2018/05/10/Android-%E8%8E%B7%E5%8F%96%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BF%A1%E6%81%AF/"/>
-    <id>http://korioncn.github.io/2018/05/10/Android-获取联系人信息/</id>
+    <link href="http://www.korion.cn/2018/05/10/Android-%E8%8E%B7%E5%8F%96%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BF%A1%E6%81%AF/"/>
+    <id>http://www.korion.cn/2018/05/10/Android-获取联系人信息/</id>
     <published>2018-05-10T08:23:54.000Z</published>
     <updated>2018-05-10T08:23:54.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>  Android如何获取通讯录中联系人的信息?</p><h3 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h3><ul><li>ContactsContract</li><li>ContentResolver</li><li>动态权限申请</li><li>一点SQL语法基础</li></ul><h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><p>  在Android中获取通讯录联系人信息其实比较简单，只要通过ContentResolver来查询相关URI的数据库表就可以了。</p><p>  Android 将我们的联系人信息存储在三张表中，</p><ul><li><p>ContactsContract.Contacts</p><p>每一行表示通讯录中的一个联系人。</p></li><li><p>ContactsContract.RawContacts</p><p>每一行表示每个联系人</p></li><li>ContactsContract.Data</li></ul><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://developer.android.com/guide/topics/providers/contacts-provider" target="_blank" rel="noopener">https://developer.android.com/guide/topics/providers/contacts-provider</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>  Android如何获取通讯录中联系人的信息?</p><h3 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h3><ul><li>ContactsContract</li><li>ContentResolver</li><li>动态权限申请</li><li>一点SQL语法基础</li></ul><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>  在Android中获取通讯录联系人信息其实比较简单，只要通过ContentResolver来查询相关URI的数据库表就可以了。</p><h4 id="三张表"><a href="#三张表" class="headerlink" title="三张表"></a>三张表</h4><p>  Android 将我们的联系人信息存储在三张表中，</p><ul><li><p><a href="https://developer.android.com/reference/android/provider/ContactsContract.Contacts" target="_blank" rel="noopener">ContactsContract.Contacts</a><br>每一行表示通讯录中的一个联系人。</p></li><li><p><a href="https://developer.android.com/reference/android/provider/ContactsContract.RawContacts" target="_blank" rel="noopener">ContactsContract.RawContacts</a><br>每个联系人记录的元数据。</p></li><li><p><a href="https://developer.android.com/reference/android/provider/ContactsContract.Data" target="_blank" rel="noopener">ContactsContract.Data</a><br>联系人信息实际保存在该表中, 包括联系人的名字，手机号，邮箱等。</p></li></ul><p>因为Android系统中，可以登录多个帐户进行通讯录同步，所以一个联系人可能来自不同的帐号中，所以需要ContactsContract.RawContacts表记录，联系人信息中，那哪些信息来自哪个帐户，该记录什么时候进行的同步，同步下来后，是否发生过修改等信息，这些信息我们一般不需要关注。</p><h4 id="三张表的关系"><a href="#三张表的关系" class="headerlink" title="三张表的关系"></a>三张表的关系</h4><p>  这三张表的关系用ER图表示:</p><p>  <img src="https://i.loli.net/2018/05/11/5af55a5ec168a.png" alt="Android联系人数据库表.png"></p><p>了解了这个三个表的关系之后，获取所有联系人的信息的思路就明确了。</p><blockquote><ol><li>查询Contacts表中的所有记录，获取_ID.</li><li>查询RawContacts表中CONTACT_ID为 步骤1中_ID 的所有记录，获取_ID.</li><li>查询Data表中RAW_CONTACT_ID为 步骤2中_ID 的所有记录，获取所需要的信息。</li></ol></blockquote><p> 实际上，就是做这三个表的级联查询。</p><h4 id="CommonDataKinds"><a href="#CommonDataKinds" class="headerlink" title="CommonDataKinds"></a>CommonDataKinds</h4><p>  除了上面三张表之外，这里还要了解一下<a href="https://developer.android.com/reference/android/provider/ContactsContract.CommonDataKinds.html" target="_blank" rel="noopener">ContactsContract.CommonDataKinds</a>。<br>  上文中三张表分别封装为对应的三个类，而CommonDataKinds封装的是这几个表中的某些列的别名。比如Data表中，数据存放在DATA1，DATA2，…， DATA15这几个列中，而CommonDataKinds.PHONE.NUMBER，实际就是指向了DATA1.</p><p>  它存在的意义在于方便我们进行信息的提取。</p><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><ol><li><p>添加相关权限</p><pre><code>&lt;uses-permission android:name=&quot;android.permission.READ_CONTACTS&quot; /\&gt;</code></pre><p>注: 该权限为危险，Android6.0以上需要进行动态申请</p></li></ol><ol><li><p>代码</p><pre><code>//kotlin//获取所有联系人名字和Idpublic fun getAllContacts(contentResolver: ContentResolver): List&lt;SimpleContactsInfo&gt;?{    val col = arrayOf(ContactsContract.Contacts._ID,            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)    val cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,            col, null, null, null)    if (cursor != null){        while (cursor.moveToNext()){            val id = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts._ID))            val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY))            Log.d(TAG, &quot;\nID = &quot;+id+&quot; name = &quot;+name)            getRawContacts(contentResolver, id)            Log.d(TAG, &quot;\n----------------------------------------------&quot;)        }        cursor.close()    }    return null}//获取该联系人所有元数据public fun getRawContacts(contentResolver: ContentResolver, contactId: Int){    val col = arrayOf(ContactsContract.RawContacts._ID,            ContactsContract.RawContacts.CONTACT_ID,            ContactsContract.RawContacts.ACCOUNT_NAME)    val cursor = contentResolver.query(ContactsContract.RawContacts.CONTENT_URI,            col, ContactsContract.RawContacts.CONTACT_ID+&quot; = ?&quot;,            arrayOf(contactId.toString()), null)    if(cursor != null){        while (cursor.moveToNext()){            val id = cursor.getInt(cursor.getColumnIndex(col[0]))            val contact_id = cursor.getInt(cursor.getColumnIndex(col[1]))            val accountName = cursor.getInt(cursor.getColumnIndex(col[2]))            Log.d(TAG, &quot;\nID = &quot;+id+&quot; contactId = &quot;+contact_id+&quot; accountName = &quot;+accountName)            getContactData(contentResolver, id)        }        cursor.close()    }}//获取该元数据对应用的数据public fun getContactData(contentResolver: ContentResolver, rawContactId: Int){    val col = arrayOf(ContactsContract.Data._ID,            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,            ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER)    val cursor = contentResolver.query(ContactsContract.Data.CONTENT_URI,            null, ContactsContract.Data.RAW_CONTACT_ID+&quot; = ?&quot;,            arrayOf(rawContactId.toString()), null)    if(cursor != null){        while (cursor.moveToNext()){            val id = cursor.getInt(cursor.getColumnIndex(col[0]))            val name = cursor.getString(cursor.getColumnIndex(col[1]))            val number = cursor.getString(cursor.getColumnIndex(col[2]))            Log.d(TAG, &quot;\nDataId = &quot;+id+&quot; name = &quot;+name+&quot; number = &quot;+number)        }        cursor.close()    }}</code></pre></li></ol><p>除此之外，google还提供给 ContactsContract.Contacts.Entity，方便我们通过联系人Id查询对应的信息实体，避免多次查询表，然而我试了一下，在我的机器上没有成功。</p><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://developer.android.com/guide/topics/providers/contacts-provider" target="_blank" rel="noopener">https://developer.android.com/guide/topics/providers/contacts-provider</a></p>]]></content>
     
     <summary type="html">
     
@@ -35,21 +35,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://korioncn.github.io/categories/Android/"/>
+      <category term="Android" scheme="http://www.korion.cn/categories/Android/"/>
     
     
-      <category term="Android" scheme="http://korioncn.github.io/tags/Android/"/>
+      <category term="Android" scheme="http://www.korion.cn/tags/Android/"/>
     
-      <category term="ContactsContract" scheme="http://korioncn.github.io/tags/ContactsContract/"/>
+      <category term="开发笔记" scheme="http://www.korion.cn/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
     
-      <category term="开发笔记" scheme="http://korioncn.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
+      <category term="ContactsContract" scheme="http://www.korion.cn/tags/ContactsContract/"/>
     
   </entry>
   
   <entry>
     <title>AS替换Window终端为bash</title>
-    <link href="http://korioncn.github.io/2018/05/06/AS-%E6%9B%BF%E6%8D%A2Window%E7%BB%88%E7%AB%AF%E4%B8%BAbash/"/>
-    <id>http://korioncn.github.io/2018/05/06/AS-替换Window终端为bash/</id>
+    <link href="http://www.korion.cn/2018/05/06/AS-%E6%9B%BF%E6%8D%A2Window%E7%BB%88%E7%AB%AF%E4%B8%BAbash/"/>
+    <id>http://www.korion.cn/2018/05/06/AS-替换Window终端为bash/</id>
     <published>2018-05-06T04:17:00.000Z</published>
     <updated>2018-05-06T04:17:00.000Z</updated>
     
@@ -64,19 +64,19 @@
     
     </summary>
     
-      <category term="开发工具" scheme="http://korioncn.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+      <category term="开发工具" scheme="http://www.korion.cn/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
     
-      <category term="Android Studio" scheme="http://korioncn.github.io/tags/Android-Studio/"/>
+      <category term="Android Studio" scheme="http://www.korion.cn/tags/Android-Studio/"/>
     
-      <category term="Bash" scheme="http://korioncn.github.io/tags/Bash/"/>
+      <category term="Bash" scheme="http://www.korion.cn/tags/Bash/"/>
     
   </entry>
   
   <entry>
     <title>五一干了些啥</title>
-    <link href="http://korioncn.github.io/2018/05/02/%E4%BA%94%E4%B8%80%E5%B9%B2%E4%BA%9B%E5%95%A5/"/>
-    <id>http://korioncn.github.io/2018/05/02/五一干些啥/</id>
+    <link href="http://www.korion.cn/2018/05/02/%E4%BA%94%E4%B8%80%E5%B9%B2%E4%BA%9B%E5%95%A5/"/>
+    <id>http://www.korion.cn/2018/05/02/五一干些啥/</id>
     <published>2018-05-01T16:25:45.000Z</published>
     <updated>2018-05-01T16:25:45.000Z</updated>
     
@@ -91,15 +91,15 @@
     
     </summary>
     
-      <category term="日常" scheme="http://korioncn.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
+      <category term="日常" scheme="http://www.korion.cn/categories/%E6%97%A5%E5%B8%B8/"/>
     
     
   </entry>
   
   <entry>
     <title>Git常用命令</title>
-    <link href="http://korioncn.github.io/2018/04/11/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
-    <id>http://korioncn.github.io/2018/04/11/Git常用命令/</id>
+    <link href="http://www.korion.cn/2018/04/11/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://www.korion.cn/2018/04/11/Git常用命令/</id>
     <published>2018-04-11T08:15:28.000Z</published>
     <updated>2018-04-11T08:15:28.000Z</updated>
     
@@ -114,17 +114,17 @@
     
     </summary>
     
-      <category term="开发工具" scheme="http://korioncn.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+      <category term="开发工具" scheme="http://www.korion.cn/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
     
-      <category term="Git" scheme="http://korioncn.github.io/tags/Git/"/>
+      <category term="Git" scheme="http://www.korion.cn/tags/Git/"/>
     
   </entry>
   
   <entry>
     <title>Java类加载机制</title>
-    <link href="http://korioncn.github.io/2018/04/07/Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
-    <id>http://korioncn.github.io/2018/04/07/Java类加载机制/</id>
+    <link href="http://www.korion.cn/2018/04/07/Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
+    <id>http://www.korion.cn/2018/04/07/Java类加载机制/</id>
     <published>2018-04-07T11:30:41.000Z</published>
     <updated>2018-04-07T11:30:41.000Z</updated>
     
@@ -139,19 +139,19 @@
     
     </summary>
     
-      <category term="Java" scheme="http://korioncn.github.io/categories/Java/"/>
+      <category term="Java" scheme="http://www.korion.cn/categories/Java/"/>
     
     
-      <category term="虚拟机" scheme="http://korioncn.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+      <category term="虚拟机" scheme="http://www.korion.cn/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
     
-      <category term="Java" scheme="http://korioncn.github.io/tags/Java/"/>
+      <category term="Java" scheme="http://www.korion.cn/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>Kotlin:告别findViewById</title>
-    <link href="http://korioncn.github.io/2018/03/31/Kotlin%E5%91%8A%E5%88%ABfindViewById/"/>
-    <id>http://korioncn.github.io/2018/03/31/Kotlin告别findViewById/</id>
+    <link href="http://www.korion.cn/2018/03/31/Kotlin%E5%91%8A%E5%88%ABfindViewById/"/>
+    <id>http://www.korion.cn/2018/03/31/Kotlin告别findViewById/</id>
     <published>2018-03-31T08:29:55.000Z</published>
     <updated>2018-03-31T08:29:55.000Z</updated>
     
@@ -166,23 +166,23 @@
     
     </summary>
     
-      <category term="Android" scheme="http://korioncn.github.io/categories/Android/"/>
+      <category term="Android" scheme="http://www.korion.cn/categories/Android/"/>
     
     
-      <category term="开发笔记" scheme="http://korioncn.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
+      <category term="开发笔记" scheme="http://www.korion.cn/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
     
-      <category term="Kotlin" scheme="http://korioncn.github.io/tags/Kotlin/"/>
+      <category term="Kotlin" scheme="http://www.korion.cn/tags/Kotlin/"/>
     
   </entry>
   
   <entry>
     <title>Android开发杂记</title>
-    <link href="http://korioncn.github.io/2018/03/31/Android%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/"/>
-    <id>http://korioncn.github.io/2018/03/31/Android开发杂记/</id>
+    <link href="http://www.korion.cn/2018/03/31/Android%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/"/>
+    <id>http://www.korion.cn/2018/03/31/Android开发杂记/</id>
     <published>2018-03-31T07:57:45.000Z</published>
     <updated>2018-05-05T07:57:45.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ol><li><p>Assets目录<br> Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。<br> 注：assets下可以有子目录，引入文件时url的根目录为assets。</p><pre><code>val assets = getAssetManager()val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.pngval bitmap = BitmapFactory.decodeStream(inStream)inStream.close()</code></pre></li><li><p>string.xml中字符串插值</p><blockquote><p>string.xml中，</p><p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p><p>代码中，</p><p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p></blockquote><ul><li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li><li>%d ：   表示整数</li></ul><ul><li>%f：  表示浮点数</li><li>%s  ： 表示字符串</li></ul></li></ol><ol><li><p>ListView隐藏scrollbar</p><blockquote><p>android:scrollbars=”none”<br>或<br>ListView#setVerticalScrollBarEnabled(true);</p></blockquote></li><li><p>沉浸式状态栏适配</p><p>  第三方库: <a href="https://github.com/Zackratos/UltimateBar" target="_blank" rel="noopener">UltimateBar</a></p></li><li><p>根据文件名，获取其资源ID</p><ul><li><p>获取状态栏高度:</p><pre><code>resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)</code></pre></li></ul></li><li><p>Android版本判断</p><pre><code>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}</code></pre></li><li><p>6.0 动态权限申请</p><pre><code>if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){        //如果没有获得该权限        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){            //如果需要向用户说明申请权限的理由            //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true        }        //申请权限        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)    }override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {    when(requestCode){        CONTACTS_PERMISSION_CODE -&gt; {            if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){                //申请成功            }else{            }            return        }    }    super.onRequestPermissionsResult(requestCode, permissions, grantResults)</code></pre><p> }</p></li></ol><h3 id="持续更新-2018-5-5"><a href="#持续更新-2018-5-5" class="headerlink" title="持续更新 2018-5-5"></a>持续更新 2018-5-5</h3>]]></content>
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><h4 id="Assets目录"><a href="#Assets目录" class="headerlink" title="Assets目录"></a>Assets目录</h4><pre><code>Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助**AssetManager**。使用Context.getAssetManager()可以获取实例。注：assets下可以有子目录，引入文件时url的根目录为assets。    val assets = getAssetManager()    val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.png    val bitmap = BitmapFactory.decodeStream(inStream)    inStream.close()</code></pre><h4 id="string-xml中字符串插值"><a href="#string-xml中字符串插值" class="headerlink" title="string.xml中字符串插值"></a>string.xml中字符串插值</h4><pre><code>&gt; string.xml中，&gt;&gt;    &lt;string name=&quot;stu_name&quot;\&gt;名字: %s&lt;/string\&gt;&gt;&gt; 代码中，&gt;&gt; tv_name.text = String.format(getResource().getString(R.string.stu_name), &quot;Mr.chen&quot;)* %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格* %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格* %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00* %d ：   表示整数- %f：  表示浮点数- %s  ： 表示字符串</code></pre><h4 id="ListView隐藏scrollbar"><a href="#ListView隐藏scrollbar" class="headerlink" title="ListView隐藏scrollbar"></a>ListView隐藏scrollbar</h4><pre><code>&gt; android:scrollbars=&quot;none&quot;&gt; 或&gt; ListView#setVerticalScrollBarEnabled(true);</code></pre><h4 id="沉浸式状态栏适配"><a href="#沉浸式状态栏适配" class="headerlink" title="沉浸式状态栏适配"></a>沉浸式状态栏适配</h4><pre><code>第三方库: [UltimateBar](https://github.com/Zackratos/UltimateBar)</code></pre><h4 id="根据文件名，获取其资源ID"><a href="#根据文件名，获取其资源ID" class="headerlink" title="根据文件名，获取其资源ID"></a>根据文件名，获取其资源ID</h4><pre><code>* 获取状态栏高度:        resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)        val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)</code></pre><h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}</code></pre><h4 id="6-0-动态权限申请"><a href="#6-0-动态权限申请" class="headerlink" title="6.0 动态权限申请"></a>6.0 动态权限申请</h4><ul><li><p>危险权限</p>  <table><br>        <tbody><tr><br>          <th scope="col">权限组</th><br>          <th scope="col">权限</th><br>        </tr><br><br>        <tr><br>          <td><code><a href="https://developer.android.com/reference/android/Manifest.permission_group.html?hl=zh-CN#CALENDAR" target="_blank" rel="noopener"><span>CALENDAR</span></a></code></td><br>          <td><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#READ_CALENDAR" target="_blank" rel="noopener">READ_CALENDAR</a></code><br>              </li><br>            </ul><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#WRITE_CALENDAR" target="_blank" rel="noopener">WRITE_CALENDAR</a></code><br>              </li><br>            </ul><br>          </td><br>        </tr><br><br>        <tr><br>          <td><code><a href="https://developer.android.com/reference/android/Manifest.permission_group.html?hl=zh-CN#CAMERA" target="_blank" rel="noopener"><span>CAMERA</span></a></code></td><br>          <td><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#CAMERA" target="_blank" rel="noopener">CAMERA</a></code><br>              </li><br>            </ul><br>          </td><br>        </tr><br><br>        <tr><br>          <td><code><a href="https://developer.android.com/reference/android/Manifest.permission_group.html?hl=zh-CN#CONTACTS" target="_blank" rel="noopener"><span>CONTACTS</span></a></code></td><br>          <td><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#READ_CONTACTS" target="_blank" rel="noopener">READ_CONTACTS</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#WRITE_CONTACTS" target="_blank" rel="noopener">WRITE_CONTACTS</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#GET_ACCOUNTS" target="_blank" rel="noopener">GET_ACCOUNTS</a></code><br>              </li><br>            </ul><br>          </td><br>        </tr><br><br>        <tr><br>          <td><code><a href="https://developer.android.com/reference/android/Manifest.permission_group.html?hl=zh-CN#LOCATION" target="_blank" rel="noopener"><span>LOCATION</span></a></code></td><br>          <td><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#ACCESS_FINE_LOCATION" target="_blank" rel="noopener">ACCESS_FINE_LOCATION</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#ACCESS_COARSE_LOCATION" target="_blank" rel="noopener">ACCESS_COARSE_LOCATION</a></code><br>              </li><br>            </ul><br>          </td><br>        </tr><br><br>        <tr><br>          <td><code><a href="https://developer.android.com/reference/android/Manifest.permission_group.html?hl=zh-CN#MICROPHONE" target="_blank" rel="noopener"><span>MICROPHONE</span></a></code></td><br>          <td><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#RECORD_AUDIO" target="_blank" rel="noopener">RECORD_AUDIO</a></code><br>              </li><br>            </ul><br>          </td><br>        </tr><br><br>        <tr><br>          <td><code><a href="https://developer.android.com/reference/android/Manifest.permission_group.html?hl=zh-CN#PHONE" target="_blank" rel="noopener"><span>PHONE</span></a></code></td><br>          <td><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#READ_PHONE_STATE" target="_blank" rel="noopener">READ_PHONE_STATE</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#CALL_PHONE" target="_blank" rel="noopener">CALL_PHONE</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#READ_CALL_LOG" target="_blank" rel="noopener">READ_CALL_LOG</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#WRITE_CALL_LOG" target="_blank" rel="noopener">WRITE_CALL_LOG</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#ADD_VOICEMAIL" target="_blank" rel="noopener">ADD_VOICEMAIL</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#USE_SIP" target="_blank" rel="noopener">USE_SIP</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#PROCESS_OUTGOING_CALLS" target="_blank" rel="noopener">PROCESS_OUTGOING_CALLS</a></code><br>              </li><br>            </ul><br>          </td><br>        </tr><br><br>        <tr><br>          <td><code><a href="https://developer.android.com/reference/android/Manifest.permission_group.html?hl=zh-CN#SENSORS" target="_blank" rel="noopener"><span>SENSORS</span></a></code></td><br>          <td><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#BODY_SENSORS" target="_blank" rel="noopener">BODY_SENSORS</a></code><br>              </li><br>            </ul><br>          </td><br>        </tr><br><br>        <tr><br>          <td><code><a href="https://developer.android.com/reference/android/Manifest.permission_group.html?hl=zh-CN#SMS" target="_blank" rel="noopener"><span>SMS</span></a></code></td><br>          <td><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#SEND_SMS" target="_blank" rel="noopener">SEND_SMS</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#RECEIVE_SMS" target="_blank" rel="noopener">RECEIVE_SMS</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#READ_SMS" target="_blank" rel="noopener">READ_SMS</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#RECEIVE_WAP_PUSH" target="_blank" rel="noopener">RECEIVE_WAP_PUSH</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#RECEIVE_MMS" target="_blank" rel="noopener">RECEIVE_MMS</a></code><br>              </li><br>            </ul><br>          </td><br>        </tr><br><br>        <tr><br>          <td><br>            <code><a href="https://developer.android.com/reference/android/Manifest.permission_group.html?hl=zh-CN#STORAGE" target="_blank" rel="noopener"><span>STORAGE</span></a></code><br>          </td><br>          <td><br>            <ul><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#READ_EXTERNAL_STORAGE" target="_blank" rel="noopener">READ_EXTERNAL_STORAGE</a></code><br>              </li><br>              <li><br>                <code><a href="https://developer.android.com/reference/android/Manifest.permission.html?hl=zh-CN#WRITE_EXTERNAL_STORAGE" target="_blank" rel="noopener">WRITE_EXTERNAL_STORAGE</a></code><br>              </li><br>            </ul><br>          </td><br>        </tr><br><br>      </tbody></table></li><li><p>动态申请权限模板代码</p><pre><code>if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){        //如果没有获得该权限        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){            //如果需要向用户说明申请权限的理由            //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true        }        //申请权限        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)    }override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {    when(requestCode){        CONTACTS_PERMISSION_CODE -&gt; {            if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){                //申请成功            }else{            }            return        }    }    super.onRequestPermissionsResult(requestCode, permissions, grantResults)</code></pre><p>  }</p></li></ul><h3 id="持续更新-2018-5-5"><a href="#持续更新-2018-5-5" class="headerlink" title="持续更新 2018-5-5"></a>持续更新 2018-5-5</h3>]]></content>
     
     <summary type="html">
     
@@ -194,19 +194,19 @@
     
     </summary>
     
-      <category term="Android" scheme="http://korioncn.github.io/categories/Android/"/>
+      <category term="Android" scheme="http://www.korion.cn/categories/Android/"/>
     
     
-      <category term="Android" scheme="http://korioncn.github.io/tags/Android/"/>
+      <category term="Android" scheme="http://www.korion.cn/tags/Android/"/>
     
-      <category term="开发笔记" scheme="http://korioncn.github.io/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
+      <category term="开发笔记" scheme="http://www.korion.cn/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>Java垃圾回收</title>
-    <link href="http://korioncn.github.io/2018/03/30/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
-    <id>http://korioncn.github.io/2018/03/30/Java垃圾回收/</id>
+    <link href="http://www.korion.cn/2018/03/30/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
+    <id>http://www.korion.cn/2018/03/30/Java垃圾回收/</id>
     <published>2018-03-30T15:47:51.000Z</published>
     <updated>2018-03-30T15:47:51.000Z</updated>
     
@@ -222,19 +222,19 @@
     
     </summary>
     
-      <category term="Java" scheme="http://korioncn.github.io/categories/Java/"/>
+      <category term="Java" scheme="http://www.korion.cn/categories/Java/"/>
     
     
-      <category term="Java GC" scheme="http://korioncn.github.io/tags/Java-GC/"/>
+      <category term="Java GC" scheme="http://www.korion.cn/tags/Java-GC/"/>
     
-      <category term="虚拟机" scheme="http://korioncn.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+      <category term="虚拟机" scheme="http://www.korion.cn/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
     
   </entry>
   
   <entry>
     <title>Java虚拟机内存模型</title>
-    <link href="http://korioncn.github.io/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
-    <id>http://korioncn.github.io/2018/03/30/Java虚拟机内存模型/</id>
+    <link href="http://www.korion.cn/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
+    <id>http://www.korion.cn/2018/03/30/Java虚拟机内存模型/</id>
     <published>2018-03-30T11:59:21.000Z</published>
     <updated>2018-03-30T11:59:21.000Z</updated>
     
@@ -249,23 +249,23 @@
     
     </summary>
     
-      <category term="Java" scheme="http://korioncn.github.io/categories/Java/"/>
+      <category term="Java" scheme="http://www.korion.cn/categories/Java/"/>
     
     
-      <category term="虚拟机" scheme="http://korioncn.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+      <category term="虚拟机" scheme="http://www.korion.cn/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
     
-      <category term="内存模型" scheme="http://korioncn.github.io/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
+      <category term="内存模型" scheme="http://www.korion.cn/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
     
   </entry>
   
   <entry>
     <title>图解Activity/Fragment生命周期</title>
-    <link href="http://korioncn.github.io/2018/03/13/Android-Activity-Fragment%E8%B6%85%E8%AF%A6%E7%BB%86%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
-    <id>http://korioncn.github.io/2018/03/13/Android-Activity-Fragment超详细生命周期/</id>
+    <link href="http://www.korion.cn/2018/03/13/Android-Activity-Fragment%E8%B6%85%E8%AF%A6%E7%BB%86%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
+    <id>http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/</id>
     <published>2018-03-13T06:02:14.000Z</published>
     <updated>2018-03-13T06:02:14.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>关于Activity和Fragment的生命周期，是每个Android开发者必须熟悉掌握的，最近在网上发现了一张超详细的关于这两者生命周期的图, 于是结合自己的理解进行了学习。</p><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>先上图，<a href="https://github.com/xxv/android-lifecycle" target="_blank" rel="noopener">来源</a><br><img src="https://i.loli.net/2018/03/13/5aa76bdd4d05c.png" alt="complete_android_fragment_lifecycle.png"></p><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol><li><p>经典的生命周期就赘述。从整个生命周期来说，onCreate和onDestroy是配对出现，分别在Activity创建与销毁时执行一次；onStart和onStop分别标识是否可见，可被多次调用；onResume和onPause分别标识是否在前台，同样可被多次调用。这里需要注意的是onPause，在从当前Activity启动另一个Activity时会，先调用当前Activity的onPause，然后才调用新启动的Activity的onCreate，当完成新Activity的启动后，才调用原来的Activity的Stop(),为了不造成启动卡顿，不能再onPause中做耗时的操作。</p></li><li><p>onSaveInstanceState()与onReStoreInstanceState()</p><p>这两个方法都不属于Activity的正常生命周期，也不保证一定会被调用。onSaveIntanceState()只有Activity”容易”被销毁时（比如内存不足可能被销毁），才会被调用；当Activity被重建时，系统会调用onRestoreInstanceState()来恢复已经保存的视图。</p><blockquote><p>《阿里Android开发手册》第三章第2条:</p><p>【推荐】Activity#onSaveInstanceState()方法不是 Activity 生命周期方法，也不保证<br>一定会被调用。它是用来在 Activity 被意外销毁时保存 UI 状态的，只能用于保存临<br>时性数据，例如 UI 控件的属性等，不能跟数据的持久化存储混为一谈。持久化存储<br>应该在 Activity#onPause()/onStop()中实行。</p></blockquote><p><a href="https://www.jianshu.com/p/89e0a7533dbe" target="_blank" rel="noopener">关于onSaveInstanceState的调用时机</a></p></li><li><p>onPostCreate()、onPostResume()</p><p>onPostCreate()在调用onStart() 和onRestoreInstanceState(Bundle)后调用，这意味着这时候大多数初始工作已经完成，而又还没有完全显示出来。有时候我需要在获取某个View的大小，在OnCreate中获取时，View还没有来得及测量，大小为0，所以我们可以在该方法中获取。onPostResume()也可以干类似的事情。</p></li><li><p>onContentChanged()</p><p>onContentChanged()是Activity中的一个回调方法，当Activity的布局改动即setContentView()或者addContentView()方法执行完毕时就会调用该方法。</p></li><li><p>onAttachedToWindow()</p><p>onAttachedToWindow是在第一次onDraw前调用的。也就是我们写的View在没有绘制出来时调用的，但只会调用一次。</p></li><li><p>onUserInteraction() ，onUserLeaveHint()</p><p>这两个同样不是Activity的正常生命周期函数。根据官方的介绍，onUserInteraction(),当Activity发生任何按触碰事件，就会调用，主要用来监视用户是否在与当前Activity进行交互。onUserLeaveHint(),用户离开当前Activity，比如按Home，Activity进入后台时调用,在调用onUserLeaveHint之前，会调用onUserInteraction。</p><p><strong>另外</strong>,如果使用FragmentActivity(AppCompatActivity继承于FragmentActivity),则还要注意以下两个回调：</p></li><li><p>onResumeFragments</p><p>该函数在onResume之后进行调用，官方文档里面介绍，FragmentActivity的onResume将分发给onResumeFragments，而经过我的测试，在Activity onRsume的时候，Fragment也会调用onRsume，但在Activity#onRsume中，你无法肯定Fragment已经完全resumed，如果在onResume调用FragmentTransactions#commit，可能导致<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0616/3050.html" target="_blank" rel="noopener">状态丢失</a>, 但onResumeFragments是在Fragment的onResume之后调用。</p><blockquote><p>《阿里Android开发手册》第三章第7条:</p><p>【 推 荐 】 添 加 Fragment 时 ， 确 保 FragmentTransaction#commit() 在<br>Activity#onPostResume()或者 FragmentActivity#onResumeFragments()内调用。<br>不要随意使用 FragmentTransaction#commitAllowingStateLoss()来代替，任何<br>commitAllowingStateLoss()的使用必须经过 code review，确保无负面影响。</p></blockquote></li><li><p>onAttachFragment</p><p>每当Fragment调用onAttach后调用该方法, 如果Fragment尚未调用onCreate，会在Fragment#onCreate前调用。</p></li></ol><p>关于Activity/Fragment的生命周期，我写了个Demo：<a href="https://gitee.com/ksxy/ActivityLifeCycleAnalysisDemo" target="_blank" rel="noopener">这里</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>关于Activity和Fragment的生命周期，是每个Android开发者必须熟悉掌握的，最近在网上发现了一张超详细的关于这两者生命周期的图, 于是结合自己的理解进行了学习。</p><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>先上图，<a href="https://github.com/xxv/android-lifecycle" target="_blank" rel="noopener">来源</a><br><img src="https://i.loli.net/2018/03/13/5aa76bdd4d05c.png" alt="complete_android_fragment_lifecycle.png"></p><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol><li><p>经典的生命周期就赘述。从整个生命周期来说，onCreate和onDestroy是配对出现，分别在Activity创建与销毁时执行一次；onStart和onStop分别标识是否可见，可被多次调用；onResume和onPause分别标识是否在前台，同样可被多次调用。这里需要注意的是onPause，在从当前Activity启动另一个Activity时会，先调用当前Activity的onPause，然后才调用新启动的Activity的onCreate，当完成新Activity的启动后，才调用原来的Activity的Stop(),为了不造成启动卡顿，不能再onPause中做耗时的操作。</p></li><li><p>onSaveInstanceState()与onReStoreInstanceState()</p><p>这两个方法都不属于Activity的正常生命周期，也不保证一定会被调用。onSaveIntanceState()只有Activity”容易”被销毁时（比如内存不足可能被销毁），才会被调用；当Activity被重建时，系统会调用onRestoreInstanceState()来恢复已经保存的视图。</p><blockquote><p>《阿里Android开发手册》第三章第2条:</p><p>【推荐】Activity#onSaveInstanceState()方法不是 Activity 生命周期方法，也不保证<br>一定会被调用。它是用来在 Activity 被意外销毁时保存 UI 状态的，只能用于保存临<br>时性数据，例如 UI 控件的属性等，不能跟数据的持久化存储混为一谈。持久化存储<br>应该在 Activity#onPause()/onStop()中实行。</p></blockquote><p><a href="https://www.jianshu.com/p/89e0a7533dbe" target="_blank" rel="noopener">关于onSaveInstanceState的调用时机</a></p></li><li><p>onPostCreate()、onPostResume()</p><p>onPostCreate()在调用onStart() 和onRestoreInstanceState(Bundle)后调用，这意味着这时候大多数初始工作已经完成，而又还没有完全显示出来。有时候我需要在获取某个View的大小，在OnCreate中获取时，View还没有来得及测量，大小为0，所以我们可以在该方法中获取。onPostResume()也可以干类似的事情。</p></li><li><p>onContentChanged()</p><p>onContentChanged()是Activity中的一个回调方法，当Activity的布局改动即setContentView()或者addContentView()方法执行完毕时就会调用该方法。</p></li><li><p>onAttachedToWindow()</p><p>onAttachedToWindow是在第一次onDraw前调用的。也就是我们写的View在没有绘制出来时调用的，但只会调用一次。</p></li><li><p>onUserInteraction() ，onUserLeaveHint()</p><p>这两个同样不是Activity的正常生命周期函数。根据官方的介绍，onUserInteraction(),当Activity发生任何按触碰事件，就会调用，主要用来监视用户是否在与当前Activity进行交互。onUserLeaveHint(),用户离开当前Activity，比如按Home，Activity进入后台时调用,在调用onUserLeaveHint之前，会调用onUserInteraction。</p><p><strong>另外</strong>,如果使用FragmentActivity(AppCompatActivity继承于FragmentActivity),则还要注意以下两个回调：</p></li><li><p>onResumeFragments</p><p>该函数在onResume之后进行调用，官方文档里面介绍，FragmentActivity的onResume将分发给onResumeFragments。《阿里Android开发手册》推荐最迟在这个方法中调用FragmentTransaction#commit()，否则可能出现<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0616/3050.html" target="_blank" rel="noopener">状态丢失</a>的错误。</p><blockquote><p>《阿里Android开发手册》第三章第7条:</p><p>【 推 荐 】 添 加 Fragment 时 ， 确 保 FragmentTransaction#commit() 在<br>Activity#onPostResume()或者 FragmentActivity#onResumeFragments()内调用。<br>不要随意使用 FragmentTransaction#commitAllowingStateLoss()来代替，任何<br>commitAllowingStateLoss()的使用必须经过 code review，确保无负面影响。</p></blockquote></li><li><p>onAttachFragment</p><p>每当Fragment调用onAttach后调用该方法, 如果Fragment尚未调用onCreate，会在Fragment#onCreate前调用。</p></li></ol><p>关于Activity/Fragment的生命周期，我写了个Demo：<a href="https://gitee.com/ksxy/ActivityLifeCycleAnalysisDemo" target="_blank" rel="noopener">这里</a></p>]]></content>
     
     <summary type="html">
     
@@ -276,21 +276,21 @@
     
     </summary>
     
-      <category term="Android" scheme="http://korioncn.github.io/categories/Android/"/>
+      <category term="Android" scheme="http://www.korion.cn/categories/Android/"/>
     
     
-      <category term="Android" scheme="http://korioncn.github.io/tags/Android/"/>
+      <category term="Android" scheme="http://www.korion.cn/tags/Android/"/>
     
-      <category term="Activity" scheme="http://korioncn.github.io/tags/Activity/"/>
+      <category term="Activity" scheme="http://www.korion.cn/tags/Activity/"/>
     
-      <category term="Fragment" scheme="http://korioncn.github.io/tags/Fragment/"/>
+      <category term="Fragment" scheme="http://www.korion.cn/tags/Fragment/"/>
     
   </entry>
   
   <entry>
     <title>网络笔记之详解TCP（一）</title>
-    <link href="http://korioncn.github.io/2018/03/12/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>http://korioncn.github.io/2018/03/12/网络笔记之详解TCP（一）/</id>
+    <link href="http://www.korion.cn/2018/03/12/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://www.korion.cn/2018/03/12/网络笔记之详解TCP（一）/</id>
     <published>2018-03-12T13:43:52.000Z</published>
     <updated>2018-03-12T13:43:52.000Z</updated>
     
@@ -305,19 +305,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://www.korion.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="计算机网络" scheme="http://korioncn.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://www.korion.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-      <category term="TCP" scheme="http://korioncn.github.io/tags/TCP/"/>
+      <category term="TCP" scheme="http://www.korion.cn/tags/TCP/"/>
     
   </entry>
   
   <entry>
     <title>网络笔记之浅谈UDP</title>
-    <link href="http://korioncn.github.io/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B5%85%E8%B0%88UDP/"/>
-    <id>http://korioncn.github.io/2018/03/11/网络笔记之浅谈UDP/</id>
+    <link href="http://www.korion.cn/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B5%85%E8%B0%88UDP/"/>
+    <id>http://www.korion.cn/2018/03/11/网络笔记之浅谈UDP/</id>
     <published>2018-03-11T12:25:29.000Z</published>
     <updated>2018-03-11T12:25:29.000Z</updated>
     
@@ -332,19 +332,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://www.korion.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="计算机网络" scheme="http://korioncn.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://www.korion.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-      <category term="UDP" scheme="http://korioncn.github.io/tags/UDP/"/>
+      <category term="UDP" scheme="http://www.korion.cn/tags/UDP/"/>
     
   </entry>
   
   <entry>
     <title>网络笔记之IP报文首部</title>
-    <link href="http://korioncn.github.io/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8BIP%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8/"/>
-    <id>http://korioncn.github.io/2018/03/11/网络笔记之IP报文首部/</id>
+    <link href="http://www.korion.cn/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8BIP%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8/"/>
+    <id>http://www.korion.cn/2018/03/11/网络笔记之IP报文首部/</id>
     <published>2018-03-11T06:36:04.000Z</published>
     <updated>2018-03-11T06:36:04.000Z</updated>
     
@@ -359,19 +359,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://www.korion.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="计算机网络" scheme="http://korioncn.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://www.korion.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-      <category term="IP" scheme="http://korioncn.github.io/tags/IP/"/>
+      <category term="IP" scheme="http://www.korion.cn/tags/IP/"/>
     
   </entry>
   
   <entry>
     <title>Https之SSL/TLS握手</title>
-    <link href="http://korioncn.github.io/2018/03/10/Https%E4%B9%8BSSL-TSL%E6%8F%A1%E6%89%8B/"/>
-    <id>http://korioncn.github.io/2018/03/10/Https之SSL-TSL握手/</id>
+    <link href="http://www.korion.cn/2018/03/10/Https%E4%B9%8BSSL-TSL%E6%8F%A1%E6%89%8B/"/>
+    <id>http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/</id>
     <published>2018-03-10T13:02:48.000Z</published>
     <updated>2018-03-18T03:06:47.621Z</updated>
     
@@ -386,19 +386,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://www.korion.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="https" scheme="http://korioncn.github.io/tags/https/"/>
+      <category term="https" scheme="http://www.korion.cn/tags/https/"/>
     
-      <category term="计算机网络" scheme="http://korioncn.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://www.korion.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
   <entry>
     <title>记我对Socket的误解</title>
-    <link href="http://korioncn.github.io/2018/03/10/%E8%AE%B0%E6%88%91%E5%AF%B9Socket%E7%9A%84%E8%AF%AF%E8%A7%A3/"/>
-    <id>http://korioncn.github.io/2018/03/10/记我对Socket的误解/</id>
+    <link href="http://www.korion.cn/2018/03/10/%E8%AE%B0%E6%88%91%E5%AF%B9Socket%E7%9A%84%E8%AF%AF%E8%A7%A3/"/>
+    <id>http://www.korion.cn/2018/03/10/记我对Socket的误解/</id>
     <published>2018-03-10T05:35:43.000Z</published>
     <updated>2018-03-10T07:24:00.233Z</updated>
     
@@ -413,19 +413,19 @@
     
     </summary>
     
-      <category term="计算机网络" scheme="http://korioncn.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="http://www.korion.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="Socket" scheme="http://korioncn.github.io/tags/Socket/"/>
+      <category term="Socket" scheme="http://www.korion.cn/tags/Socket/"/>
     
-      <category term="网络编程" scheme="http://korioncn.github.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
+      <category term="网络编程" scheme="http://www.korion.cn/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
   <entry>
     <title>Android知识体系脑图</title>
-    <link href="http://korioncn.github.io/2018/03/09/Android%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/"/>
-    <id>http://korioncn.github.io/2018/03/09/Android知识体系/</id>
+    <link href="http://www.korion.cn/2018/03/09/Android%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/"/>
+    <id>http://www.korion.cn/2018/03/09/Android知识体系/</id>
     <published>2018-03-09T08:40:31.000Z</published>
     <updated>2018-03-09T14:19:28.530Z</updated>
     
@@ -440,17 +440,17 @@
     
     </summary>
     
-      <category term="Android" scheme="http://korioncn.github.io/categories/Android/"/>
+      <category term="Android" scheme="http://www.korion.cn/categories/Android/"/>
     
     
-      <category term="Android" scheme="http://korioncn.github.io/tags/Android/"/>
+      <category term="Android" scheme="http://www.korion.cn/tags/Android/"/>
     
   </entry>
   
   <entry>
     <title>关于</title>
-    <link href="http://korioncn.github.io/2018/03/06/%E5%85%B3%E4%BA%8E/"/>
-    <id>http://korioncn.github.io/2018/03/06/关于/</id>
+    <link href="http://www.korion.cn/2018/03/06/%E5%85%B3%E4%BA%8E/"/>
+    <id>http://www.korion.cn/2018/03/06/关于/</id>
     <published>2018-03-06T15:47:26.000Z</published>
     <updated>2018-03-11T16:00:00.000Z</updated>
     
@@ -465,7 +465,7 @@
     
     </summary>
     
-      <category term="日常" scheme="http://korioncn.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
+      <category term="日常" scheme="http://www.korion.cn/categories/%E6%97%A5%E5%B8%B8/"/>
     
     
   </entry>
