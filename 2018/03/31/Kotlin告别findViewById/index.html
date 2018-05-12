@@ -516,22 +516,22 @@
 <p>import kotlinx.android.synthetic.main.&lt;layout>.*</p>
 </blockquote>
 <p>&lt;layout>为布局文件名。比如</p>
-<pre><code> //MainActivity.kt
- import kotlinx.android.synthetic.main.activity_main.*
+<pre><code>//MainActivity.kt
+import kotlinx.android.synthetic.main.activity_main.*
 
- class MainActivity : AppCompatActivity() {
-   override fun onCreate(savedInstanceState: Bundle?) {
-   super.onCreate(savedInstanceState)
-   setContentView(R.layout.activity_main)
-   tv_name.text = &quot;Ksxy&quot;
-   }
- }
+class MainActivity : AppCompatActivity() {
+  override fun onCreate(savedInstanceState: Bundle?) {
+  super.onCreate(savedInstanceState)
+  setContentView(R.layout.activity_main)
+  tv_name.text = &quot;Ksxy&quot;
+  }
+}
 
- //activity_main.xml
- &lt;TextView
- android:id=&quot;@+id/tv_name&quot;
- android:layout_width=&quot;wrap_content&quot;
- android:layout_height=&quot;wrap_content&quot;/&gt;
+//activity_main.xml
+&lt;TextView
+android:id=&quot;@+id/tv_name&quot;
+android:layout_width=&quot;wrap_content&quot;
+android:layout_height=&quot;wrap_content&quot;/&gt;
 </code></pre></li>
 </ol>
 
@@ -946,10 +946,6 @@ It will not impact the appearance and can give developers a lot of support :)
 <!-- Import prettify js  -->
 
 
-    
-        <script>lsloader.load("hanabi","/js/hanabi-browser-bundle.js?Pki5+pzkluqu53g+ouMWpA==", true)</script>
-    
-
 
 <!-- Window Load -->
 <!-- add class for prettify -->
@@ -960,10 +956,6 @@ It will not impact the appearance and can give developers a lot of support :)
     });
 
     
-    
-        
-        
-        HanabiBrowser.start('pre code',false);
     
 </script>
 

@@ -524,43 +524,43 @@
 * %d ：   表示整数
 - %f：  表示浮点数
 - %s  ： 表示字符串
-</code></pre><h4 id="ListView隐藏scrollbar"><a href="#ListView隐藏scrollbar" class="headerlink" title="ListView隐藏scrollbar"></a>ListView隐藏scrollbar</h4><pre><code> &gt; android:scrollbars=&quot;none&quot;
- &gt; 或
- &gt; ListView#setVerticalScrollBarEnabled(true);
-</code></pre><h4 id="沉浸式状态栏适配"><a href="#沉浸式状态栏适配" class="headerlink" title="沉浸式状态栏适配"></a>沉浸式状态栏适配</h4><pre><code> 第三方库: [UltimateBar](https://github.com/Zackratos/UltimateBar)
+</code></pre><h4 id="ListView隐藏scrollbar"><a href="#ListView隐藏scrollbar" class="headerlink" title="ListView隐藏scrollbar"></a>ListView隐藏scrollbar</h4><pre><code>&gt; android:scrollbars=&quot;none&quot;
+&gt; 或
+&gt; ListView#setVerticalScrollBarEnabled(true);
+</code></pre><h4 id="沉浸式状态栏适配"><a href="#沉浸式状态栏适配" class="headerlink" title="沉浸式状态栏适配"></a>沉浸式状态栏适配</h4><pre><code>第三方库: [UltimateBar](https://github.com/Zackratos/UltimateBar)
 </code></pre><h4 id="根据文件名，获取其资源ID"><a href="#根据文件名，获取其资源ID" class="headerlink" title="根据文件名，获取其资源ID"></a>根据文件名，获取其资源ID</h4><pre><code>* 获取状态栏高度:
 
         resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)
         val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)
-</code></pre><h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>     if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}
+</code></pre><h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}
 </code></pre><h4 id="6-0-动态权限申请"><a href="#6-0-动态权限申请" class="headerlink" title="6.0 动态权限申请"></a>6.0 动态权限申请</h4><ul>
 <li><p>危险权限</p>
 <p>  <a href="https://developer.android.com/guide/topics/security/permissions?hl=zh-CN#normal-dangerous" target="_blank" rel="noopener">官方相关文档</a></p>
 </li>
 <li><p>动态申请权限模板代码</p>
-<pre><code>  if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
-          //如果没有获得该权限
-          if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){
-              //如果需要向用户说明申请权限的理由
-              //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true
-          }
-          //申请权限
-          ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)
-      }
+<pre><code>if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+        //如果没有获得该权限
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){
+            //如果需要向用户说明申请权限的理由
+            //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true
+        }
+        //申请权限
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)
+    }
 
-  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {
-      when(requestCode){
-          CONTACTS_PERMISSION_CODE -&gt; {
-              if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){
-                  //申请成功
-              }else{
+override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {
+    when(requestCode){
+        CONTACTS_PERMISSION_CODE -&gt; {
+            if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){
+                //申请成功
+            }else{
 
-              }
-              return
-          }
-      }
+            }
+            return
+        }
+    }
 
-      super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 </code></pre><p>  }</p>
 </li>
 </ul>
@@ -976,10 +976,6 @@ It will not impact the appearance and can give developers a lot of support :)
 <!-- Import prettify js  -->
 
 
-    
-        <script>lsloader.load("hanabi","/js/hanabi-browser-bundle.js?Pki5+pzkluqu53g+ouMWpA==", true)</script>
-    
-
 
 <!-- Window Load -->
 <!-- add class for prettify -->
@@ -990,10 +986,6 @@ It will not impact the appearance and can give developers a lot of support :)
     });
 
     
-    
-        
-        
-        HanabiBrowser.start('pre code',false);
     
 </script>
 

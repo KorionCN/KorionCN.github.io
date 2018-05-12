@@ -1,214 +1,385 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title><![CDATA[Android:获取联系人信息]]></title>
-    <url>%2F2018%2F05%2F10%2FAndroid-%E8%8E%B7%E5%8F%96%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BF%A1%E6%81%AF%2F</url>
-    <content type="text"><![CDATA[问题 Android如何获取通讯录中联系人的信息? 相关知识 ContactsContract ContentResolver 动态权限申请 一点SQL语法基础 正文 在Android中获取通讯录联系人信息其实比较简单，只要通过ContentResolver来查询相关URI的数据库表就可以了。 三张表 Android 将我们的联系人信息存储在三张表中， ContactsContract.Contacts每一行表示通讯录中的一个联系人。 ContactsContract.RawContacts每个联系人记录的元数据。 ContactsContract.Data联系人信息实际保存在该表中, 包括联系人的名字，手机号，邮箱等。 因为Android系统中，可以登录多个帐户进行通讯录同步，所以一个联系人可能来自不同的帐号中，所以需要ContactsContract.RawContacts表记录，联系人信息中，那哪些信息来自哪个帐户，该记录什么时候进行的同步，同步下来后，是否发生过修改等信息，这些信息我们一般不需要关注。 三张表的关系 这三张表的关系用ER图表示: 了解了这个三个表的关系之后，获取所有联系人的信息的思路就明确了。 查询Contacts表中的所有记录，获取_ID. 查询RawContacts表中CONTACT_ID为 步骤1中_ID 的所有记录，获取_ID. 查询Data表中RAW_CONTACT_ID为 步骤2中_ID 的所有记录，获取所需要的信息。 实际上，就是做这三个表的级联查询。 CommonDataKinds 除了上面三张表之外，这里还要了解一下ContactsContract.CommonDataKinds。 上文中三张表分别封装为对应的三个类，而CommonDataKinds封装的是这几个表中的某些列的别名。比如Data表中，数据存放在DATA1，DATA2，…， DATA15这几个列中，而CommonDataKinds.PHONE.NUMBER，实际就是指向了DATA1. 它存在的意义在于方便我们进行信息的提取。 代码 添加相关权限 &lt;uses-permission android:name=&quot;android.permission.READ_CONTACTS&quot; /&gt; 注: 该权限为危险，Android6.0以上需要进行动态申请 代码 //kotlin //获取所有联系人名字和Id public fun getAllContacts(contentResolver: ContentResolver): List&lt;SimpleContactsInfo&gt;?{ val col = arrayOf(ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME_PRIMARY) val cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, col, null, null, null) if (cursor != null){ while (cursor.moveToNext()){ val id = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts._ID)) val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)) Log.d(TAG, &quot;\nID = &quot;+id+&quot; name = &quot;+name) getRawContacts(contentResolver, id) Log.d(TAG, &quot;\n----------------------------------------------&quot;) } cursor.close() } return null } //获取该联系人所有元数据 public fun getRawContacts(contentResolver: ContentResolver, contactId: Int){ val col = arrayOf(ContactsContract.RawContacts._ID, ContactsContract.RawContacts.CONTACT_ID, ContactsContract.RawContacts.ACCOUNT_NAME) val cursor = contentResolver.query(ContactsContract.RawContacts.CONTENT_URI, col, ContactsContract.RawContacts.CONTACT_ID+&quot; = ?&quot;, arrayOf(contactId.toString()), null) if(cursor != null){ while (cursor.moveToNext()){ val id = cursor.getInt(cursor.getColumnIndex(col[0])) val contact_id = cursor.getInt(cursor.getColumnIndex(col[1])) val accountName = cursor.getInt(cursor.getColumnIndex(col[2])) Log.d(TAG, &quot;\nID = &quot;+id+&quot; contactId = &quot;+contact_id+&quot; accountName = &quot;+accountName) getContactData(contentResolver, id) } cursor.close() } } //获取该元数据对应用的数据 public fun getContactData(contentResolver: ContentResolver, rawContactId: Int){ val col = arrayOf(ContactsContract.Data._ID, ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER) val cursor = contentResolver.query(ContactsContract.Data.CONTENT_URI, null, ContactsContract.Data.RAW_CONTACT_ID+&quot; = ?&quot;, arrayOf(rawContactId.toString()), null) if(cursor != null){ while (cursor.moveToNext()){ val id = cursor.getInt(cursor.getColumnIndex(col[0])) val name = cursor.getString(cursor.getColumnIndex(col[1])) val number = cursor.getString(cursor.getColumnIndex(col[2])) Log.d(TAG, &quot;\nDataId = &quot;+id+&quot; name = &quot;+name+&quot; number = &quot;+number) } cursor.close() } } 除此之外，google还提供给 ContactsContract.Contacts.Entity，方便我们通过联系人Id查询对应的信息实体，避免多次查询表，然而我试了一下，在我的机器上没有成功。 参考https://developer.android.com/guide/topics/providers/contacts-provider]]></content>
+<search> 
+  
+    
+    <entry>
+      <title>Android:获取联系人信息</title>
+      <link href="/2018/05/10/Android-%E8%8E%B7%E5%8F%96%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BF%A1%E6%81%AF/"/>
+      <content type="html"><![CDATA[<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>  Android如何获取通讯录中联系人的信息?</p><h3 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h3><ul><li>ContactsContract</li><li>ContentResolver</li><li>动态权限申请</li><li>一点SQL语法基础</li></ul><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>  在Android中获取通讯录联系人信息其实比较简单，只要通过ContentResolver来查询相关URI的数据库表就可以了。</p><h4 id="三张表"><a href="#三张表" class="headerlink" title="三张表"></a>三张表</h4><p>  Android 将我们的联系人信息存储在三张表中，</p><ul><li><p><a href="https://developer.android.com/reference/android/provider/ContactsContract.Contacts" target="_blank" rel="noopener">ContactsContract.Contacts</a><br>每一行表示通讯录中的一个联系人。</p></li><li><p><a href="https://developer.android.com/reference/android/provider/ContactsContract.RawContacts" target="_blank" rel="noopener">ContactsContract.RawContacts</a><br>每个联系人记录的元数据。</p></li><li><p><a href="https://developer.android.com/reference/android/provider/ContactsContract.Data" target="_blank" rel="noopener">ContactsContract.Data</a><br>联系人信息实际保存在该表中, 包括联系人的名字，手机号，邮箱等。</p></li></ul><p>因为Android系统中，可以登录多个帐户进行通讯录同步，所以一个联系人可能来自不同的帐号中，所以需要ContactsContract.RawContacts表记录，联系人信息中，那哪些信息来自哪个帐户，该记录什么时候进行的同步，同步下来后，是否发生过修改等信息，这些信息我们一般不需要关注。</p><h4 id="三张表的关系"><a href="#三张表的关系" class="headerlink" title="三张表的关系"></a>三张表的关系</h4><p>  这三张表的关系用ER图表示:</p><p>  <img src="https://i.loli.net/2018/05/11/5af55a5ec168a.png" alt="Android联系人数据库表.png"></p><p>了解了这个三个表的关系之后，获取所有联系人的信息的思路就明确了。</p><blockquote><ol><li>查询Contacts表中的所有记录，获取_ID.</li><li>查询RawContacts表中CONTACT_ID为 步骤1中_ID 的所有记录，获取_ID.</li><li>查询Data表中RAW_CONTACT_ID为 步骤2中_ID 的所有记录，获取所需要的信息。</li></ol></blockquote><p> 实际上，就是做这三个表的级联查询。</p><h4 id="CommonDataKinds"><a href="#CommonDataKinds" class="headerlink" title="CommonDataKinds"></a>CommonDataKinds</h4><p>  除了上面三张表之外，这里还要了解一下<a href="https://developer.android.com/reference/android/provider/ContactsContract.CommonDataKinds.html" target="_blank" rel="noopener">ContactsContract.CommonDataKinds</a>。<br>  上文中三张表分别封装为对应的三个类，而CommonDataKinds封装的是这几个表中的某些列的别名。比如Data表中，数据存放在DATA1，DATA2，…， DATA15这几个列中，而CommonDataKinds.PHONE.NUMBER，实际就是指向了DATA1.</p><p>  它存在的意义在于方便我们进行信息的提取。</p><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><ol><li><p>添加相关权限</p><pre><code>&lt;uses-permission android:name=&quot;android.permission.READ_CONTACTS&quot; /&gt;</code></pre><p>注: 该权限为危险，Android6.0以上需要进行动态申请</p></li><li><p>代码</p><pre><code>//kotlin//获取所有联系人名字和Idpublic fun getAllContacts(contentResolver: ContentResolver): List&lt;SimpleContactsInfo&gt;?{    val col = arrayOf(ContactsContract.Contacts._ID,            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)    val cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,            col, null, null, null)    if (cursor != null){        while (cursor.moveToNext()){            val id = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts._ID))            val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY))            Log.d(TAG, &quot;\nID = &quot;+id+&quot; name = &quot;+name)            getRawContacts(contentResolver, id)            Log.d(TAG, &quot;\n----------------------------------------------&quot;)        }        cursor.close()    }    return null}//获取该联系人所有元数据public fun getRawContacts(contentResolver: ContentResolver, contactId: Int){    val col = arrayOf(ContactsContract.RawContacts._ID,            ContactsContract.RawContacts.CONTACT_ID,            ContactsContract.RawContacts.ACCOUNT_NAME)    val cursor = contentResolver.query(ContactsContract.RawContacts.CONTENT_URI,            col, ContactsContract.RawContacts.CONTACT_ID+&quot; = ?&quot;,            arrayOf(contactId.toString()), null)    if(cursor != null){        while (cursor.moveToNext()){            val id = cursor.getInt(cursor.getColumnIndex(col[0]))            val contact_id = cursor.getInt(cursor.getColumnIndex(col[1]))            val accountName = cursor.getInt(cursor.getColumnIndex(col[2]))            Log.d(TAG, &quot;\nID = &quot;+id+&quot; contactId = &quot;+contact_id+&quot; accountName = &quot;+accountName)            getContactData(contentResolver, id)        }        cursor.close()    }}//获取该元数据对应用的数据public fun getContactData(contentResolver: ContentResolver, rawContactId: Int){    val col = arrayOf(ContactsContract.Data._ID,            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,            ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER)    val cursor = contentResolver.query(ContactsContract.Data.CONTENT_URI,            null, ContactsContract.Data.RAW_CONTACT_ID+&quot; = ?&quot;,            arrayOf(rawContactId.toString()), null)    if(cursor != null){        while (cursor.moveToNext()){            val id = cursor.getInt(cursor.getColumnIndex(col[0]))            val name = cursor.getString(cursor.getColumnIndex(col[1]))            val number = cursor.getString(cursor.getColumnIndex(col[2]))            Log.d(TAG, &quot;\nDataId = &quot;+id+&quot; name = &quot;+name+&quot; number = &quot;+number)        }        cursor.close()    }}</code></pre></li></ol><p>除此之外，google还提供给 ContactsContract.Contacts.Entity，方便我们通过联系人Id查询对应的信息实体，避免多次查询表，然而我试了一下，在我的机器上没有成功。</p><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://developer.android.com/guide/topics/providers/contacts-provider" target="_blank" rel="noopener">https://developer.android.com/guide/topics/providers/contacts-provider</a></p>]]></content>
+      
       <categories>
-        <category>Android</category>
+          
+          <category> Android </category>
+          
       </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>ContactsContract</tag>
-        <tag>开发笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[AS替换Window终端为bash]]></title>
-    <url>%2F2018%2F05%2F06%2FAS-%E6%9B%BF%E6%8D%A2Window%E7%BB%88%E7%AB%AF%E4%B8%BAbash%2F</url>
-    <content type="text"><![CDATA[起因 现在，基本上Android开发使用的IDE都是Android Studio，Android Studio既美观又强大。不过，在Windows平台下，AS中使用的Terminal默认是Windows的Cmd，用着体验很不好，自动补齐都没有，使用git相关命令时，特别不方便。（Linux、Mos请无视） 所以，今天试着将Terminal替换成Git for windows的bash。 步骤 安装Git for window 到官网上下载，对应的版本（.exe），安装过程略。安装时记住安装路径就可以了。 默认安装路径:C:\Program Files\Git 在AS中进行修改Terminal指向bash File-&gt; settings -&gt; Tools -&gt; Terminal 修改Shell path为Git安装目录下的\bin\bash.exe, 如图， 关掉原来的Terminal，再启动就是bash了。 Ok！搞定]]></content>
+      
+      
+        <tags>
+            
+            <tag> Android </tag>
+            
+            <tag> ContactsContract </tag>
+            
+            <tag> 开发笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>AS替换Window终端为bash</title>
+      <link href="/2018/05/06/AS-%E6%9B%BF%E6%8D%A2Window%E7%BB%88%E7%AB%AF%E4%B8%BAbash/"/>
+      <content type="html"><![CDATA[<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>  现在，基本上Android开发使用的IDE都是Android Studio，Android Studio既美观又强大。不过，在Windows平台下，AS中使用的Terminal默认是Windows的Cmd，用着体验很不好，自动补齐都没有，使用git相关命令时，特别不方便。（Linux、Mos请无视）</p><p>  所以，今天试着将Terminal替换成<a href="https://git-scm.com/" target="_blank" rel="noopener">Git for windows</a>的bash。</p><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol><li><p>安装Git for window</p><p>到<a href="https://git-scm.com/" target="_blank" rel="noopener">官网</a>上下载，对应的版本（.exe），安装过程略。安装时记住安装路径就可以了。</p><p>默认安装路径:C:\Program Files\Git</p></li><li><p>在AS中进行修改Terminal指向bash</p><p>File-&gt; settings -&gt; Tools -&gt; Terminal</p><p>修改Shell path为Git安装目录下的\bin\bash.exe, 如图，</p><p><img src="https://i.loli.net/2018/05/06/5aee88c2d37e2.png" alt="TIM图片20180506124528.png"></p><p>关掉原来的Terminal，再启动就是bash了。</p><p><strong>Ok！搞定</strong></p></li></ol>]]></content>
+      
       <categories>
-        <category>开发工具</category>
+          
+          <category> 开发工具 </category>
+          
       </categories>
-      <tags>
-        <tag>Android Studio</tag>
-        <tag>Bash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[五一干了些啥]]></title>
-    <url>%2F2018%2F05%2F02%2F%E4%BA%94%E4%B8%80%E5%B9%B2%E4%BA%9B%E5%95%A5%2F</url>
-    <content type="text"><![CDATA[今年的五一连同周末，只放了三天假。最近这段时间，自己一直不在状态，至于为啥不在状态，可能是因为自从拿到实习offer后，没有什么压力有关吧。另一方面，自己期待的事情也没有如愿进行，某人再也不联系我，以前天天聊得还开心，直到某天，我在找不到对方感兴趣的事情，于是慢慢就没有怎么联系了。唉！ 不过，这些都不应该成为自己变得懒散的原因吧。最近一直是一种咸鱼的状态，上课不听，看书学习不专注，出去玩也没有啥兴趣。前天晚上，和妹妹视频聊天后，她很担忧的和我说，要有活力一点。emm…，我看起来有那么负能量么？ 假期这几天，打了不少游戏，还看两部电影《环太平洋2》还有《金刚:骷髅岛》，尽管一开始就有心理准备，不过看完这两部后，还是感觉有点失望，可能是对前作评价比较高吧。具体为啥失望，我就不展开了，因为我不是专业的影评。 (其实是因为我懒，不想为了表达内心的吐槽，思考如何去表达。^_^) 昨天，在B站上了解到了《Unnatural》,是一部关于非自然死亡的日剧，剧中的主角们（法医）通过解剖死者的尸体，查明其真正的死因，揭露隐藏在死亡背后的案件真相。总体的观感挺错的，剧情不拖沓，基本上每一集都是一个独立的案件，但有不缺乏转折，第一集60分钟的剧情，就有两处大转折。另外，从开头的故事，就一直穿插着一个名为”红色金鱼”的暗线，作为故事最后的boss剧情线，好像这是日剧的惯用方式。再之，就是有的故事实际上是反映了现实。嗯~，我一向就比较喜欢这种能够反映现实同时又能引起观众的思考，或者对某些事物的关注的作品。 于是，今天，我花了一天时间把10集一口气看完了。。。嘿嘿。之前国内的热播剧《法医秦明》好像也是这类电视剧，不过我没有看过，有机会去翻出来看看。@_@ 这几天要说一点都没有学习倒也不是，好歹第一天待在实验室，看了一点书，还在LintCode上刷了几道题。（自我安慰一下Y_Y） 不过，令我感触最大的还是，了解到了有很优秀的同学，一直都很努力，也很厉害。具体多厉害，可以看看她的blog。Click Here 唉，每隔一段时间，我都会去反思后自己的所作，值得吗？时间匆匆过隙，流失的时间无法挽回，休闲过后，是该回归奋斗的主题了！Fighting！]]></content>
+      
+      
+        <tags>
+            
+            <tag> Android Studio </tag>
+            
+            <tag> Bash </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>五一干了些啥</title>
+      <link href="/2018/05/02/%E4%BA%94%E4%B8%80%E5%B9%B2%E4%BA%9B%E5%95%A5/"/>
+      <content type="html"><![CDATA[<p>   今年的五一连同周末，只放了三天假。最近这段时间，自己一直不在状态，至于为啥不在状态，可能是因为自从拿到实习offer后，没有什么压力有关吧。另一方面，自己期待的事情也没有如愿进行，某人再也不联系我，以前天天聊得还开心，直到某天，我在找不到对方感兴趣的事情，于是慢慢就没有怎么联系了。唉！</p><p>   不过，这些都不应该成为自己变得懒散的原因吧。最近一直是一种咸鱼的状态，上课不听，看书学习不专注，出去玩也没有啥兴趣。前天晚上，和妹妹视频聊天后，她很担忧的和我说，要有活力一点。emm…，我看起来有那么负能量么？</p><p>   假期这几天，打了不少游戏，还看两部电影《环太平洋2》还有《金刚:骷髅岛》，尽管一开始就有心理准备，不过看完这两部后，还是感觉有点失望，可能是对前作评价比较高吧。具体为啥失望，我就不展开了，因为我不是专业的影评。</p><p>   (其实是因为我懒，不想为了表达内心的吐槽，思考如何去表达。^_^)</p><p>   昨天，在B站上了解到了《Unnatural》,是一部关于非自然死亡的日剧，剧中的主角们（法医）通过解剖死者的尸体，查明其真正的死因，揭露隐藏在死亡背后的案件真相。总体的观感挺错的，剧情不拖沓，基本上每一集都是一个独立的案件，但有不缺乏转折，第一集60分钟的剧情，就有两处大转折。另外，从开头的故事，就一直穿插着一个名为”红色金鱼”的暗线，作为故事最后的boss剧情线，好像这是日剧的惯用方式。再之，就是有的故事实际上是反映了现实。嗯~，我一向就比较喜欢这种能够反映现实同时又能引起观众的思考，或者对某些事物的关注的作品。<br>   于是，今天，我花了一天时间把10集一口气看完了。。。嘿嘿。之前国内的热播剧《法医秦明》好像也是这类电视剧，不过我没有看过，有机会去翻出来看看。@_@</p><p>   这几天要说一点都没有学习倒也不是，好歹第一天待在实验室，看了一点书，还在LintCode上刷了几道题。（自我安慰一下Y_Y）</p><p>   不过，令我感触最大的还是，了解到了有很优秀的同学，一直都很努力，也很厉害。具体多厉害，可以看看她的blog。<a href="https://www.zuozuovera.com/" target="_blank" rel="noopener">Click Here</a></p><p>   唉，每隔一段时间，我都会去反思后自己的所作，值得吗？时间匆匆过隙，流失的时间无法挽回，休闲过后，是该回归奋斗的主题了！Fighting！</p>]]></content>
+      
       <categories>
-        <category>日常</category>
+          
+          <category> 日常 </category>
+          
       </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[Git常用命令]]></title>
-    <url>%2F2018%2F04%2F11%2FGit%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[概述Git是我们开发者常用的、便捷的分布式版本控制工具，它既可以创建本地管理仓库，也可以同步远程仓库上，在合作开中充当着重要角色。熟练使用Git有利于我们的开发和代码维护，但是由于本人常常忘记一些命令，所以在这对开发中容易忘记的命令进行记录。 关于Git的使用教程，推荐廖雪峰老师教程:《Git教程》 正文基础概念Git命令格式:git &lt;command> [&lt;revision>…] – [&lt;file>…] Git中工作区、暂存区、版本库、远程仓库： 工作区: git init命令初始化的目录，通常就是工程的根目录（比如，./gitProject），git init命令执行完后，会在工作区目录下生成.git目录（./gitProject/.git）。 暂存区: 存放git add命令提交的文件，git add 命令执行完后，文件的记录首先会被添加到暂存区，表示对这个文件进行版本控制。 git status： 查看暂存区的记录，以及工作区中哪些文件被修改. git diff: 查看暂存区和工作区中哪些文件做了哪些修改. (git diff – ) git rm –cached file: 删除暂存区中的文件记录。 版本库: 记录git commit命令提交的记录，每个记录保存着一个版本的文件。所有提交记录形成一个链状的版本库。 git log: 查看commit历史记录 git reflog: 查看对版本库的操作记录，包括commit、reset git reset –hard commit_id: 回滚到commit_id版本，同时产生一次reset记录 git rm file: 从版本库中删除一个文件，这意味着不对该文件进行版本控制 远程仓库: 比如Github、码云上面的仓库… git remote -v: 查看远程仓库地址 分支: Git支持多分支管理，每个分支相对独立，每个分支有各自的提交记录，分支的存在便于不同功能模块的并行开发。Git默认的主分支为master。 git branch: 查看分支，’*‘ 表示当前所在分支。 HEAD: HEAD是版本库中一个指向当前分支当前版本的一个指针（表示当前版本），默认指向git log中最新的版本。 HEAD^: 表示上一个版本记录.（HEAD^^、HEAD^^^依次类推） HEAD~1: 表示上一个版本记录.(HEAD~n, n=1,2,3,… 依次类推) 回滚 git checkout git checkout – 从暂存区恢复指定文件到工作区 git checkout – . 从暂存区恢复已经缓存的文件到工作区 git checkout HEAD 从HEAD指向的版本中恢复指定文件到工作区和暂存区 git checkout HEAD . 从HEAD指向的版本中恢复已经提交的文件到工作区和暂存区 git reset git reset HEAD 撤销已add暂存区的记录，不影响工作区的文件 git reset HEAD . git reset –hard HEAD^ 回滚到上个版本，撤销缓存区，影响工作区 分支控制 git branch 查看所有分支, “*“表示当前所在分支。 -d: 删除某个分支 git checkout &lt;branch_name&gt; 切换到分支 -b: 创建并切换到某个分支 git merge &lt;branch_name&gt; 将某分支合并到当前分支 远程仓库&amp;同步 git remote -v 查看远程仓库地址 git remote add &lt;仓库别名&gt; &lt;仓库url&gt; 添加远程仓库 git remoet set-url &lt;仓库别名&gt; &lt;仓库url&gt; 修改远程仓库url git push &lt;仓库别名&gt; &lt;分支&gt; 同步某分支到远程仓库 git push -f &lt;仓库别名&gt; &lt;分支&gt; 强制同步某分支到远程仓库，覆盖远程仓库. 很实用，很危险 持续更新: 2018/4/11]]></content>
+      
+      
+    </entry>
+    
+    <entry>
+      <title>Git常用命令</title>
+      <link href="/2018/04/11/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+      <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Git是我们开发者常用的、便捷的分布式版本控制工具，它既可以创建本地管理仓库，也可以同步远程仓库上，在合作开中充当着重要角色。熟练使用Git有利于我们的开发和代码维护，但是由于本人常常忘记一些命令，所以在这对开发中容易忘记的命令进行记录。</p><p>关于Git的使用教程，推荐廖雪峰老师教程:<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">《Git教程》</a></p><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><p>Git命令格式:<br>git &lt;command> [&lt;revision>…] – [&lt;file>…]</p><p>Git中工作区、暂存区、版本库、远程仓库：</p><ul><li><p>工作区: git init命令初始化的目录，通常就是工程的根目录（比如，./gitProject），git init命令执行完后，会在工作区目录下生成.git目录（./gitProject/.git）。</p></li><li><p>暂存区: 存放git add命令提交的文件，git add 命令执行完后，文件的记录首先会被添加到暂存区，表示对这个文件进行版本控制。</p><ul><li>git status： 查看暂存区的记录，以及工作区中哪些文件被修改.</li><li>git diff: 查看暂存区和工作区中哪些文件做了哪些修改. (git diff – <file>)</file></li><li>git rm –cached file: 删除暂存区中的文件记录。</li></ul></li><li><p>版本库: 记录git commit命令提交的记录，每个记录保存着一个版本的文件。所有提交记录形成一个链状的版本库。</p><ul><li>git log: 查看commit历史记录</li><li>git reflog: 查看对版本库的操作记录，包括commit、reset</li><li>git reset –hard commit_id: 回滚到commit_id版本，同时产生一次reset记录</li><li>git rm file: 从版本库中删除一个文件，这意味着不对该文件进行版本控制</li></ul></li><li><p>远程仓库: 比如<a href="https://github.com/" target="_blank" rel="noopener">Github</a>、<a href="https://gitee.com/" target="_blank" rel="noopener">码云</a>上面的仓库…</p><ul><li>git remote -v: 查看远程仓库地址</li></ul></li></ul><p>分支: Git支持多分支管理，每个分支相对独立，每个分支有各自的提交记录，分支的存在便于不同功能模块的并行开发。Git默认的主分支为master。</p><ul><li>git branch: 查看分支，’*‘ 表示当前所在分支。</li></ul><p>HEAD: HEAD是版本库中一个指向当前分支当前版本的一个指针（表示当前版本），默认指向git log中最新的版本。</p><ul><li>HEAD^: 表示上一个版本记录.（HEAD^^、HEAD^^^依次类推）</li><li>HEAD~1: 表示上一个版本记录.(HEAD~n, n=1,2,3,… 依次类推)</li></ul><h4 id="回滚"><a href="#回滚" class="headerlink" title="回滚"></a>回滚</h4><ol><li>git checkout</li></ol><blockquote><p>git checkout – <file>  从暂存区恢复指定文件到工作区</file></p><p>git checkout – .       从暂存区恢复已经缓存的文件到工作区</p><p>git checkout HEAD <file>  从HEAD指向的版本中恢复指定文件到工作区和暂存区</file></p><p>git checkout HEAD .       从HEAD指向的版本中恢复已经提交的文件到工作区和暂存区</p></blockquote><ol><li>git reset</li></ol><blockquote><p>git reset HEAD <file> 撤销已add暂存区的记录，不影响工作区的文件</file></p><p>git reset HEAD .</p><p>git reset –hard HEAD^ 回滚到上个版本，撤销缓存区，影响工作区</p></blockquote><h4 id="分支控制"><a href="#分支控制" class="headerlink" title="分支控制"></a>分支控制</h4><ol><li><p>git branch</p><p>查看所有分支, “*“表示当前所在分支。</p><p>-d: 删除某个分支</p></li><li><p>git checkout &lt;branch_name&gt;</p><p>切换到分支</p><p>-b: 创建并切换到某个分支</p></li><li><p>git merge &lt;branch_name&gt;</p><p>将某分支合并到当前分支</p></li></ol><h4 id="远程仓库-amp-同步"><a href="#远程仓库-amp-同步" class="headerlink" title="远程仓库&amp;同步"></a>远程仓库&amp;同步</h4><ol><li><p>git remote -v</p><p>查看远程仓库地址</p></li><li><p>git remote add &lt;仓库别名&gt; &lt;仓库url&gt;</p><p>添加远程仓库</p><p>git remoet set-url &lt;仓库别名&gt; &lt;仓库url&gt;</p><p>修改远程仓库url</p></li><li><p>git push &lt;仓库别名&gt; &lt;分支&gt;</p><p>同步某分支到远程仓库</p><p>git push -f &lt;仓库别名&gt; &lt;分支&gt;</p><p>强制同步某分支到远程仓库，覆盖远程仓库. 很实用，很危险</p></li></ol><h3 id="持续更新-2018-4-11"><a href="#持续更新-2018-4-11" class="headerlink" title="持续更新: 2018/4/11"></a>持续更新: 2018/4/11</h3>]]></content>
+      
       <categories>
-        <category>开发工具</category>
+          
+          <category> 开发工具 </category>
+          
       </categories>
-      <tags>
-        <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Java类加载机制]]></title>
-    <url>%2F2018%2F04%2F07%2FJava%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%2F</url>
-    <content type="text"><![CDATA[概述 Java虚拟机将类的数据从Class文件中加载到内存中，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的过程，称为类加载。 PS：Class文件指描述了一个类的结构的、具有特定构造的二进制字节串，可以是磁盘上的class文件，也可以是网络上的字节流。 本文主要内容： 类的生命周期 类加载的几个过程 类加载器 双亲委派模型 正文类的生命周期 类从被加载到虚拟机内存到卸载出内存，包括以下几个过程： 类加载的几个过程 加载 该过程是类加载的第一个过程，在该阶段，虚拟机需要干一下三件事： 通过一个类的全限定名来获取定义此类的二进制字节流。 将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。 在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口。 在这个阶段，可以使用系统提供的类引导加载器来完成，也可以通过自定义的类加载器完成。重写一个类加载群的loadClass()方法去控制字节流的获取方式。 PS:数组类不通过类加载进行创建，而是由Java虚拟机直接创建。 加载阶段完成后，虚拟机外部的二进制字节流就按照虚拟机所需格式存储在方法区之中，然后再方法区中实例化一个Class类对象。（类的加载过程和连接阶段的部分过程是交叉的。） 验证 该阶段的目的是为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。（文件格式验证、 元数据验证、 字节码验证、 符号引用验证） 准备 该阶段正式为类变量分配内存并设置类变量的初始化值。这里所说的变量为类静态变量，初始值是指类型的默认值，比如int为0、boolean为false。不是在类中显式指定的初始化值。（类的初始化值，会有有虚拟机自动生成的类构造器&lt;clinit>()方法进行赋值） 解析 该阶段主要完成将类中的符号引用（类名、字段名、方法名）替换为直接引用（指针、相对偏移量或一个能定位到目标的句柄），包括类或接口的解析、字段解析、类的方法解析，最终将类或接口、字段和方法的引用替换成对内存位置的直接引用。 初始化 该阶段虚拟机通过执行&lt;clinit>()方法对类中的变量或者资源进行初始化。 &lt;clinit>()方法 &lt;clinit>()方法是由编译器收集类中的所有类变量赋值动作和静态语句块（static{}块）中的语句合并产生的。 &lt;clinit>()方法不需要显示地调用父类的构造器，虚拟机的类初始化规则保证了执行子类的()方法前，父类的&lt;clinit>()方法已经被执行完成。 接口中的不能使用静态语句块，但是如果接口有赋值操作，同样会生成一个&lt;clinit>()方法. 虚拟机会保证一个类的&lt;clinit>方法在多线程环境中被正确地加锁、同步，确保线程安全。同一个类加载器下，一个类的&lt;clinit>()只会被执行一次。 必定会初始化的情况 1）new创建一个类实例、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候，如果类没有进行初始化，则需要触发其初始化。 2）使用java.lang.reflect包的方法对类进行反射调用时，如果类没有进行初始化，则需要触发其初始化。 3）当初始化一个类时，发现其父类没有初始化，则需要先初始化其父类。 4）当虚拟机启动时，虚拟机会初始化包含mian()的那个类。 类加载器 完成”通过一个类的全限定名来获取描述此类的二进制字节流”这个动作的代码模块称为类加载器。 类加载不仅仅实现了类的加载动作，对于任意一个类，都需要由加载它的类加载器和这个类本身一同确立其在Java虚拟机中的唯一性，即比较两个类是否”相等”（Class对象的equels()、instanceof、isInstance()、isAssignableFrom()返回的结果），要在这两个是由同一个类加载器加载的前提下才有意义，否则，即使这两个类来自同一个Class文件，被同一个虚拟机加载，如果由不同的类加载器加载，也不能算相等。 双亲委派模型Java中包括了3种系统提供的类加载器： 启动类加载器：由C++编写，用于系统启动时，将系统类库（&lt;JAVA_HOME>\lib目录）加载到内存中。不能被Java程序直接使用。 扩展类加载器：由ExtClassLoader实现，负责加载&lt;JAVA_HOME>\lib\ext目录中的类库，可以直接使用。 应用程序类加载器：由ClasLoader实现,这个类加载器是ClassLoader中的getSystemClassLoader()方法的返回值，所以也称为系统类加载器。一般情况下，都是使用这个类进行加载。 类加载器之间，通过组合方式形成了如图的层次结构，该结构称为双亲委派模型. 在该模型的工作过程：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委托给上层的类加载器去完成，每一层都是如此，因此所有的类加载请求最终都应该传送到顶层的启动类加载器中，只有上层的类加载器反馈无法完成该类的加载时，才会尝试自己去加载。 如果用户写了一个类的全类名和系统API中的某个类一样，那么根据双亲委派模型，应该加载那个先加载的类–系统API的类. PS：双亲委派模型不是强制性的，因此可以直接自定义ClassLoader加载自己的类。 参考:《深入理解Java虚拟机》]]></content>
+      
+      
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Java类加载机制</title>
+      <link href="/2018/04/07/Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/"/>
+      <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  Java虚拟机将类的数据从Class文件中加载到内存中，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型的过程，称为类加载。</p><p>  PS：Class文件指描述了一个类的结构的、具有特定构造的二进制字节串，可以是磁盘上的class文件，也可以是网络上的字节流。</p><p>  本文主要内容：</p><ol><li>类的生命周期</li><li>类加载的几个过程</li><li>类加载器</li><li>双亲委派模型</li></ol><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h4><p>  类从被加载到虚拟机内存到卸载出内存，包括以下几个过程：<br>  <img src="https://i.loli.net/2018/04/07/5ac8b410d47be.png" alt="Java类加载.png"></p><h4 id="类加载的几个过程"><a href="#类加载的几个过程" class="headerlink" title="类加载的几个过程"></a>类加载的几个过程</h4><ol><li><p>加载</p><p>该过程是类加载的第一个过程，在该阶段，虚拟机需要干一下三件事：</p><ul><li>通过一个类的全限定名来获取定义此类的二进制字节流。</li><li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li><li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口。</li></ul><p>在这个阶段，可以使用系统提供的类引导加载器来完成，也可以通过自定义的类加载器完成。重写一个类加载群的loadClass()方法去控制字节流的获取方式。</p><p>PS:数组类不通过类加载进行创建，而是由Java虚拟机直接创建。</p><p>加载阶段完成后，虚拟机外部的二进制字节流就按照虚拟机所需格式存储在方法区之中，然后再方法区中实例化一个Class类对象。（类的加载过程和连接阶段的部分过程是交叉的。）</p></li><li><p>验证</p><p>该阶段的目的是为了确保Class文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。（文件格式验证、 元数据验证、 字节码验证、 符号引用验证）</p></li><li><p>准备</p><p>该阶段正式为类变量分配内存并设置类变量的初始化值。这里所说的变量为类静态变量，初始值是指类型的默认值，比如int为0、boolean为false。不是在类中显式指定的初始化值。（类的初始化值，会有有虚拟机自动生成的类构造器&lt;clinit>()方法进行赋值）</p></li><li><p>解析</p><p>该阶段主要完成将类中的符号引用（类名、字段名、方法名）替换为直接引用（指针、相对偏移量或一个能定位到目标的句柄），包括类或接口的解析、字段解析、类的方法解析，最终将类或接口、字段和方法的引用替换成对内存位置的直接引用。</p></li><li><p>初始化</p><p>该阶段虚拟机通过执行&lt;clinit>()方法对类中的变量或者资源进行初始化。</p><ul><li>&lt;clinit>()方法</li></ul><p>&lt;clinit>()方法是由编译器收集类中的所有类变量赋值动作和静态语句块（static{}块）中的语句合并产生的。</p><p>&lt;clinit>()方法不需要显示地调用父类的构造器，虚拟机的类初始化规则保证了执行子类的<clinit>()方法前，父类的&lt;clinit>()方法已经被执行完成。</clinit></p><p>接口中的不能使用静态语句块，但是如果接口有赋值操作，同样会生成一个&lt;clinit>()方法.</p><p>虚拟机会保证一个类的&lt;clinit>方法在多线程环境中被正确地加锁、同步，确保线程安全。同一个类加载器下，一个类的&lt;clinit>()只会被执行一次。</p><ul><li>必定会初始化的情况</li></ul><p>1）new创建一个类实例、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候，如果类没有进行初始化，则需要触发其初始化。</p><p>2）使用java.lang.reflect包的方法对类进行反射调用时，如果类没有进行初始化，则需要触发其初始化。</p><p>3）当初始化一个类时，发现其父类没有初始化，则需要先初始化其父类。</p><p>4）当虚拟机启动时，虚拟机会初始化包含mian()的那个类。</p></li></ol><h4 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h4><p>  完成”通过一个类的全限定名来获取描述此类的二进制字节流”这个动作的代码模块称为类加载器。</p><p>  类加载不仅仅实现了类的加载动作，对于任意一个类，都需要由加载它的类加载器和这个类本身一同确立其在Java虚拟机中的唯一性，即比较两个类是否”相等”（Class对象的equels()、instanceof、isInstance()、isAssignableFrom()返回的结果），要在这两个是由同一个类加载器加载的前提下才有意义，否则，即使这两个类来自同一个Class文件，被同一个虚拟机加载，如果由不同的类加载器加载，也不能算相等。</p><h4 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h4><p>Java中包括了3种系统提供的类加载器：</p><ul><li>启动类加载器：由C++编写，用于系统启动时，将系统类库（&lt;JAVA_HOME>\lib目录）加载到内存中。不能被Java程序直接使用。</li><li>扩展类加载器：由ExtClassLoader实现，负责加载&lt;JAVA_HOME>\lib\ext目录中的类库，<br>可以直接使用。</li><li>应用程序类加载器：由ClasLoader实现,这个类加载器是ClassLoader中的getSystemClassLoader()方法的返回值，所以也称为系统类加载器。一般情况下，都是使用这个类进行加载。</li></ul><p><img src="https://i.loli.net/2018/04/08/5ac9022f8f3e6.png" alt="Java类加载双亲委派模型.png"></p><p>类加载器之间，通过组合方式形成了如图的层次结构，该结构称为双亲委派模型.</p><p>在该模型的工作过程：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委托给上层的类加载器去完成，每一层都是如此，因此所有的类加载请求最终都应该传送到顶层的启动类加载器中，只有上层的类加载器反馈无法完成该类的加载时，才会尝试自己去加载。</p><p>如果用户写了一个类的全类名和系统API中的某个类一样，那么根据双亲委派模型，应该加载那个先加载的类–系统API的类.</p><p>PS：双亲委派模型不是强制性的，因此可以直接自定义ClassLoader加载自己的类。</p><p>参考:《深入理解Java虚拟机》</p>]]></content>
+      
       <categories>
-        <category>Java</category>
+          
+          <category> Java </category>
+          
       </categories>
-      <tags>
-        <tag>虚拟机</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Kotlin:告别findViewById]]></title>
-    <url>%2F2018%2F03%2F31%2FKotlin%E5%91%8A%E5%88%ABfindViewById%2F</url>
-    <content type="text"><![CDATA[背景关于Kotlin，个人在Google发布前就已经关注了，前段时间曾经看着文档学了一些，但是一直没有没有项目中使用。最近上学校里面的移动应用开发课，需要写一些小作业，索性拿作业来练练手。 告别findViewById相信很多人都对Android开发中，使用findViewbyId来获取布局的中控件感到繁琐，好在有ButterKnife这样神奇的第三方依赖注入库，让我们能够减少很多模板代码。不过当你使用Kotlin进行开发时，Kotlin官方已经开发了Kotlin Android Extensions(kotlin-gradle-plugin的一部分),帮我们完成控件绑定的任务。 如何使用？ 配置Module的build.gradle 如果你的工程是Kotlin工程，那么只需在需要的Module的build.gradle中，添加 apply plugin: ‘kotlin-android-extensions’ 在Activity的源代码中，引入相应的synthetic properties import kotlinx.android.synthetic.main.&lt;layout>.* &lt;layout>为布局文件名。比如 //MainActivity.kt import kotlinx.android.synthetic.main.activity_main.* class MainActivity : AppCompatActivity() { override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState) setContentView(R.layout.activity_main) tv_name.text = &quot;Ksxy&quot; } } //activity_main.xml &lt;TextView android:id=&quot;@+id/tv_name&quot; android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot;/&gt;]]></content>
+      
+      
+        <tags>
+            
+            <tag> 虚拟机 </tag>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Kotlin:告别findViewById</title>
+      <link href="/2018/03/31/Kotlin%E5%91%8A%E5%88%ABfindViewById/"/>
+      <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>关于Kotlin，个人在Google发布前就已经关注了，前段时间曾经看着文档学了一些，但是一直没有没有项目中使用。最近上学校里面的移动应用开发课，需要写一些小作业，索性拿作业来练练手。</p><h3 id="告别findViewById"><a href="#告别findViewById" class="headerlink" title="告别findViewById"></a>告别findViewById</h3><p>相信很多人都对Android开发中，使用findViewbyId来获取布局的中控件感到繁琐，好在有ButterKnife这样神奇的第三方依赖注入库，让我们能够减少很多模板代码。不过当你使用Kotlin进行开发时，Kotlin官方已经开发了<a href="https://kotlinlang.org/docs/tutorials/android-plugin.html" target="_blank" rel="noopener">Kotlin Android Extensions</a>(kotlin-gradle-plugin的一部分),帮我们完成控件绑定的任务。</p><h4 id="如何使用？"><a href="#如何使用？" class="headerlink" title="如何使用？"></a>如何使用？</h4><ol><li><p>配置Module的build.gradle</p><p>如果你的工程是Kotlin工程，那么只需在需要的Module的build.gradle中，添加</p><blockquote><p>apply plugin: ‘kotlin-android-extensions’</p></blockquote></li><li><p>在Activity的源代码中，引入相应的synthetic properties</p><blockquote><p>import kotlinx.android.synthetic.main.&lt;layout>.*</p></blockquote><p>&lt;layout>为布局文件名。比如</p><pre><code>//MainActivity.ktimport kotlinx.android.synthetic.main.activity_main.*class MainActivity : AppCompatActivity() {  override fun onCreate(savedInstanceState: Bundle?) {  super.onCreate(savedInstanceState)  setContentView(R.layout.activity_main)  tv_name.text = &quot;Ksxy&quot;  }}//activity_main.xml&lt;TextViewandroid:id=&quot;@+id/tv_name&quot;android:layout_width=&quot;wrap_content&quot;android:layout_height=&quot;wrap_content&quot;/&gt;</code></pre></li></ol>]]></content>
+      
       <categories>
-        <category>Android</category>
+          
+          <category> Android </category>
+          
       </categories>
-      <tags>
-        <tag>开发笔记</tag>
-        <tag>Kotlin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Android开发杂记]]></title>
-    <url>%2F2018%2F03%2F31%2FAndroid%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0%2F</url>
-    <content type="text"><![CDATA[前言在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。 AndroidAssets目录Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助**AssetManager**。使用Context.getAssetManager()可以获取实例。 注：assets下可以有子目录，引入文件时url的根目录为assets。 val assets = getAssetManager() val inStream = assets.open(&quot;img/qrcode.png&quot;) //文件路径:assets/img/qrcode.png val bitmap = BitmapFactory.decodeStream(inStream) inStream.close() string.xml中字符串插值&gt; string.xml中， &gt; &gt; &lt;string name=&quot;stu_name&quot;\&gt;名字: %s&lt;/string\&gt; &gt; &gt; 代码中， &gt; &gt; tv_name.text = String.format(getResource().getString(R.string.stu_name), &quot;Mr.chen&quot;) * %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格 * %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格 * %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00 * %d ： 表示整数 - %f： 表示浮点数 - %s ： 表示字符串 ListView隐藏scrollbar &gt; android:scrollbars=&quot;none&quot; &gt; 或 &gt; ListView#setVerticalScrollBarEnabled(true); 沉浸式状态栏适配 第三方库: [UltimateBar](https://github.com/Zackratos/UltimateBar) 根据文件名，获取其资源ID* 获取状态栏高度: resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;) val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId) Android版本判断 if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){} 6.0 动态权限申请 危险权限 官方相关文档 动态申请权限模板代码 if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){ //如果没有获得该权限 if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){ //如果需要向用户说明申请权限的理由 //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true } //申请权限 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE) } override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) { when(requestCode){ CONTACTS_PERMISSION_CODE -&gt; { if (grantResults[0] == PackageManager.PERMISSION_GRANTED){ //申请成功 }else{ } return } } super.onRequestPermissionsResult(requestCode, permissions, grantResults) } 持续更新 2018-5-5]]></content>
+      
+      
+        <tags>
+            
+            <tag> 开发笔记 </tag>
+            
+            <tag> Kotlin </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Android开发杂记</title>
+      <link href="/2018/03/31/Android%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/"/>
+      <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><h4 id="Assets目录"><a href="#Assets目录" class="headerlink" title="Assets目录"></a>Assets目录</h4><pre><code>Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助**AssetManager**。使用Context.getAssetManager()可以获取实例。注：assets下可以有子目录，引入文件时url的根目录为assets。    val assets = getAssetManager()    val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.png    val bitmap = BitmapFactory.decodeStream(inStream)    inStream.close()</code></pre><h4 id="string-xml中字符串插值"><a href="#string-xml中字符串插值" class="headerlink" title="string.xml中字符串插值"></a>string.xml中字符串插值</h4><pre><code>&gt; string.xml中，&gt;&gt;    &lt;string name=&quot;stu_name&quot;\&gt;名字: %s&lt;/string\&gt;&gt;&gt; 代码中，&gt;&gt; tv_name.text = String.format(getResource().getString(R.string.stu_name), &quot;Mr.chen&quot;)* %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格* %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格* %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00* %d ：   表示整数- %f：  表示浮点数- %s  ： 表示字符串</code></pre><h4 id="ListView隐藏scrollbar"><a href="#ListView隐藏scrollbar" class="headerlink" title="ListView隐藏scrollbar"></a>ListView隐藏scrollbar</h4><pre><code>&gt; android:scrollbars=&quot;none&quot;&gt; 或&gt; ListView#setVerticalScrollBarEnabled(true);</code></pre><h4 id="沉浸式状态栏适配"><a href="#沉浸式状态栏适配" class="headerlink" title="沉浸式状态栏适配"></a>沉浸式状态栏适配</h4><pre><code>第三方库: [UltimateBar](https://github.com/Zackratos/UltimateBar)</code></pre><h4 id="根据文件名，获取其资源ID"><a href="#根据文件名，获取其资源ID" class="headerlink" title="根据文件名，获取其资源ID"></a>根据文件名，获取其资源ID</h4><pre><code>* 获取状态栏高度:        resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)        val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)</code></pre><h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}</code></pre><h4 id="6-0-动态权限申请"><a href="#6-0-动态权限申请" class="headerlink" title="6.0 动态权限申请"></a>6.0 动态权限申请</h4><ul><li><p>危险权限</p><p>  <a href="https://developer.android.com/guide/topics/security/permissions?hl=zh-CN#normal-dangerous" target="_blank" rel="noopener">官方相关文档</a></p></li><li><p>动态申请权限模板代码</p><pre><code>if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){        //如果没有获得该权限        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){            //如果需要向用户说明申请权限的理由            //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true        }        //申请权限        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)    }override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {    when(requestCode){        CONTACTS_PERMISSION_CODE -&gt; {            if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){                //申请成功            }else{            }            return        }    }    super.onRequestPermissionsResult(requestCode, permissions, grantResults)</code></pre><p>  }</p></li></ul><h3 id="持续更新-2018-5-5"><a href="#持续更新-2018-5-5" class="headerlink" title="持续更新 2018-5-5"></a>持续更新 2018-5-5</h3>]]></content>
+      
       <categories>
-        <category>Android</category>
+          
+          <category> Android </category>
+          
       </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>开发笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Java垃圾回收]]></title>
-    <url>%2F2018%2F03%2F30%2FJava%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%2F</url>
-    <content type="text"><![CDATA[概述 关于Java虚拟机的垃圾回收机制（GC）的学习笔记。 主要记录 如何确定哪些对象可以回收？ Java中的四种引用 几种垃圾回收的算法思想 正文对象是否存活 Java中的对象实例主要存在于Java虚拟机的堆中，在垃圾收集器对堆中的实例进行回收之前，首先要确定哪些对象还可以”存活”，哪些可以回收。关于Java虚拟机的内存模型可以查看该文章 1. 引用计数法 在刚学Java的时候就知道了这种方法，该方法和C++中的智能指针的思想差不多，给对象添加一个引用计算器，每当有一个地方引用它时，计数器的值就加1；当连接失效时，计数器减1；当计数器的值为0时，表示该该对象不存在任何引用，因此需要被回收。 该方法比较简单，但是不能解决对象之间互相循环引用的问题。比如，A对象引用B对象，而B对象引用了A对象，除此之外，A、B对象均无其他引用，那么把A、B对象看成一个整体，则这两个对象都应该被回收，而他们的引用计数器均不为0. 2. 可达性分析算法 在该算法中，需要从一系列称为”GCRoots”的对象开始，以这些对象为起点，分析他的引用对象，然后从他引用的对象向下分析其引用的对象，所走过的路径称为引用链（最终形成一个个连通图）。当一个对象到GCRoots没有任何引用链（从GCRoots对象不可达），则证明此对象不可用。如果学过图论，相信很容易理解。 哪些对象属于GCRoots对象？ 虚拟机栈（栈帧中的本地变量表）中引用的对象 方法区中类静态属性引用的对象 方法区中常量引用的对象 本地方法栈中Native方法引用的对象 Java中的四种引用在JDK1.2后，Java对引用的概念进行了扩充，引入了强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）。 强引用：代码间普遍存在，如”Object obj = new Object()”中的obj。只要存在强引用，对象就不会被回收。 软引用：对应Java中的SoftReference类，描述一些有用但是非必需的对象，关联的对象会在系统将要发生内存溢出异常前，列入下次回收的名单中。 弱引用：对应Java中的WeakReference类, 描述非必须的对象，关联的对象会在下次内存回收时参与回收，无论内存是否足够。 虚引用：对应Java中的PhantomReference类最弱的一种引用，一个对象是否有虚引用的存在，完全不会对其生存构成影响，也无法通过虚引用来取得一个对象实例。为一对象设置虚引用的唯一目的就是在这个对象被会回收时收到一个系统通知。 几种垃圾回收算法思想1. 标记-清除算法 该算法包括”标记”和”清除”两个阶段：首先标记出所有需要回收的对象，在标记完后统一回收所有被标记的对象。 该算法主要有两种不足： 标记和清除两个过程的效率都不高； 标记清除后会产生大量不连续的内存碎片，空间碎片太多可能导致以后需要分配大对象时，无法找到足够的连续内存而不得不提前出发另一次垃圾收集动作。 2. 复制算法 该算法会把内存划分为大小相等的两块，每次只使用其中的一块，当这一块内存呢用完时，就将还存活的对象复制到另一快上，然后再把已使用的内存空间一次清理掉。 优点：不需要考虑内存碎片，复制时只需移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。 不足：内存缩小为原来的一半。 但实际上，该算法主要用于新生代区域，而且不需要按照1:1的比分割空间。新生代的特点就是每次回收都会有大多数对象被回收，根据这个特点，可以将内存划分为一块比较大的Eden空间和两块比较小的Survivor空间（8:1:1），每次使用Eden和其中一个块Survivor。当回收时，将Eden和Survivor中还活着的对象一次性复制到另外一块Survivor空间上，最后清理掉Eden和刚才用过的Survivor空间。当Survivor空间不够用时，可以借用老年代进行分配担保。 3.标记-整理算法 该算法和标记-清除相类似，不过在标记对象后，需要将所有存活的对象都移动到一端，然后直接清除掉端边界以外的内存。 由于老年代中对象的存活率比较高，所以老年代使用复制算法时需要进行的复制操作比较多，代价比较高，所以更适合标记-整理算法。 4. 分代收集算法 其实就是将堆划分为新生代和老年代，根据两者不同的特点使用不同的垃圾收集算法。在新生代中，每次垃圾回收都会有大批对象死去，只有少量存活，选用复制算法。而老年代中因为对象存活率高、没有额外的空间进行分配担保，必须使用“标记-清除”或者“标记-整理”算法进行回收。 参考:《深入理解Java虚拟机》]]></content>
+      
+      
+        <tags>
+            
+            <tag> Android </tag>
+            
+            <tag> 开发笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Java垃圾回收</title>
+      <link href="/2018/03/30/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
+      <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  关于Java虚拟机的垃圾回收机制（GC）的学习笔记。</p><h4 id="主要记录"><a href="#主要记录" class="headerlink" title="主要记录"></a>主要记录</h4><ol><li>如何确定哪些对象可以回收？</li><li>Java中的四种引用</li><li>几种垃圾回收的算法思想</li></ol><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="对象是否存活"><a href="#对象是否存活" class="headerlink" title="对象是否存活"></a>对象是否存活</h4><p>  Java中的对象实例主要存在于Java虚拟机的堆中，在垃圾收集器对堆中的实例进行回收之前，首先要确定哪些对象还可以”存活”，哪些可以回收。关于Java虚拟机的内存模型可以查看<a href="https://offensiveyy.github.io/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener">该文章</a></p><h5 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1. 引用计数法"></a>1. 引用计数法</h5><p>  在刚学Java的时候就知道了这种方法，该方法和C++中的智能指针的思想差不多，给对象添加一个引用计算器，每当有一个地方引用它时，计数器的值就加1；当连接失效时，计数器减1；当计数器的值为0时，表示该该对象不存在任何引用，因此需要被回收。</p><p>  该方法比较简单，但是不能解决对象之间互相循环引用的问题。比如，A对象引用B对象，而B对象引用了A对象，除此之外，A、B对象均无其他引用，那么把A、B对象看成一个整体，则这两个对象都应该被回收，而他们的引用计数器均不为0.</p><h5 id="2-可达性分析算法"><a href="#2-可达性分析算法" class="headerlink" title="2. 可达性分析算法"></a>2. 可达性分析算法</h5><p>  在该算法中，需要从一系列称为”GCRoots”的对象开始，以这些对象为起点，分析他的引用对象，然后从他引用的对象向下分析其引用的对象，所走过的路径称为引用链（最终形成一个个连通图）。当一个对象到GCRoots没有任何引用链（从GCRoots对象不可达），则证明此对象不可用。如果学过图论，相信很容易理解。</p><p>  <strong>哪些对象属于GCRoots对象？</strong></p><blockquote><ol><li>虚拟机栈（栈帧中的本地变量表）中引用的对象</li><li>方法区中类静态属性引用的对象</li><li>方法区中常量引用的对象</li><li>本地方法栈中Native方法引用的对象</li></ol></blockquote><h4 id="Java中的四种引用"><a href="#Java中的四种引用" class="headerlink" title="Java中的四种引用"></a>Java中的四种引用</h4><p>在JDK1.2后，Java对引用的概念进行了扩充，引入了强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）。</p><ul><li>强引用：代码间普遍存在，如”Object obj = new Object()”中的obj。只要存在强引用，对象就不会被回收。</li><li>软引用：对应Java中的SoftReference类，描述一些<strong>有用但是非必需</strong>的对象，关联的对象会在系统将要发生内存溢出异常前，列入下次回收的名单中。</li><li>弱引用：对应Java中的WeakReference类, 描述<strong>非必须</strong>的对象，关联的对象会在下次内存回收时参与回收，无论内存是否足够。</li><li>虚引用：对应Java中的PhantomReference类最弱的一种引用，一个对象是否有虚引用的存在，完全不会对其生存构成影响，也无法通过虚引用来取得一个对象实例。为一对象设置虚引用的唯一目的就是在这个对象被会回收时收到一个系统通知。</li></ul><h4 id="几种垃圾回收算法思想"><a href="#几种垃圾回收算法思想" class="headerlink" title="几种垃圾回收算法思想"></a>几种垃圾回收算法思想</h4><h5 id="1-标记-清除算法"><a href="#1-标记-清除算法" class="headerlink" title="1. 标记-清除算法"></a>1. 标记-清除算法</h5><p>  该算法包括”标记”和”清除”两个阶段：首先标记出所有需要回收的对象，在标记完后统一回收所有被标记的对象。<br>  该算法主要有两种不足：</p><ul><li>标记和清除两个过程的效率都不高；</li><li>标记清除后会产生大量不连续的内存碎片，空间碎片太多可能导致以后需要分配大对象时，无法找到足够的连续内存而不得不提前出发另一次垃圾收集动作。</li></ul><h5 id="2-复制算法"><a href="#2-复制算法" class="headerlink" title="2. 复制算法"></a>2. 复制算法</h5><p>  该算法会把内存划分为大小相等的两块，每次只使用其中的一块，当这一块内存呢用完时，就将还存活的对象复制到另一快上，然后再把已使用的内存空间一次清理掉。</p><ul><li>优点：不需要考虑内存碎片，复制时只需移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。</li><li>不足：内存缩小为原来的一半。</li></ul><p>但实际上，该算法主要用于新生代区域，而且不需要按照1:1的比分割空间。新生代的特点就是每次回收都会有大多数对象被回收，根据这个特点，可以将内存划分为一块比较大的Eden空间和两块比较小的Survivor空间（8:1:1），每次使用Eden和其中一个块Survivor。当回收时，将Eden和Survivor中还活着的对象一次性复制到另外一块Survivor空间上，最后清理掉Eden和刚才用过的Survivor空间。当Survivor空间不够用时，可以借用老年代进行分配担保。</p><h5 id="3-标记-整理算法"><a href="#3-标记-整理算法" class="headerlink" title="3.标记-整理算法"></a>3.标记-整理算法</h5><p>  该算法和标记-清除相类似，不过在标记对象后，需要将所有存活的对象都移动到一端，然后直接清除掉端边界以外的内存。<br>  由于老年代中对象的存活率比较高，所以老年代使用复制算法时需要进行的复制操作比较多，代价比较高，所以更适合标记-整理算法。</p><h5 id="4-分代收集算法"><a href="#4-分代收集算法" class="headerlink" title="4. 分代收集算法"></a>4. 分代收集算法</h5><p>  其实就是将堆划分为新生代和老年代，根据两者不同的特点使用不同的垃圾收集算法。在新生代中，每次垃圾回收都会有大批对象死去，只有少量存活，选用复制算法。而老年代中因为对象存活率高、没有额外的空间进行分配担保，必须使用“标记-清除”或者“标记-整理”算法进行回收。</p><p>  参考:《深入理解Java虚拟机》</p>]]></content>
+      
       <categories>
-        <category>Java</category>
+          
+          <category> Java </category>
+          
       </categories>
-      <tags>
-        <tag>Java GC</tag>
-        <tag>虚拟机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Java虚拟机内存模型]]></title>
-    <url>%2F2018%2F03%2F30%2FJava%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%2F</url>
-    <content type="text"><![CDATA[引言最近在面试的过程中，被问及了关于Java虚拟机的问题，虽然以前自己有过大致的了解，但是面试时有些紧张，没有回忆上来。索性查阅后做个总结。 正文运行时数据区域 程序计数器: 程序计数器是一块比较小的内存空间，记录了当前线程所执行的字节码的行号，和CPU中的指令计数寄存器类似。每个线程都有一个独立的程序计数器，互不影响。如果线程执行的是Java方法，那么计数器记录着的是正在执行的虚拟机字节码指令的地址，如果执行的为Native方法，计数器为空。 Java虚拟机栈: Java虚拟机和程序计数器一样为线程私有，它的生命周期和线程相同。描述了Java方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、操作数栈、动态链接、方法口等信息。递归调用层数比较多时的，就有可能导致该部分内存的溢出（StackOverflowError）。 本地方法栈: 本地方法栈和Java虚拟机栈功能类似，区别在一个前者为Native方法提供服务，后台为Java方法服务。 Java堆: Java堆是Java虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的区域，在虚拟机启动时创建。用于存放对象实例。同时Java堆也是垃圾收集器管理的主要区域。在分代收集算法中，Java堆还可以细分为: 新生代和老年代。根据新生代和老年代的不同特点，采用不同是收集算法。 方法区(别名Non-Heap): 方法区和Java堆一样是线程共享的，用于存储已被加载的类的信息、常量、静态变量、即时编译器编译后的代码等数据。类被加载后，会生成对应Class的实例，该实例同样保存在方法区。 运行时常量池: 为方法区的一部分，Class文件除了有类的版本、字段、方法、接口等描述信息外，还有有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用。 直接内存: 直接内存并不虚拟机运行时数据区的一部分。在JDK1.4之中新加入的NIO类，基于通道（Channel）和缓冲区（Buffer）的IO方式，就是使用了Native函数直接分配内存，然后通过一个存储在Java堆中的DirectByteBuffer对象对这个块内存进行操作。 参考:《深入理解Java虚拟机》]]></content>
+      
+      
+        <tags>
+            
+            <tag> Java GC </tag>
+            
+            <tag> 虚拟机 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Java虚拟机内存模型</title>
+      <link href="/2018/03/30/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
+      <content type="html"><![CDATA[<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>最近在面试的过程中，被问及了关于Java虚拟机的问题，虽然以前自己有过大致的了解，但是面试时有些紧张，没有回忆上来。索性查阅后做个总结。</p><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h4><p><img src="https://i.loli.net/2018/03/30/5abe3b29a3406.png" alt="Java虚拟机内存模型.png"></p><ul><li><strong>程序计数器</strong>: 程序计数器是一块比较小的内存空间，记录了当前<strong>线程</strong>所执行的字节码的行号，和CPU中的指令计数寄存器类似。每个线程都有一个独立的程序计数器，互不影响。如果线程执行的是Java方法，那么计数器记录着的是正在执行的虚拟机字节码指令的地址，如果执行的为Native方法，计数器为空。</li></ul><ul><li><strong>Java虚拟机栈</strong>: Java虚拟机和程序计数器一样为线程私有，它的生命周期和线程相同。描述了Java方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、操作数栈、动态链接、方法口等信息。递归调用层数比较多时的，就有可能导致该部分内存的溢出（StackOverflowError）。</li></ul><ul><li><strong>本地方法栈</strong>: 本地方法栈和Java虚拟机栈功能类似，区别在一个前者为Native方法提供服务，后台为Java方法服务。</li></ul><ul><li><p><strong>Java堆</strong>: Java堆是Java虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的区域，在虚拟机启动时创建。用于存放对象实例。同时Java堆也是垃圾收集器管理的主要区域。在分代收集算法中，Java堆还可以细分为: 新生代和老年代。根据新生代和老年代的不同特点，采用不同是收集算法。</p></li><li><p><strong>方法区(别名Non-Heap)</strong>: 方法区和Java堆一样是线程共享的，用于存储已被加载的类的信息、常量、静态变量、即时编译器编译后的代码等数据。类被加载后，会生成对应Class的实例，该实例同样保存在方法区。</p><ul><li>运行时常量池: 为方法区的一部分，Class文件除了有类的版本、字段、方法、接口等描述信息外，还有有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用。</li></ul></li></ul><ul><li><strong>直接内存</strong>: 直接内存并不虚拟机运行时数据区的一部分。在JDK1.4之中新加入的NIO类，基于通道（Channel）和缓冲区（Buffer）的IO方式，就是使用了Native函数直接分配内存，然后通过一个存储在Java堆中的DirectByteBuffer对象对这个块内存进行操作。</li></ul><p>参考:《深入理解Java虚拟机》</p>]]></content>
+      
       <categories>
-        <category>Java</category>
+          
+          <category> Java </category>
+          
       </categories>
-      <tags>
-        <tag>虚拟机</tag>
-        <tag>内存模型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[图解Activity/Fragment生命周期]]></title>
-    <url>%2F2018%2F03%2F13%2FAndroid-Activity-Fragment%E8%B6%85%E8%AF%A6%E7%BB%86%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%2F</url>
-    <content type="text"><![CDATA[前言关于Activity和Fragment的生命周期，是每个Android开发者必须熟悉掌握的，最近在网上发现了一张超详细的关于这两者生命周期的图, 于是结合自己的理解进行了学习。 正文先上图，来源 说明 经典的生命周期就赘述。从整个生命周期来说，onCreate和onDestroy是配对出现，分别在Activity创建与销毁时执行一次；onStart和onStop分别标识是否可见，可被多次调用；onResume和onPause分别标识是否在前台，同样可被多次调用。这里需要注意的是onPause，在从当前Activity启动另一个Activity时会，先调用当前Activity的onPause，然后才调用新启动的Activity的onCreate，当完成新Activity的启动后，才调用原来的Activity的Stop(),为了不造成启动卡顿，不能再onPause中做耗时的操作。 onSaveInstanceState()与onReStoreInstanceState() 这两个方法都不属于Activity的正常生命周期，也不保证一定会被调用。onSaveIntanceState()只有Activity”容易”被销毁时（比如内存不足可能被销毁），才会被调用；当Activity被重建时，系统会调用onRestoreInstanceState()来恢复已经保存的视图。 《阿里Android开发手册》第三章第2条: 【推荐】Activity#onSaveInstanceState()方法不是 Activity 生命周期方法，也不保证一定会被调用。它是用来在 Activity 被意外销毁时保存 UI 状态的，只能用于保存临时性数据，例如 UI 控件的属性等，不能跟数据的持久化存储混为一谈。持久化存储应该在 Activity#onPause()/onStop()中实行。 关于onSaveInstanceState的调用时机 onPostCreate()、onPostResume() onPostCreate()在调用onStart() 和onRestoreInstanceState(Bundle)后调用，这意味着这时候大多数初始工作已经完成，而又还没有完全显示出来。有时候我需要在获取某个View的大小，在OnCreate中获取时，View还没有来得及测量，大小为0，所以我们可以在该方法中获取。onPostResume()也可以干类似的事情。 onContentChanged() onContentChanged()是Activity中的一个回调方法，当Activity的布局改动即setContentView()或者addContentView()方法执行完毕时就会调用该方法。 onAttachedToWindow() onAttachedToWindow是在第一次onDraw前调用的。也就是我们写的View在没有绘制出来时调用的，但只会调用一次。 onUserInteraction() ，onUserLeaveHint() 这两个同样不是Activity的正常生命周期函数。根据官方的介绍，onUserInteraction(),当Activity发生任何按触碰事件，就会调用，主要用来监视用户是否在与当前Activity进行交互。onUserLeaveHint(),用户离开当前Activity，比如按Home，Activity进入后台时调用,在调用onUserLeaveHint之前，会调用onUserInteraction。 另外,如果使用FragmentActivity(AppCompatActivity继承于FragmentActivity),则还要注意以下两个回调： onResumeFragments 该函数在onResume之后进行调用，官方文档里面介绍，FragmentActivity的onResume将分发给onResumeFragments。《阿里Android开发手册》推荐最迟在这个方法中调用FragmentTransaction#commit()，否则可能出现状态丢失的错误。 《阿里Android开发手册》第三章第7条: 【 推 荐 】 添 加 Fragment 时 ， 确 保 FragmentTransaction#commit() 在Activity#onPostResume()或者 FragmentActivity#onResumeFragments()内调用。不要随意使用 FragmentTransaction#commitAllowingStateLoss()来代替，任何commitAllowingStateLoss()的使用必须经过 code review，确保无负面影响。 onAttachFragment 每当Fragment调用onAttach后调用该方法, 如果Fragment尚未调用onCreate，会在Fragment#onCreate前调用。 关于Activity/Fragment的生命周期，我写了个Demo：这里]]></content>
+      
+      
+        <tags>
+            
+            <tag> 虚拟机 </tag>
+            
+            <tag> 内存模型 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>图解Activity/Fragment生命周期</title>
+      <link href="/2018/03/13/Android-Activity-Fragment%E8%B6%85%E8%AF%A6%E7%BB%86%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
+      <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>关于Activity和Fragment的生命周期，是每个Android开发者必须熟悉掌握的，最近在网上发现了一张超详细的关于这两者生命周期的图, 于是结合自己的理解进行了学习。</p><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>先上图，<a href="https://github.com/xxv/android-lifecycle" target="_blank" rel="noopener">来源</a><br><img src="https://i.loli.net/2018/03/13/5aa76bdd4d05c.png" alt="complete_android_fragment_lifecycle.png"></p><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol><li><p>经典的生命周期就赘述。从整个生命周期来说，onCreate和onDestroy是配对出现，分别在Activity创建与销毁时执行一次；onStart和onStop分别标识是否可见，可被多次调用；onResume和onPause分别标识是否在前台，同样可被多次调用。这里需要注意的是onPause，在从当前Activity启动另一个Activity时会，先调用当前Activity的onPause，然后才调用新启动的Activity的onCreate，当完成新Activity的启动后，才调用原来的Activity的Stop(),为了不造成启动卡顿，不能再onPause中做耗时的操作。</p></li><li><p>onSaveInstanceState()与onReStoreInstanceState()</p><p>这两个方法都不属于Activity的正常生命周期，也不保证一定会被调用。onSaveIntanceState()只有Activity”容易”被销毁时（比如内存不足可能被销毁），才会被调用；当Activity被重建时，系统会调用onRestoreInstanceState()来恢复已经保存的视图。</p><blockquote><p>《阿里Android开发手册》第三章第2条:</p><p>【推荐】Activity#onSaveInstanceState()方法不是 Activity 生命周期方法，也不保证<br>一定会被调用。它是用来在 Activity 被意外销毁时保存 UI 状态的，只能用于保存临<br>时性数据，例如 UI 控件的属性等，不能跟数据的持久化存储混为一谈。持久化存储<br>应该在 Activity#onPause()/onStop()中实行。</p></blockquote><p><a href="https://www.jianshu.com/p/89e0a7533dbe" target="_blank" rel="noopener">关于onSaveInstanceState的调用时机</a></p></li><li><p>onPostCreate()、onPostResume()</p><p>onPostCreate()在调用onStart() 和onRestoreInstanceState(Bundle)后调用，这意味着这时候大多数初始工作已经完成，而又还没有完全显示出来。有时候我需要在获取某个View的大小，在OnCreate中获取时，View还没有来得及测量，大小为0，所以我们可以在该方法中获取。onPostResume()也可以干类似的事情。</p></li><li><p>onContentChanged()</p><p>onContentChanged()是Activity中的一个回调方法，当Activity的布局改动即setContentView()或者addContentView()方法执行完毕时就会调用该方法。</p></li><li><p>onAttachedToWindow()</p><p>onAttachedToWindow是在第一次onDraw前调用的。也就是我们写的View在没有绘制出来时调用的，但只会调用一次。</p></li><li><p>onUserInteraction() ，onUserLeaveHint()</p><p>这两个同样不是Activity的正常生命周期函数。根据官方的介绍，onUserInteraction(),当Activity发生任何按触碰事件，就会调用，主要用来监视用户是否在与当前Activity进行交互。onUserLeaveHint(),用户离开当前Activity，比如按Home，Activity进入后台时调用,在调用onUserLeaveHint之前，会调用onUserInteraction。</p><p><strong>另外</strong>,如果使用FragmentActivity(AppCompatActivity继承于FragmentActivity),则还要注意以下两个回调：</p></li><li><p>onResumeFragments</p><p>该函数在onResume之后进行调用，官方文档里面介绍，FragmentActivity的onResume将分发给onResumeFragments。《阿里Android开发手册》推荐最迟在这个方法中调用FragmentTransaction#commit()，否则可能出现<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0616/3050.html" target="_blank" rel="noopener">状态丢失</a>的错误。</p><blockquote><p>《阿里Android开发手册》第三章第7条:</p><p>【 推 荐 】 添 加 Fragment 时 ， 确 保 FragmentTransaction#commit() 在<br>Activity#onPostResume()或者 FragmentActivity#onResumeFragments()内调用。<br>不要随意使用 FragmentTransaction#commitAllowingStateLoss()来代替，任何<br>commitAllowingStateLoss()的使用必须经过 code review，确保无负面影响。</p></blockquote></li><li><p>onAttachFragment</p><p>每当Fragment调用onAttach后调用该方法, 如果Fragment尚未调用onCreate，会在Fragment#onCreate前调用。</p></li></ol><p>关于Activity/Fragment的生命周期，我写了个Demo：<a href="https://gitee.com/ksxy/ActivityLifeCycleAnalysisDemo" target="_blank" rel="noopener">这里</a></p>]]></content>
+      
       <categories>
-        <category>Android</category>
+          
+          <category> Android </category>
+          
       </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Activity</tag>
-        <tag>Fragment</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[网络笔记之详解TCP（一）]]></title>
-    <url>%2F2018%2F03%2F12%2F%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89%2F</url>
-    <content type="text"><![CDATA[前言 最近一直在复习计算机网络，在回顾了IP与UDP后，终于来到了TCP。在计算机网络的课程上，我第一次对TCP有了比较深入的了解，但是一直没有做过总结，以至于忘了TCP的很多细节。所以本次复习打算将这些细节尽快地记录下来。了解TCP的具体细节，有助于我们基于UDP开发出符合具体的业务的私有协议。 TCP白话简介 TCP在运输层提供了面向连接、可靠的字节流服务。所谓面向连接就是在开发发送数据前，需要先建立一个端到端的连接，这一点类似于通过电话之前的拨号，直到对面接听才建立通话通道。所谓可靠性，就是指即使在网络不稳定的环境下，TCP仍然要保证传输数据的完整（网路断开的情况TCP也无能为力）。为了能够保证数据的可靠传输，TCP需要考虑的事情很多，比如数据被破坏、丢包、重复以及顺序混乱等，为此，TCP设计了校验和、序列号、确认重答、重发控制、连接管理及窗口控制等机制。 PS：尽管TCP能保证数据的可靠传输，但在弱网的情况下，TCP的传输效率很低，所以在信号不是很好地方，数据加载很慢。所以，有时需要开发者基于UDP制定自己的控制协议。 TCP首部 TCP和UDP一样封装在一个IP数据报中，TCP首部的数据格式， 源端口(16bit): 发送端的端口号; 目的端口(16bit): 接收端的端口号; 序列号(32bit): 表示发送数据包中TCP段第一个字节的序号，每发送一个数据报，该字段就累加发送的数据长度。该字段不会从0开始，而是在握手的过程确定一个初始序号(ISN),之后在该值上进行累积加。假设握手后主1第一个数据报的序号为A，包含的数据为a字节，那主机1在发送第二个数据报时，其序号为A+a。 确认号(32bit): 指下次应该接收的数据的第一个字节的序列号。主机1发送第一数据包后，如果主机2回了一个确认报，那么该确认报的确认号为A+a。如果主机1收到了确认号为B的确认报，可认为B序号之前的数据报全部被正常接收，这意味着如果发生了数据包缺失，确认序号会一直为缺失的那部分数据的确认序号。该字段只有当控制位中的ACK=1时，才有效。 数据偏移(4bit): 标识TCP数据报中数据偏离TCP开头的位置，可以看成是TCP首部的长度单位为字。 保留位(6bit): 当前没有意义。 控制位(6bit): URG = 1时，表示紧急指针有意义，需要处理。 ACK = 1时，表示确认号有意义，实际上除了第一个握手包，其他的包都为1。 PSH = 1时，表示应该将数据立即交给上层应用协议。默认存入TCP的数据缓存区。 RST = 1时，表示TCP连接存在异常，应该强制断开，不会有四次握手过程。 SYN = 1时，表示该数据报为握手报，连接建立后SYN=0. FIN = 1时，表示今后不会再有数据进行传输，只有在断开连接的四次握手中才会出现。 窗口大小(16bit): TCP在传输过程中一个次传输多少个字节的数据取决一个滑动窗口机制，该机制通过该值指明下次能接收的数据大小，该字段可以用于拥塞控制。或者自己的缓存区快满了，通知对方减慢数据的发送。由于TCP是全双工工作的，所以连接双方都有各自的滑动窗口。 检验和(16bit): 和UDP协议一样，表示整个TCP数据报的校验和，计算方法也和UDP一样，TCP的检验和为必选项。 紧急指针(16bit): URG = 1时有效，表示本报文段中紧急数据末尾相对序列号的偏移量，指明了紧急数据的结束位置。 TCP三次握手与四次握手TCP三次握手的意义是建立一个连接，确认连接的两端都可用。 主机A发送一个SYN=1的数据包，携带着A到B方向的ISN。 主机B收到数据包后，回了一个应答包（SYN=1，ACK=1），该应答同时也包含了B到A方向的ISN。 主机A回一个应答包（ACK=1），同时连接建立。 TCP通过四次握手关闭连接。 主机A向主机B发送一个FIN=1的握手包，表示以后不需要发数据了，关闭A到B方向上连接。 主机B收到数据报后，回一个应答吧。主机A收到后，连接处于半关闭状态（主机A任可以接受数据，并进行应答）。 传输完最后的数据后，主机B发送FIN=1的握手包，表示同样的意义。 主机A收到后，回一个应答包，然后等待2MSL后，断开连接。 注：主机A（主动关闭的一端）在发送完最后一个ACK包后，要等一个2MSL的时长。一方面，避免主机B没有接收到ACK包，导致连接一直不关闭，因为如果主机B没有接收到ACK包，将重发FIN包，在2MSL的时间可以被主机A接受。另一方面，在2MSL期间，该连接的端口不能被其他程序使用，对于”迟到”的数据报都将被丢弃，避免了”迟到”数据包对新连接的影响。 后续由于TCP内容比较多，关于滑动窗口机制、慢启动机制、超时和重传机制等内容，后续进行记录。]]></content>
+      
+      
+        <tags>
+            
+            <tag> Android </tag>
+            
+            <tag> Activity </tag>
+            
+            <tag> Fragment </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>网络笔记之详解TCP（一）</title>
+      <link href="/2018/03/12/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AF%A6%E8%A7%A3TCP%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+      <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>  最近一直在复习计算机网络，在回顾了IP与UDP后，终于来到了TCP。在计算机网络的课程上，我第一次对TCP有了比较深入的了解，但是一直没有做过总结，以至于忘了TCP的很多细节。所以本次复习打算将这些细节尽快地记录下来。了解TCP的具体细节，有助于我们基于UDP开发出符合具体的业务的私有协议。</p><h3 id="TCP白话简介"><a href="#TCP白话简介" class="headerlink" title="TCP白话简介"></a>TCP白话简介</h3><p>  TCP在运输层提供了面向连接、可靠的字节流服务。所谓面向连接就是在开发发送数据前，需要先建立一个端到端的连接，这一点类似于通过电话之前的拨号，直到对面接听才建立通话通道。所谓可靠性，就是指即使在网络不稳定的环境下，TCP仍然要保证传输数据的完整（网路断开的情况TCP也无能为力）。为了能够保证数据的可靠传输，TCP需要考虑的事情很多，比如数据被破坏、丢包、重复以及顺序混乱等，为此，TCP设计了校验和、序列号、确认重答、重发控制、连接管理及窗口控制等机制。</p><p>  PS：尽管TCP能保证数据的可靠传输，但在弱网的情况下，TCP的传输效率很低，所以在信号不是很好地方，数据加载很慢。所以，有时需要开发者基于UDP制定自己的控制协议。</p><h3 id="TCP首部"><a href="#TCP首部" class="headerlink" title="TCP首部"></a>TCP首部</h3><p>  TCP和UDP一样封装在一个IP数据报中，TCP首部的数据格式，<br>  <img src="https://i.loli.net/2018/03/12/5aa6745b4abec.png" alt="TCP首部.png"></p><p>  <strong>源端口(16bit)</strong>: 发送端的端口号;</p><p>  <strong>目的端口(16bit)</strong>: 接收端的端口号;</p><p>  <strong>序列号(32bit)</strong>: 表示发送数据包中TCP段第一个字节的序号，每发送一个数据报，该字段就累加发送的数据长度。该字段不会从0开始，而是在握手的过程确定一个初始序号(ISN),之后在该值上进行累积加。假设握手后主1第一个数据报的序号为A，包含的数据为a字节，那主机1在发送第二个数据报时，其序号为A+a。</p><p>  <strong>确认号(32bit)</strong>: 指下次应该接收的数据的第一个字节的序列号。主机1发送第一数据包后，如果主机2回了一个确认报，那么该确认报的确认号为A+a。如果主机1收到了确认号为B的确认报，可认为B序号之前的数据报全部被正常接收，这意味着如果发生了数据包缺失，确认序号会一直为缺失的那部分数据的确认序号。该字段只有当控制位中的ACK=1时，才有效。</p><p>  <strong>数据偏移(4bit)</strong>: 标识TCP数据报中数据偏离TCP开头的位置，可以看成是TCP首部的长度单位为字。</p><p>  <strong>保留位(6bit)</strong>: 当前没有意义。</p><p>  <strong>控制位(6bit)</strong>:</p><blockquote><p> URG = 1时，表示紧急指针有意义，需要处理。</p><p> ACK = 1时，表示确认号有意义，实际上除了第一个握手包，其他的包都为1。</p><p> PSH = 1时，表示应该将数据立即交给上层应用协议。默认存入TCP的数据缓存区。</p><p> RST = 1时，表示TCP连接存在异常，应该强制断开，不会有四次握手过程。</p><p> SYN = 1时，表示该数据报为握手报，连接建立后SYN=0.</p><p> FIN = 1时，表示今后不会再有数据进行传输，只有在断开连接的四次握手中才会出现。</p></blockquote><p>  <strong>窗口大小(16bit)</strong>: TCP在传输过程中一个次传输多少个字节的数据取决一个滑动窗口机制，该机制通过该值指明下次能接收的数据大小，该字段可以用于拥塞控制。或者自己的缓存区快满了，通知对方减慢数据的发送。由于TCP是全双工工作的，所以连接双方都有各自的滑动窗口。</p><p>  <strong>检验和(16bit)</strong>: 和UDP协议一样，表示整个TCP数据报的校验和，计算方法也和UDP一样，TCP的检验和为必选项。</p><p>  <strong>紧急指针(16bit)</strong>: URG = 1时有效，表示本报文段中紧急数据末尾相对序列号的偏移量，指明了紧急数据的结束位置。</p><h3 id="TCP三次握手与四次握手"><a href="#TCP三次握手与四次握手" class="headerlink" title="TCP三次握手与四次握手"></a>TCP三次握手与四次握手</h3><p>TCP三次握手的意义是建立一个连接，确认连接的两端都可用。</p><ol><li>主机A发送一个SYN=1的数据包，携带着A到B方向的ISN。</li><li>主机B收到数据包后，回了一个应答包（SYN=1，ACK=1），该应答同时也包含了B到A方向的ISN。</li><li>主机A回一个应答包（ACK=1），同时连接建立。</li></ol><p>TCP通过四次握手关闭连接。</p><ol><li>主机A向主机B发送一个FIN=1的握手包，表示以后不需要发数据了，关闭A到B方向上连接。</li><li>主机B收到数据报后，回一个应答吧。主机A收到后，连接处于半关闭状态（主机A任可以接受数据，并进行应答）。</li><li>传输完最后的数据后，主机B发送FIN=1的握手包，表示同样的意义。</li><li>主机A收到后，回一个应答包，然后等待2MSL后，断开连接。</li></ol><p><img src="https://i.loli.net/2018/03/12/5aa68bed94834.png" alt="TCP三次握手和四次握手.png"></p><p>注：主机A（主动关闭的一端）在发送完最后一个ACK包后，要等一个2MSL的时长。一方面，避免<br>主机B没有接收到ACK包，导致连接一直不关闭，因为如果主机B没有接收到ACK包，将重发FIN包，在2MSL的时间可以被主机A接受。另一方面，在2MSL期间，该连接的端口不能被其他程序使用，对于”迟到”的数据报都将被丢弃，避免了”迟到”数据包对新连接的影响。</p><h3 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h3><p>由于TCP内容比较多，关于滑动窗口机制、慢启动机制、超时和重传机制等内容，后续进行记录。</p>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>计算机网络</tag>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[网络笔记之浅谈UDP]]></title>
-    <url>%2F2018%2F03%2F11%2F%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B5%85%E8%B0%88UDP%2F</url>
-    <content type="text"><![CDATA[UDP白话简介UDP是一个简单的面向数据报的运输层协议，提供不可靠、无连接的传输服务，因为不用像TCP一样进行确认重传、拥塞控制，所以UDP的传输工程比较简单。在网络环境比较好的情况下，传输效率极高。 UDP首部 UDP校验和UDP和TCP的校验和计算方法和IP相类似（16bit字的二进制反码和），但是IP只需计算首部的校验和，而UDP和TCP需要计算整个数据报的校验和。因为IP只需要保证IP首部的正确性，那么在网络环境正常的情况下，就能正确传输，而UDP和TCP都是直接承载应用层的数据，所以需要确保数据的正确性。 另外，UDP数据报的长度可以是奇数字节，但是校验和算法是把若干16bit字相加，所以必要时需要在最后增加填充字节0.填充字节参与校验和的计算，但不进行传输。 其次，在计算校验和时，UDP数据报和TCP段还需要包含一个12byte的伪首部。伪首部包含了IP首部的一些字段，其目的是让UDP在进行校验的时候再次确认数据是否是正确到达目的地。 在进行必要的填充和加上伪首部后（计算前UDP校验和字段为0），就可以进行二进制反码计算，计算结果如果是0，则填入全1. UDP的校验和计算可选，如果接收到的UDP数据报校验和为0，则发送端没有计算校验和。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> TCP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>网络笔记之浅谈UDP</title>
+      <link href="/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B5%85%E8%B0%88UDP/"/>
+      <content type="html"><![CDATA[<h3 id="UDP白话简介"><a href="#UDP白话简介" class="headerlink" title="UDP白话简介"></a>UDP白话简介</h3><p>UDP是一个简单的面向数据报的运输层协议，提供不可靠、无连接的传输服务，因为不用像TCP一样进行确认重传、拥塞控制，所以UDP的传输工程比较简单。在网络环境比较好的情况下，传输效率极高。</p><p><img src="https://i.loli.net/2018/03/11/5aa5225247f65.jpg" alt="UDP封装.jpg"></p><h3 id="UDP首部"><a href="#UDP首部" class="headerlink" title="UDP首部"></a>UDP首部</h3><p><img src="https://i.loli.net/2018/03/11/5aa522bba3750.jpg" alt="UDP头部.jpg"></p><h3 id="UDP校验和"><a href="#UDP校验和" class="headerlink" title="UDP校验和"></a>UDP校验和</h3><p>UDP和TCP的校验和计算方法和IP相类似（16bit字的二进制反码和），但是IP只需计算首部的校验和，而UDP和TCP需要计算整个数据报的校验和。因为IP只需要保证IP首部的正确性，那么在网络环境正常的情况下，就能正确传输，而UDP和TCP都是直接承载应用层的数据，所以需要确保数据的正确性。</p><p>另外，UDP数据报的长度可以是奇数字节，但是校验和算法是把若干16bit字相加，所以必要时需要在最后增加填充字节0.填充字节参与校验和的计算，但不进行传输。</p><p>其次，在计算校验和时，UDP数据报和TCP段还需要包含一个12byte的伪首部。伪首部包含了IP首部的一些字段，其目的是让UDP在进行校验的时候再次确认数据是否是正确到达目的地。</p><p><img src="https://i.loli.net/2018/03/11/5aa5236380231.jpg" alt="UDP伪首部.jpg"></p><p>在进行必要的填充和加上伪首部后（计算前UDP校验和字段为0），就可以进行二进制反码计算，计算结果如果是0，则填入全1.</p><p>UDP的校验和计算可选，如果接收到的UDP数据报校验和为0，则发送端没有计算校验和。</p>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>计算机网络</tag>
-        <tag>UDP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[网络笔记之IP报文首部]]></title>
-    <url>%2F2018%2F03%2F11%2F%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8BIP%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8%2F</url>
-    <content type="text"><![CDATA[IP协议白话简介IP协议工作在TCP/IP网络模型的网际层，主要作用是为网络中的路由提供路由依据，其包括目的地（目的IP）、出发地（源IP），类似于邮递包裹上面快递单信息。给上层服务提供不可靠、无连接的传输服务。 问题：为啥IP协议是不可靠、无连接的？ 首先，不可靠是指它不能保证IP数据报能成功到达目的地。IP协议仅提供尽力的传输服务。如果因为某些原因发生丢包，IP协议不会提供任何反馈。而IP协议也不需要提供多余的反馈，因为可靠性由上层的TCP协议提供，而错误反馈可以通过ICMP协议来提供。简单地说，就是专业的事由专门的协议来做，IP协议的专业就只是传输。 IP首部 字段说明 版本(4bit):IP报文所使用的IP版本，目前通常是4（IPV4）。 首部长度(4bit):IP报文首部的长度，单位为字，IPv4报文头部该字段通常为5, 5字=20byte 服务类型TOC(8bit):描述该数据包的上层服务类型，主要作用是给路由决策提供参考，比如，给不同服务设置优先级，那么路由时可以优先处理优先级高的数据报。 长度(16bit):整个IP数据报的长度，单位为byte。 标识(16bit):唯一地标识主机发送的每份数据报，通常每份发一份报文它的值就会加1,达到最大值后重置。（该字段通常被称为IPid，据说某些校园网的多终端检测机制可以通过统计该字段，来计算该字段在坐标系中的分布来判断是否为多终端上网） 标志(3bit)、片偏移(13bit):这两个字段和IP分片相关，从上面IP报文的长度字段可知，一个IP报文最长为65535byte，实际传输的数据通常大于这个值，所以需要分成多个数据报。实际传输时，是否需要分成多个数据报，还取决于数据数据链路层一个叫MTU的值–链路层一个数据帧的最大数据长度。 标志的3个bit分别表示：保留位、不分片、更多的片；不分片该字段为010,分片则除了包含最后一片的数据报，其他的都为001。 如果不分片，片偏移没有意义；如果分片，该字段的值表示该片偏移原始数据开始处的位置，用于分片重组, IP标识相同的分片最终会被重组在一起。 生存时间TTL(8bit): 该字段表示报文可以经过的最多路由器数，初始值由源主机设定（通常32或64），每进过一个路由器，该值减1，当为0时，将会被路由器丢弃，并向源主机发送ICMP报文。路由追踪命令就是基于该字段实现的。 协议(8bit):该数据报承载的上层协议类型。 首部检验和(16bit):该字段用于校验该报文的头部信息是否有误，有误的数据报会被丢弃。具体的计算方法是先将该字段置0，然后把首部分割为多个16bit的二进制，然后对他们进行二进制反码求和。最后将算出来的结果填入。校验时同样是使用的二进制反码求和。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> UDP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>网络笔记之IP报文首部</title>
+      <link href="/2018/03/11/%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0%E4%B9%8BIP%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8/"/>
+      <content type="html"><![CDATA[<h3 id="IP协议白话简介"><a href="#IP协议白话简介" class="headerlink" title="IP协议白话简介"></a>IP协议白话简介</h3><p>IP协议工作在TCP/IP网络模型的网际层，主要作用是为网络中的路由提供路由依据，其包括目的地（目的IP）、出发地（源IP），类似于邮递包裹上面快递单信息。给上层服务提供不可靠、无连接的传输服务。</p><p><strong>问题：为啥IP协议是不可靠、无连接的？</strong></p><p>首先，不可靠是指它不能保证IP数据报能成功到达目的地。IP协议仅提供尽力的传输服务。如果因为某些原因发生丢包，IP协议不会提供任何反馈。而IP协议也不需要提供多余的反馈，因为可靠性由上层的TCP协议提供，而错误反馈可以通过ICMP协议来提供。简单地说，就是专业的事由专门的协议来做，IP协议的专业就只是传输。</p><h3 id="IP首部"><a href="#IP首部" class="headerlink" title="IP首部"></a>IP首部</h3><p><img src="https://i.loli.net/2018/03/11/5aa4cefdae987.jpg" alt="IP报文头部结构.jpg"></p><h3 id="字段说明"><a href="#字段说明" class="headerlink" title="字段说明"></a>字段说明</h3><ul><li><strong>版本(4bit)</strong>:IP报文所使用的IP版本，目前通常是4（IPV4）。</li><li><strong>首部长度(4bit)</strong>:IP报文首部的长度，单位为字，IPv4报文头部该字段通常为5, 5字=20byte</li><li><strong>服务类型TOC(8bit)</strong>:描述该数据包的上层服务类型，主要作用是给路由决策提供参考，比如，给不同服务设置优先级，那么路由时可以优先处理优先级高的数据报。</li><li><strong>长度(16bit)</strong>:整个IP数据报的长度，单位为byte。</li><li><strong>标识(16bit)</strong>:唯一地标识主机发送的每份数据报，通常每份发一份报文它的值就会加1,达到最大值后重置。（该字段通常被称为IPid，据说某些校园网的多终端检测机制可以通过统计该字段，来计算该字段在坐标系中的分布来判断是否为多终端上网）</li><li><strong>标志(3bit)</strong>、<strong>片偏移(13bit)</strong>:这两个字段和IP分片相关，从上面IP报文的长度字段可知，一个IP报文最长为65535byte，实际传输的数据通常大于这个值，所以需要分成多个数据报。实际传输时，是否需要分成多个数据报，还取决于数据数据链路层一个叫MTU的值–链路层一个数据帧的最大数据长度。<ul><li>标志的3个bit分别表示：保留位、不分片、更多的片；不分片该字段为010,分片则除了包含最后一片的数据报，其他的都为001。</li><li>如果不分片，片偏移没有意义；如果分片，该字段的值表示该片偏移原始数据开始处的位置，用于分片重组, IP标识相同的分片最终会被重组在一起。</li></ul></li><li><strong>生存时间TTL(8bit)</strong>: 该字段表示报文可以经过的最多路由器数，初始值由源主机设定（通常32或64），每进过一个路由器，该值减1，当为0时，将会被路由器丢弃，并向源主机发送ICMP报文。路由追踪命令就是基于该字段实现的。</li><li><strong>协议(8bit)</strong>:该数据报承载的上层协议类型。</li><li><strong>首部检验和(16bit)</strong>:该字段用于校验该报文的头部信息是否有误，有误的数据报会被丢弃。具体的计算方法是先将该字段置0，然后把首部分割为多个16bit的二进制，然后对他们进行二进制反码求和。最后将算出来的结果填入。校验时同样是使用的二进制反码求和。</li></ul>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>计算机网络</tag>
-        <tag>IP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Https之SSL/TLS握手]]></title>
-    <url>%2F2018%2F03%2F10%2FHttps%E4%B9%8BSSL-TSL%E6%8F%A1%E6%89%8B%2F</url>
-    <content type="text"><![CDATA[HTTPS白话简介 相信对于大多数开发人员，Https并不陌生，在http协议基础上套上一个加密解密的过程，就是Https，而完成加密解密的部分就是SSL(Secure Sockets Layer, 安全套字节层)。 关于TSL/SSL 1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是没有发布；之后在1995年正式发布了SSL 2.0, 但很快发现严重漏；1996年，SSL 3.0版问世，并得到大规模应用。之后在1999年，由互联网标准化组织ISOC接管，并升级成为TSL(Transport Layer Security)。所以TSL和SSL是同一个协议。 加密解密基本原理 TSL在不同的阶段使用了不同的加密方式。 在握手阶段，使用的是公钥加，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。握手的主要目的是完成客户端与服务端之间的验证，同时约定一个随机密钥种子； 在数据传输阶段，所用的加密方式为对称加密(AES)，经过握手阶段后，客户端和服务端保存着同一个密钥种，在之后的数据传输中，客户端和服务器端使用同一个密钥进行加密解密。同时，该密钥还被用于作为HMAC的key，用于数据完整性、可靠性的校验。 问题：握手阶段，如何保证公钥不被篡改？ 实际上，客户端一开始向服务端请求的是一个数字证书，数字证书中包含了公钥、该数字证书的签发机构、改签发机构的数字签名等信息。客户端通过检验证书的合法性来判断包含公钥是否可信。 至于为啥数字证书的方案可行，这就要涉及到信息安全的理论知识了，这里不深入。签发证书的机构如果是权威机构CA，则该证书是CA证书，可信任。如果不是，则提示证书不可信。 问题：为啥在数据传输阶段不用公钥加密？ 因为公钥加密实际上就的非对称加密，非对称加密的数序理论依据导致了非对称加密的成本比较高，所以通常只用于少量数据的传输，而对称加密是通过非线性变换等方式实现的加密，加密成本比较低，性能相对非对称加密高。 SSL/TLS握手 从上面的原理可总结出SSL/TLS握手的过程： 客户端向服务器端索要并验证公钥。 双方协商生成”对话密钥”。 握手详细过程： 客户端发出请求（ClientHello） 客户端先向服务器发出加密通信的请求，请求内容：支持的协议版本（比如TLS 1.0版）、随机数A（用于生产对称密钥）、支持的加密方法（比如RSA公钥加密）。 服务器回应（SeverHello） 服务器收到客户端请求后，向客户端发出回应，回应内容：确认使用的协议版本、随机数B、确认使用的加密方法、服务器证书。 如果服务器需要验证客户端身份，还回要求客户端提供证书，该证书通常需要提前安装。 客户端回应 客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。如果证书没有问题，客户端就会从证书中取出服务器的公钥。 然后发送回应服务器：随机数C（用服务器公钥进行加密）、编码改变通知（表示随后的信息都将用双方商定的加密方法和密钥发送）、客户端握手结束通知（表示客户端的握手阶段已经结束）。 服务器的最后回应 服务器收到客户端的随机数C之后，计算生成本次会话所用的”会话密钥”，向客户端回应：编码改变通知、服务器握手结束通知。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+            <tag> IP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Https之SSL/TLS握手</title>
+      <link href="/2018/03/10/Https%E4%B9%8BSSL-TSL%E6%8F%A1%E6%89%8B/"/>
+      <content type="html"><![CDATA[<h3 id="HTTPS白话简介"><a href="#HTTPS白话简介" class="headerlink" title="HTTPS白话简介"></a>HTTPS白话简介</h3><p>  相信对于大多数开发人员，Https并不陌生，在http协议基础上套上一个加密解密的过程，就是Https，而完成加密解密的部分就是SSL(Secure Sockets Layer, 安全套字节层)。<br>  <a href="https://i.loli.net/2018/03/10/5aa3dc30b9086.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/03/10/5aa3dc30b9086.png" alt="https协议.png"></a></p><h3 id="关于TSL-SSL"><a href="#关于TSL-SSL" class="headerlink" title="关于TSL/SSL"></a>关于TSL/SSL</h3><p>  1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是没有发布；之后在1995年正式发布了SSL 2.0, 但很快发现严重漏；1996年，SSL 3.0版问世，并得到大规模应用。之后在1999年，由互联网标准化组织ISOC接管，并升级成为TSL(Transport Layer Security)。所以TSL和SSL是同一个协议。</p><h3 id="加密解密基本原理"><a href="#加密解密基本原理" class="headerlink" title="加密解密基本原理"></a>加密解密基本原理</h3><p>  TSL在不同的阶段使用了不同的加密方式。</p><p>  在握手阶段，使用的是公钥加，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。握手的主要目的是完成客户端与服务端之间的验证，同时约定一个随机密钥种子；</p><p>  在数据传输阶段，所用的加密方式为对称加密(AES)，经过握手阶段后，客户端和服务端保存着同一个密钥种，在之后的数据传输中，客户端和服务器端使用同一个密钥进行加密解密。同时，该密钥还被用于作为HMAC的key，用于数据完整性、可靠性的校验。</p><p>  <strong>问题：握手阶段，如何保证公钥不被篡改？</strong></p><p>  实际上，客户端一开始向服务端请求的是一个数字证书，数字证书中包含了公钥、该数字证书的签发机构、改签发机构的数字签名等信息。客户端通过检验证书的合法性来判断包含公钥是否可信。</p><p>  至于为啥数字证书的方案可行，这就要涉及到信息安全的理论知识了，这里不深入。签发证书的机构如果是权威机构CA，则该证书是CA证书，可信任。如果不是，则提示证书不可信。</p><p>  <strong>问题：为啥在数据传输阶段不用公钥加密？</strong></p><p>  因为公钥加密实际上就的非对称加密，非对称加密的数序理论依据导致了非对称加密的成本比较高，所以通常只用于少量数据的传输，而对称加密是通过非线性变换等方式实现的加密，加密成本比较低，性能相对非对称加密高。</p><h3 id="SSL-TLS握手"><a href="#SSL-TLS握手" class="headerlink" title="SSL/TLS握手"></a>SSL/TLS握手</h3><p>  从上面的原理可总结出SSL/TLS握手的过程：</p><ol><li>客户端向服务器端索要并验证公钥。</li><li>双方协商生成”对话密钥”。</li></ol><p><strong>握手详细过程</strong>：</p><p><a href="https://i.loli.net/2018/03/10/5aa3f5f34a00f.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/03/10/5aa3f5f34a00f.png" alt="SSL握手.png"></a></p><ol><li><p>客户端发出请求（ClientHello）</p><p>客户端先向服务器发出加密通信的请求，请求内容：<br>支持的协议版本（比如TLS 1.0版）、随机数A（用于生产对称密钥）、支持的加密方法（比如RSA公钥加密）。</p></li><li><p>服务器回应（SeverHello）</p><p>服务器收到客户端请求后，向客户端发出回应，回应内容：<br>确认使用的协议版本、随机数B、确认使用的加密方法、服务器证书。</p><p>如果服务器需要验证客户端身份，还回要求客户端提供证书，该证书通常需要提前安装。</p></li><li><p>客户端回应</p><p>客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。如果证书没有问题，客户端就会从证书中取出服务器的公钥。</p><p>然后发送回应服务器：随机数C（用服务器公钥进行加密）、编码改变通知（表示随后的信息都将用双方商定的加密方法和密钥发送）、客户端握手结束通知（表示客户端的握手阶段已经结束）。</p></li><li><p>服务器的最后回应</p><p>服务器收到客户端的随机数C之后，计算生成本次会话所用的”会话密钥”，向客户端回应：编码改变通知、服务器握手结束通知。</p></li></ol>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>https</tag>
-        <tag>计算机网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[记我对Socket的误解]]></title>
-    <url>%2F2018%2F03%2F10%2F%E8%AE%B0%E6%88%91%E5%AF%B9Socket%E7%9A%84%E8%AF%AF%E8%A7%A3%2F</url>
-    <content type="text"><![CDATA[误解记得刚开始学习Java网络编程的时候，接触的便是Socket，通过Socket和SocketServer建立一个TCP连接，然后获取网络流对象来传递数据。一个经典TCP连接建立过程： 客户端： 创建一个 Socket 实例：构造函数向指定的远程主机和端口建立一个 TCP 连接； 通过套接字的 I/O 流与服务端通信； 使用 Socket 类的 close() 方法关闭连接。 服务端: 创建一个 ServerSocket 实例并指定本地端口，用来监听客户端在该端口发送的 TCP 连接请求； 重复执行： 调用 ServerSocket 的 accept()方法以获取客户端连接，并通过其返回值创建一个 Socket 实例； 为返回的 Socket 实例开启新的线程，并使用返回的 Socket 实例的 I/O 流与客户端通信； 通信完成后，使用 Socket 类的 close()方法关闭该客户端的套接字连接。 在计算机网络课程中，了解到Socket的定义： 套字节Socket = (IP地址 : 端口号) 于是一直认为Socket其实就是在封装了TCP协议的实现。 PS：在Java的API中，Socket类确实就是封装TCP协议的实现。 疑惑关于Socket的这个误解一直伴随着我到网络编程的课程上，上课使用的编程语言是C#。在C#中创建一个Socket对象如下， Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP); 该构造函数的参数含义： 第一参数定义了该Socket支持的协议族，AddressFamily.InterNetwork表示IPv4； 第二参数定义了该Socket的类型，SocketType.Stream表示TCP，此外还有Dgram(UDP)、Raw、Rdm、Seqpacket。 第三参数定义了该Socket支持协议，主要有IP、Tcp、Udp、Icmp、Ggp等。 关于C#的Socket的更多说明 是不是和Java的Socket有大不同？到了这里，我才意识到我以前对Socket的理解太肤浅了。 Socket究竟为何物？我们知道目前的TCP/IP网络模型，从上往下为：应用层、运输层、网际层、网络接口层。 应用层包含众多应用协议，比如HTTP、SNMP、POP3等协议，这些协议的规定信息与数据报文在网络之中传输行为无关，只面向具体应用服务。 运输层就只有TCP与UDP协议，TCP协议通过握手机制、确认重传机制来提供可靠的连接，UDP则比较简单，因为提供不可靠的连接，所以不需要像TCP那样复杂。 网际层主要是提供网络中寻址的IP协议，还有用于数据包传输控制的多种路由协议、ICMP、IGMP等。 网络接口层包含了数据链路层和物理层，但在应用层软件开发中一般不需我们去关心。 那么Socket和这些网络协议有什么关系呢？ Socket主要和运输层和网际层这两层的协议有关，他们关系就像接口和实现类之间的关系。 Java中的Socket封装了TCP的实现，而在C#中Socket封装了多种协议的实现，通过构造函数的参数来选择Socket具体实现协议。所以Socket准确来说，应该是一个网络协议的编程接口，他不是为特定的协议设计。TCP、UDP协议都只是Socket的具体实现。 计算机网络课程教材上定义的Socket=(IP地址:端口号)，只有Socket的实现协议为运算层协议的时候才正确。当他的具体实现为ICMP(ping命令的数据包用的就是ICMP协议)时，更本不需要一个端口号。 参考: TCP/IP、Http、Socket的区别? -知乎 Java TCP/IP Socket 编程]]></content>
+      
+      
+        <tags>
+            
+            <tag> https </tag>
+            
+            <tag> 计算机网络 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>记我对Socket的误解</title>
+      <link href="/2018/03/10/%E8%AE%B0%E6%88%91%E5%AF%B9Socket%E7%9A%84%E8%AF%AF%E8%A7%A3/"/>
+      <content type="html"><![CDATA[<h2 id="误解"><a href="#误解" class="headerlink" title="误解"></a>误解</h2><p>记得刚开始学习Java网络编程的时候，接触的便是Socket，通过Socket和SocketServer建立一个TCP连接，然后获取网络流对象来传递数据。一个经典TCP连接建立过程：</p><p>客户端：</p><ul><li>创建一个 Socket 实例：构造函数向指定的远程主机和端口建立一个 TCP 连接；</li><li>通过套接字的 I/O 流与服务端通信；</li><li>使用 Socket 类的 close() 方法关闭连接。</li></ul><p>服务端:</p><ul><li>创建一个 ServerSocket 实例并指定本地端口，用来监听客户端在该端口发送的 TCP 连接请求；</li><li>重复执行：<ul><li>调用 ServerSocket 的 accept()方法以获取客户端连接，并通过其返回值创建一个 Socket 实例；</li><li>为返回的 Socket 实例开启新的线程，并使用返回的 Socket 实例的 I/O 流与客户端通信； 通信完成后，使用 Socket 类的 close()方法关闭该客户端的套接字连接。</li></ul></li></ul><p>在计算机网络课程中，了解到Socket的定义：</p><blockquote><p>套字节Socket = (IP地址 : 端口号)</p></blockquote><p>于是一直认为<del>Socket其实就是在封装了TCP协议的实现</del>。</p><p>PS：在Java的API中，Socket类确实就是封装TCP协议的实现。</p><h2 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h2><p>关于Socket的这个误解一直伴随着我到网络编程的课程上，上课使用的编程语言是C#。在C#中创建一个Socket对象如下，<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Socket socket = <span class="keyword">new</span> Socket(AddressFamily.InterNetwork, SocketType.<span class="built_in">Stream</span>, ProtocolType.IP);</span><br></pre></td></tr></table></figure></p><p>该构造函数的参数含义：</p><p>第一参数定义了该Socket支持的协议族，AddressFamily.InterNetwork表示IPv4；</p><p>第二参数定义了该Socket的类型，SocketType.Stream表示TCP，此外还有Dgram(UDP)、Raw、Rdm、Seqpacket。</p><p>第三参数定义了该Socket支持协议，主要有IP、Tcp、Udp、Icmp、Ggp等。</p><p><a href="https://docs.microsoft.com/zh-cn/dotnet/api/system.net.sockets.socket?view=netframework-4.7.1" target="_blank" rel="noopener">关于C#的Socket的更多说明</a></p><p>是不是和Java的Socket有大不同？到了这里，我才意识到我以前对Socket的理解太肤浅了。</p><h2 id="Socket究竟为何物？"><a href="#Socket究竟为何物？" class="headerlink" title="Socket究竟为何物？"></a>Socket究竟为何物？</h2><p>我们知道目前的TCP/IP网络模型，从上往下为：<br>应用层、运输层、网际层、网络接口层。</p><p>应用层包含众多应用协议，比如HTTP、SNMP、POP3等协议，这些协议的规定信息与数据报文在网络之中传输行为无关，只面向具体应用服务。</p><p>运输层就只有TCP与UDP协议，TCP协议通过握手机制、确认重传机制来提供可靠的连接，UDP则比较简单，因为提供不可靠的连接，所以不需要像TCP那样复杂。</p><p>网际层主要是提供网络中寻址的IP协议，还有用于数据包传输控制的多种路由协议、ICMP、IGMP等。</p><p>网络接口层包含了数据链路层和物理层，但在应用层软件开发中一般不需我们去关心。</p><p><strong>那么Socket和这些网络协议有什么关系呢？</strong></p><p>Socket主要和运输层和网际层这两层的协议有关，他们关系就像接口和实现类之间的关系。</p><p>Java中的Socket封装了TCP的实现，而在C#中Socket封装了多种协议的实现，通过构造函数的参数来选择Socket具体实现协议。所以Socket准确来说，应该是一个网络协议的编程接口，他不是为特定的协议设计。TCP、UDP协议都只是Socket的具体实现。</p><p>计算机网络课程教材上定义的Socket=(IP地址:端口号)，只有Socket的实现协议为运算层协议的时候才正确。当他的具体实现为ICMP(ping命令的数据包用的就是ICMP协议)时，更本不需要一个端口号。</p><p>参考:</p><ul><li><a href="https://www.zhihu.com/question/39541968" target="_blank" rel="noopener">TCP/IP、Http、Socket的区别? -知乎</a></li><li><a href="http://wiki.jikexueyuan.com/project/java-socket/socket-advanced.html" target="_blank" rel="noopener">Java TCP/IP Socket 编程</a></li></ul>]]></content>
+      
       <categories>
-        <category>计算机网络</category>
+          
+          <category> 计算机网络 </category>
+          
       </categories>
-      <tags>
-        <tag>Socket</tag>
-        <tag>网络编程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Android知识体系脑图]]></title>
-    <url>%2F2018%2F03%2F09%2FAndroid%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%2F</url>
-    <content type="text"><![CDATA[作为一个靠自己摸爬滚打、自主探究的Android程序员，常常迷失在复杂的Android系统之中，面对日新月异的新技术，我们竭力追赶，但是在开发中，还是常常陷入一些莫名奇妙的bug之中，有时在网上搜搜到了解决方案，但是也有可能已经过时了，在新的系统版本中不适用。如果能有一个详细的学习体系结构，相信对系统地学习Android开发是有事半功倍的作用的。前几天，就在网上了解到了别人总结的Android知识体系，于是速速收藏，以便学习查阅。 原文链接]]></content>
+      
+      
+        <tags>
+            
+            <tag> Socket </tag>
+            
+            <tag> 网络编程 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Android知识体系脑图</title>
+      <link href="/2018/03/09/Android%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/"/>
+      <content type="html"><![CDATA[<p>作为一个靠自己摸爬滚打、自主探究的Android程序员，常常迷失在复杂的Android系统之中，面对日新月异的新技术，我们竭力追赶，但是在开发中，还是常常陷入一些莫名奇妙的bug之中，有时在网上搜搜到了解决方案，但是也有可能已经过时了，在新的系统版本中不适用。如果能有一个详细的学习体系结构，相信对系统地学习Android开发是有事半功倍的作用的。前几天，就在网上了解到了别人总结的Android知识体系，于是速速收藏，以便学习查阅。<br>    <img src="https://i.loli.net/2018/03/09/5aa26967de76b.jpeg" alt="Android知识架构脑图.jpeg"><br>    <a href="https://www.diycode.cc/topics/1172" target="_blank" rel="noopener">原文链接</a></p>]]></content>
+      
       <categories>
-        <category>Android</category>
+          
+          <category> Android </category>
+          
       </categories>
-      <tags>
-        <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[关于]]></title>
-    <url>%2F2018%2F03%2F06%2F%E5%85%B3%E4%BA%8E%2F</url>
-    <content type="text"><![CDATA[我是…一个生性平和又勇于奋斗的偏佛系95后，一只Andoid程序猿，来自厂里，号称厂里的帅小伙。喜欢各种新奇的App，也喜欢喜欢研究与Android相关的各种黑科技。喜欢听音乐，口味偏向粤语歌和吉他曲。 关于该博客以前一直想搞一个个人博客，奈何博主在前端设计与技术这方面知识比较欠缺，所以一直跳票。但为了更好地记录自己的经历，在2018年3月初，在一个前端老铁的帮助下成功搭建了这个博客，在这鸣谢一下该老铁。该博客用Hexo+Github+Material主题进行搭建，用于个人的学习记录和日常分享。 关于博文本博客中的博文主要是个人的记录，所以不一定是百分百正确，如果您发现任何错误，请在评论区文明指出，本人将报着去伪存真的态度进行探讨，并表示对您表衷心的感谢，如果是开放性问题，也可各抒己见或求同存异，有朋自远方来，不亦悦乎？欢迎交流学习。部分内容是转载的，我会注明原链接，尊重原创作。 鸣谢 SM.MS 图床 更新时间：2018-03-12]]></content>
+      
+      
+        <tags>
+            
+            <tag> Android </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>关于</title>
+      <link href="/2018/03/06/%E5%85%B3%E4%BA%8E/"/>
+      <content type="html"><![CDATA[<h3 id="我是…"><a href="#我是…" class="headerlink" title="我是…"></a>我是…</h3><p>一个生性平和又勇于奋斗的偏佛系95后，一只Andoid程序猿，来自厂里，号称厂里的帅小伙。喜欢各种新奇的App，也喜欢喜欢研究与Android相关的各种黑科技。喜欢听音乐，口味偏向粤语歌和吉他曲。</p><h3 id="关于该博客"><a href="#关于该博客" class="headerlink" title="关于该博客"></a>关于该博客</h3><p>以前一直想搞一个个人博客，奈何博主在前端设计与技术这方面知识比较欠缺，所以一直跳票。但为了更好地记录自己的经历，在2018年3月初，在一个<a href="http://xuyonglin222.github.io" target="_blank" rel="noopener">前端老铁</a>的帮助下成功搭建了这个博客，在这鸣谢一下该老铁。该博客用Hexo+Github+Material主题进行搭建，用于个人的学习记录和日常分享。</p><h3 id="关于博文"><a href="#关于博文" class="headerlink" title="关于博文"></a>关于博文</h3><p>本博客中的博文主要是个人的记录，所以不一定是百分百正确，如果您发现任何错误，请在评论区文明指出，本人将报着去伪存真的态度进行探讨，并表示对您表衷心的感谢，如果是开放性问题，也可各抒己见或求同存异，有朋自远方来，不亦悦乎？欢迎交流学习。部分内容是转载的，我会注明原链接，尊重原创作。</p><h3 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h3><ol><li><a href="https://sm.ms" target="_blank" rel="noopener">SM.MS 图床</a></li></ol><p><strong>更新时间</strong>：2018-03-12</p>]]></content>
+      
       <categories>
-        <category>日常</category>
+          
+          <category> 日常 </category>
+          
       </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[友情链接]]></title>
-    <url>%2Flinks%2Findex.html</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
-    <title><![CDATA[标签云]]></title>
-    <url>%2Ftags%2Findex.html</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
-    <content type="text"></content>
-  </entry>
+      
+      
+    </entry>
+    
+  
+  
+    
+    <entry>
+      <title>标签云</title>
+      <link href="/tags/index.html"/>
+      <content type="html"><![CDATA[]]></content>
+    </entry>
+    
+    <entry>
+      <title>时间轴</title>
+      <link href="/timeline/index.html"/>
+      <content type="html"><![CDATA[]]></content>
+    </entry>
+    
+    <entry>
+      <title>友情链接</title>
+      <link href="/links/index.html"/>
+      <content type="html"><![CDATA[]]></content>
+    </entry>
+    
+  
 </search>
