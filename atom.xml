@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.korion.cn/"/>
-  <updated>2018-05-10T08:23:54.000Z</updated>
+  <updated>2018-05-12T16:51:19.000Z</updated>
   <id>http://www.korion.cn/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Android短信发送与监听读取</title>
+    <link href="http://www.korion.cn/2018/05/13/Android%E7%9F%AD%E4%BF%A1%E5%8F%91%E9%80%81%E4%B8%8E%E7%9B%91%E5%90%AC%E8%AF%BB%E5%8F%96/"/>
+    <id>http://www.korion.cn/2018/05/13/Android短信发送与监听读取/</id>
+    <published>2018-05-12T16:51:19.000Z</published>
+    <updated>2018-05-12T16:51:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  最近的开发中，需要调用系统API来进行短信发送，当接受到短信时需要将短信内容读取出来。根据官方的相关文档成功实现了，在这做一个简要的记录。</p><h3 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h3><ul><li>短信发送</li><li>短信接收监听</li><li>短信读取</li></ul><h3 id="相关API"><a href="#相关API" class="headerlink" title="相关API"></a>相关API</h3><ul><li>SmsManager</li><li>Telephony</li><li>ContentResolver</li><li>BroadcastReceiver</li></ul><h3 id="Go"><a href="#Go" class="headerlink" title="Go!"></a>Go!</h3><h4 id="短信发送"><a href="#短信发送" class="headerlink" title="短信发送"></a>短信发送</h4><p>  从网上了解到发送短信可以使用SmsManager这个系统服务，于是根据官方文档折腾了一番。</p><ol><li><p>配置权限</p><pre><code> &lt;uses-permission android:name=&quot;android.permission.SEND_SMS&quot; /\&gt;</code></pre><ul><li>Android 6.0 以上需要动态申请该权限</li></ul></li><li><p>smsManager.sendTextMessage() 参数</p><p>该方法一共有5个参数:</p><ul><li>destinationAddress: String, 短信接收方的号码</li><li>scAddress: String, 短信发送方的号码，为null，使用当前默认的SMSC</li><li>text: String, 短信内容</li><li>sentIntent: PendingIntent, 短信发送后，执行这个PendingIntent。在发送短信前注册一个广播接收器，利用这个参数，在短信发送后通知该广播接收器，可以实现短信发送结果的监听。</li><li>deliveryIntent: PendingIntent, 这个和sentIntent差不多，区别在于，这个是在短信被接收后执行。</li></ul></li></ol><ol><li><p>代码</p><pre><code> private fun sendMessage(number: String, text: String){       if(ActivityCompat.checkSelfPermission(activity!!,Manifest.permission.SEND_SM)           == PackageManager.PERMISSION_GRANTED){              val smsManager = SmsManager.getDefault()   //获取SmsManager实例           val msgList = smsManager.divideMessage(text)  //如果短信内容太长，需要分割成多条发送           for (item in msgList){               val sentIntent = initMessageIntent(SEND_SMS_ACTION, null)               smsManager.sendTextMessage(number, null, item, sentIntent, null)  //逐条发送短信           }       }else{           ToastUtils.showShort(&quot;没有发送短信的权限!&quot;)       }   } //记得在生命周期回调函数中，注册和注销这个BroadcastReceiver private val msgSentResultListener = object : BroadcastReceiver(){       override fun onReceive(context: Context?, intent: Intent?) {       if (SEND_SMS_ACTION.equals(intent?.action)){           if(resultCode == Activity.RESULT_OK){               ToastUtils.showShort(&quot;短信发送成功&quot;)           }else{               ToastUtils.showShort(&quot;短信发送失败&quot;)           }         }      } }</code></pre></li></ol><h4 id="短信接收监听"><a href="#短信接收监听" class="headerlink" title="短信接收监听"></a>短信接收监听</h4><p>  短信的接收监听可以通过两种方式来实现: 设置广播接收器、设置短信观察者</p><ol><li><p>默认短信App</p><p>在Android 4.4之后，Google加强了对短信内容的管理，系统中只有默认短信App对短信内容具有全部权限，其他短信相关的App只能读取，不能做修改。默认短信App可以在系统中的默认应用设置。</p><p>默认短信APP可以接收Action为SMS_DELIVER_ACTION、WAP_PUSH_DELIVER_ACTION、ACTION_SENDTO、ACTION_RESPOND_VIA_MESSAGE的Intent，其余的短信App只能接收SMS_RECEIVED_ACTION。</p></li><li><p>广播接收器方式</p><p>当接收到短信时，系统会发出Action为SMS_RECEIVED_ACTION的广播，所以我们只需设置接收器接收者广播就可以了。</p><pre><code> &lt;!--所需权限, 6.0以上需要动态申请--!&gt; &lt;uses-permission android:name=&quot;android.permission.RECEIVE_MMS&quot; /&gt; &lt;uses-permission android:name=&quot;android.permission.RECEIVE_SMS&quot; /&gt; private val msgReceiveListener = object : BroadcastReceiver() {     override fun onReceive(context: Context?, intent: Intent?) {         Log.d(TAG, &quot;短信来了&quot;)         ......    //短信读取     } } //Fragment中， //在生命周期中注册或者静态注册都行  activity?.registerReceiver(msgReceiveListener, IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) //动态注册记得销毁  activity?.unregisterReceiver(msgReceiveListener)</code></pre></li><li><p>观察者方式</p><p>观察者方式是通过ContentResolver#registerContentObserver()想Sms ContentProvider注册观察者实现的。</p><pre><code> //将smsObserver注册到Sms的ContentProvider //第二个参数为notifyForDescendants, 为true，表示同时观察Uri的扩展Uri //Telephony.Sms.CONTENT_URI = content://sms/ //收件箱：content://sms/inbox //发件箱：content://sms/sent //草稿箱：content://sms/draft contentResolver?.registerContentObserver(Telephony.Sms.CONTENT_URI, false, smsObserver) public val smsObserver = object: ContentObserver(Handler(Looper.getMainLooper())){     override fun onChange(selfChange: Boolean) {         super.onChange(selfChange)         Log.d(TAG, &quot;短信内容发生变化!&quot;)     } } contentResolver?.unregisterContentObserver(smsObserver)</code></pre><p>以上两种方法都可以实现短信的监听，而在我选择使用广播的方式，因为注册观察者的方式在除了接收短信外，发送短信、删除短信，都会触发，在实现对短信接收的监听时，需要去判断情况，反而比较麻烦。</p></li></ol><h4 id="短信读取"><a href="#短信读取" class="headerlink" title="短信读取"></a>短信读取</h4><p>  通过ContentResolver查询Telephony.Sms.CONTENT_URI。</p><ol><li><p>在查询数据库之前需要了解其表结构:</p><p>sms主要结构：</p><ul><li>_id：          短信序号，如100</li><li>thread_id：对话的序号，如100，与同一个手机号互发的短信，其序号是相同的</li><li>address：  发件人地址，即手机号，如+86138138000</li><li>person：   发件人，如果发件人在通讯录中则为具体姓名，陌生人为null</li><li>date：       日期，long型，如1346988516，可以对日期显示格式进行设置</li><li>protocol： 协议0SMS_RPOTO短信，1MMS_PROTO彩信</li><li>read：      是否阅读0未读，1已读</li><li>status：    短信状态-1接收，0complete,64pending,128failed</li><li>type：       短信类型1是接收到的，2是已发出</li><li>body：      短信具体内容</li><li>service_center：短信服务中心号码编号</li></ul></li></ol><ol><li><p>代码</p><pre><code> &lt;!--所需权限, 6.0以上需要动态申请--!&gt; &lt;uses-permission android:name=&quot;android.permission.READ_SMS&quot; /&gt; private val msgReceiveListener = object : BroadcastReceiver() {         override fun onReceive(context: Context?, intent: Intent?) {             Log.d(TAG, &quot;短信来了&quot;)             val cursor = activity?.contentResolver!!.query(Telephony.Sms.CONTENT_URI,                     null,                            Telephony.Sms.ADDRESS+&quot; = ? AND &quot;+Telephony.Sms.TYPE+&quot; = ?&quot;,   //查询某个号码，类型为接收的短信                     arrayOf(mNumber, &quot;1&quot;),                     Telephony.Sms.DATE +&quot; DESC LIMIT 1&quot;  //按时间降序查询1条记录                     )             if (cursor != null){                 while (cursor.moveToNext()){                     Log.d(TAG, cursor.getString(cursor.getColumnIndex(Telephony.Sms.ADDRESS)))                     Log.d(TAG, cursor.getString(cursor.getColumnIndex(Telephony.Sms.DATE)))                     Log.d(TAG, cursor.getString(cursor.getColumnIndex(Telephony.Sms.BODY)))                 }                 cursor.close()             }         }     }</code></pre><p>查询时，按时间接收时间降序查找就可以获取，最新接收的短信了。</p></li></ol><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol><li><a href="https://developer.android.com/reference/android/provider/Telephony" target="_blank" rel="noopener">Telephony</a></li><li><a href="https://developer.android.com/reference/android/telephony/SmsManager" target="_blank" rel="noopener">SmsManager</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h3&gt;&lt;p&gt;  最近的开发中，需要调用系统API来进行短信发送，当接受到短信时需要将短信内容读取出来。根据官方的相关文档成功实现了，在这做一个简要的记录
+      
+    
+    </summary>
+    
+      <category term="Android" scheme="http://www.korion.cn/categories/Android/"/>
+    
+    
+      <category term="Android" scheme="http://www.korion.cn/tags/Android/"/>
+    
+      <category term="开发笔记" scheme="http://www.korion.cn/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="SmsManager" scheme="http://www.korion.cn/tags/SmsManager/"/>
+    
+  </entry>
   
   <entry>
     <title>Android:获取联系人信息</title>
