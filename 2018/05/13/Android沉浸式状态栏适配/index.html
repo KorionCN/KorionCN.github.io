@@ -45,7 +45,7 @@
     
     <title>
         
-            Git常用命令 | 
+            Android DrawLayout状态栏适配 | 
         
         Ksxy&#39;s Blog
     </title>
@@ -56,7 +56,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content=",Git">
+    <meta name="keywords" content=",Android,开发笔记,StatusBar,DrawLayout">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -217,7 +217,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Ksxy&#39;s Blog">
-    <meta name="msapplication-starturl" content="http://www.korion.cn/2018/04/11/Git常用命令/">
+    <meta name="msapplication-starturl" content="http://www.korion.cn/2018/05/13/Android沉浸式状态栏适配/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Ksxy&#39;s Blog">
@@ -232,16 +232,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://www.korion.cn/2018/04/11/Git常用命令/">
+    <meta property="og:url" content="http://www.korion.cn/2018/05/13/Android沉浸式状态栏适配/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Git常用命令 | Ksxy&#39;s Blog">
+    <meta property="og:title" content="Android DrawLayout状态栏适配 | Ksxy&#39;s Blog">
     <meta property="og:image" content="/img/favicon1.png">
     <meta property="og:description" content="">
-    <meta property="og:article:tag" content="Git"> 
+    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="开发笔记"> <meta property="og:article:tag" content="StatusBar"> <meta property="og:article:tag" content="DrawLayout"> 
 
     
-        <meta property="article:published_time" content="Wed Apr 11 2018 16:15:28 GMT+0800">
-        <meta property="article:modified_time" content="Wed Apr 11 2018 16:15:28 GMT+0800">
+        <meta property="article:published_time" content="Sun May 13 2018 21:08:24 GMT+0800">
+        <meta property="article:modified_time" content="Sun May 13 2018 21:08:24 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -249,7 +249,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://www.korion.cn/2018/04/11/Git常用命令/index.html" />
+        <link rel="canonical" href="http://www.korion.cn/2018/05/13/Android沉浸式状态栏适配/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -261,10 +261,10 @@
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": "http://www.korion.cn/2018/04/11/Git常用命令/index.html",
-    "headline": "Git常用命令",
-    "datePublished": "Wed Apr 11 2018 16:15:28 GMT+0800",
-    "dateModified": "Wed Apr 11 2018 16:15:28 GMT+0800",
+    "mainEntityOfPage": "http://www.korion.cn/2018/05/13/Android沉浸式状态栏适配/index.html",
+    "headline": "Android DrawLayout状态栏适配",
+    "datePublished": "Sun May 13 2018 21:08:24 GMT+0800",
+    "dateModified": "Sun May 13 2018 21:08:24 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "空山新雨",
@@ -282,7 +282,7 @@
             "url": "/img/favicon1.png"
         }
     },
-    "keywords": ",Git",
+    "keywords": ",Android,开发笔记,StatusBar,DrawLayout",
     "description": "",
 }
 </script>
@@ -356,7 +356,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正文"><span class="post-toc-number">2.</span> <span class="post-toc-text">正文</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基础概念"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">基础概念</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#回滚"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">回滚</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分支控制"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">分支控制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#远程仓库-amp-同步"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">远程仓库&amp;同步</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#持续更新-2018-4-11"><span class="post-toc-number">3.</span> <span class="post-toc-text">持续更新: 2018/4/11</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#引言"><span class="post-toc-number">1.</span> <span class="post-toc-text">引言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正文"><span class="post-toc-number">2.</span> <span class="post-toc-text">正文</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#关于Android-View层次结构"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">关于Android View层次结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#FLAG-TRANSLUCENT-STATUS"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">FLAG_TRANSLUCENT_STATUS</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#fitsSystemWindows"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">fitsSystemWindows</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#状态栏颜色"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">状态栏颜色</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-number">3.</span> <span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#补充"><span class="post-toc-number">4.</span> <span class="post-toc-text">补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#window-addFlags"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">window#addFlags</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#View-setSystemUiVisibility"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">View#setSystemUiVisibility</span></a></li></ol></li></ol>
     </ul>
     
 
@@ -375,11 +375,20 @@
                 
     <!-- Paradox Post Header -->
     
-        <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://p71wxz0gm.bkt.clouddn.com/image/post/Git%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5.jpg)">
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', 'http://p71wxz0gm.bkt.clouddn.com//image/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
     
             <p class="article-headline-p">
-                Git常用命令
+                Android DrawLayout状态栏适配
             </p>
         </div>
 
@@ -398,7 +407,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>空山新雨</strong>
-        <span>4月 11, 2018</span>
+        <span>5月 13, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -420,7 +429,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://www.korion.cn/2018/04/11/Git常用命令/">
+        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://www.korion.cn/2018/05/13/Android沉浸式状态栏适配/">
     
 </ul>
 
@@ -434,7 +443,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/Git/">Git</a>
+        <a class="post_tag-link" href="/tags/Android/">Android</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/DrawLayout/">DrawLayout</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/StatusBar/">StatusBar</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/开发笔记/">开发笔记</a>
     </ul>
     
 
@@ -451,7 +460,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Git常用命令&url=http://www.korion.cn/2018/04/11/Git常用命令/index.html&pic=http://www.korion.cn/img/favicon1.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Android DrawLayout状态栏适配&url=http://www.korion.cn/2018/05/13/Android沉浸式状态栏适配/index.html&pic=http://www.korion.cn/img/favicon1.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -466,7 +475,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://www.korion.cn/2018/04/11/Git常用命令/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://www.korion.cn/2018/05/13/Android沉浸式状态栏适配/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -478,7 +487,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Git常用命令&summary=&pics=http://www.korion.cn/img/favicon1.png&url=http://www.korion.cn/2018/04/11/Git常用命令/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Android DrawLayout状态栏适配&summary=&pics=http://www.korion.cn/img/favicon1.png&url=http://www.korion.cn/2018/05/13/Android沉浸式状态栏适配/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -487,7 +496,7 @@
 
     <!-- Share Telegram -->
     
-        <a class="post_share-link" href="https://telegram.me/share/url?url=http://www.korion.cn/2018/04/11/Git常用命令/index.html&text=Git常用命令" target="_blank">
+        <a class="post_share-link" href="https://telegram.me/share/url?url=http://www.korion.cn/2018/05/13/Android沉浸式状态栏适配/index.html&text=Android DrawLayout状态栏适配" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Telegram
             </li>
@@ -503,89 +512,140 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Git是我们开发者常用的、便捷的分布式版本控制工具，它既可以创建本地管理仓库，也可以同步远程仓库上，在合作开中充当着重要角色。熟练使用Git有利于我们的开发和代码维护，但是由于本人常常忘记一些命令，所以在这对开发中容易忘记的命令进行记录。</p>
-<p>关于Git的使用教程，推荐廖雪峰老师教程:<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">《Git教程》</a></p>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><p>Git命令格式:<br>git &lt;command> [&lt;revision>…] – [&lt;file>…]</p>
-<p>Git中工作区、暂存区、版本库、远程仓库：</p>
-<ul>
-<li><p>工作区: git init命令初始化的目录，通常就是工程的根目录（比如，./gitProject），git init命令执行完后，会在工作区目录下生成.git目录（./gitProject/.git）。</p>
-</li>
-<li><p>暂存区: 存放git add命令提交的文件，git add 命令执行完后，文件的记录首先会被添加到暂存区，表示对这个文件进行版本控制。</p>
-<ul>
-<li>git status： 查看暂存区的记录，以及工作区中哪些文件被修改.</li>
-<li>git diff: 查看暂存区和工作区中哪些文件做了哪些修改. (git diff – <file>)</file></li>
-<li>git rm –cached file: 删除暂存区中的文件记录。</li>
-</ul>
-</li>
-<li><p>版本库: 记录git commit命令提交的记录，每个记录保存着一个版本的文件。所有提交记录形成一个链状的版本库。</p>
-<ul>
-<li>git log: 查看commit历史记录</li>
-<li>git reflog: 查看对版本库的操作记录，包括commit、reset</li>
-<li>git reset –hard commit_id: 回滚到commit_id版本，同时产生一次reset记录</li>
-<li>git rm file: 从版本库中删除一个文件，这意味着不对该文件进行版本控制</li>
-</ul>
-</li>
-<li><p>远程仓库: 比如<a href="https://github.com/" target="_blank" rel="noopener">Github</a>、<a href="https://gitee.com/" target="_blank" rel="noopener">码云</a>上面的仓库…</p>
-<ul>
-<li>git remote -v: 查看远程仓库地址</li>
-</ul>
-</li>
-</ul>
-<p>分支: Git支持多分支管理，每个分支相对独立，每个分支有各自的提交记录，分支的存在便于不同功能模块的并行开发。Git默认的主分支为master。</p>
-<ul>
-<li>git branch: 查看分支，’*‘ 表示当前所在分支。</li>
-</ul>
-<p>HEAD: HEAD是版本库中一个指向当前分支当前版本的一个指针（表示当前版本），默认指向git log中最新的版本。</p>
-<ul>
-<li>HEAD^: 表示上一个版本记录.（HEAD^^、HEAD^^^依次类推）</li>
-<li>HEAD~1: 表示上一个版本记录.(HEAD~n, n=1,2,3,… 依次类推)</li>
-</ul>
-<h4 id="回滚"><a href="#回滚" class="headerlink" title="回滚"></a>回滚</h4><ol>
-<li>git checkout</li>
-</ol>
-<blockquote>
-<p>git checkout – <file>  从暂存区恢复指定文件到工作区</file></p>
-<p>git checkout – .       从暂存区恢复已经缓存的文件到工作区</p>
-<p>git checkout HEAD <file>  从HEAD指向的版本中恢复指定文件到工作区和暂存区</file></p>
-<p>git checkout HEAD .       从HEAD指向的版本中恢复已经提交的文件到工作区和暂存区</p>
-</blockquote>
+        <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>  之前，使用DrawerLayout写了个带侧栏菜单的App，在侧栏Open时，发现状态栏是</p>
+<p>  <img style="width:250px; " src="https://i.loli.net/2018/05/17/5afd76f97ea6f.png" alt="device-2018-05-17-203307.png" title="device-2018-05-17-203307.png"></p>
+<p>  但是我想要的效果应该是这样样子的，</p>
+<p>  <img style="width:250px; " src="https://i.loli.net/2018/05/17/5afd76f981144.png" alt="device-2018-05-17-203419.png" title="device-2018-05-17-203419.png"></p>
+<p>  emmm,类似的问题网上已经有很多相关的资料，搜索Android沉浸式状态栏适配即可，Github上也有不少的轮子。<br>  这里，我使用的是<a href="https://github.com/Zackratos/UltimateBar" target="_blank" rel="noopener">UltimateBar</a>，效果还挺不错的。问题是解决了，但是作为一只有着成为高级Android工程师的程序猿，怎么能不去探究其中的为什么呢?</p>
+<p>  在查看了别人相关的文章后，我发现多数都是</p>
 <ol>
-<li>git reset</li>
-</ol>
-<blockquote>
-<p>git reset HEAD <file> 撤销已add暂存区的记录，不影响工作区的文件</file></p>
-<p>git reset HEAD .</p>
-<p>git reset –hard HEAD^ 回滚到上个版本，撤销缓存区，影响工作区</p>
-</blockquote>
-<h4 id="分支控制"><a href="#分支控制" class="headerlink" title="分支控制"></a>分支控制</h4><ol>
-<li><p>git branch</p>
-<p>查看所有分支, “*“表示当前所在分支。</p>
-<p>-d: 删除某个分支</p>
-</li>
-<li><p>git checkout &lt;branch_name&gt;</p>
-<p>切换到分支</p>
-<p>-b: 创建并切换到某个分支</p>
-</li>
-<li><p>git merge &lt;branch_name&gt;</p>
-<p>将某分支合并到当前分支</p>
+<li><p>Android 4.4及之前</p>
+<pre><code> //在Activity的根布局文件中添加android:fitsSystemWindows=&quot;true&quot;
+ //然后设置以下Window标志
+ getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+</code></pre></li>
+<li><p>Android 5.0 及之后</p>
+<pre><code> if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {
+     Window window = getWindow();
+     window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+             | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+     window.setStatusBarColor(Color.TRANSPARENT);
+ }
+</code></pre><p>然后，加上几张效果图。</p>
+<p>那我就好奇了，添加了以上的代码后，究竟发生了什么?</p>
 </li>
 </ol>
-<h4 id="远程仓库-amp-同步"><a href="#远程仓库-amp-同步" class="headerlink" title="远程仓库&amp;同步"></a>远程仓库&amp;同步</h4><ol>
-<li><p>git remote -v</p>
-<p>查看远程仓库地址</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>  所以，接下来我就开始研究了这么些代码对UI产生的影响，查看上面API的源码，发现其实就是设置一些标志位，所以看代码根本看不出了个所以然。于是我想到了另一种思路，因为Android中的视图是由一颗View树构成的，而Android Studio恰好可以查看一个视图下的View树。可以使用<a href="https://developer.android.com/studio/profile/hierarchy-viewer" target="_blank" rel="noopener">HierarchyViewer</a>或<a href="https://developer.android.com/studio/debug/layout-inspector" target="_blank" rel="noopener">Layout Inspector</a>查看。</p>
+<p>  PS: HierarchyViewer官方已经不再支持，最高支持的JDK8, 一开始我的JDK是1.9版本，一直运行不起来还不报错。。。所以推荐使用LayoutInspector，而且真机上HierarchyViewer比不能获取到View的层次结构。</p>
+<h4 id="关于Android-View层次结构"><a href="#关于Android-View层次结构" class="headerlink" title="关于Android View层次结构"></a>关于Android View层次结构</h4><p>  我们知道Android的每个视图都有一个称为DecorView的根View, 这个View其实就是一个FrameLayout，我们在xml文件中定义的视图和系统的一些视图都是DecorView的子View。</p>
+<p>  首先，我们看看在默认的标志的情况下的视图结构，</p>
+<p>  <img src="https://i.loli.net/2018/05/18/5afe7328f2c9b.png" alt="TIM图片20180518143022.png" title="TIM图片20180518143022.png"></p>
+<p>  可以看到，状态栏和导航栏下分别有一个与其大小相当View（statusBarBackground和navigationBarBackground），做填充和背景。</p>
+<h4 id="FLAG-TRANSLUCENT-STATUS"><a href="#FLAG-TRANSLUCENT-STATUS" class="headerlink" title="FLAG_TRANSLUCENT_STATUS"></a>FLAG_TRANSLUCENT_STATUS</h4><p>接下来我们设置<a href="https://developer.android.com/reference/android/view/WindowManager.LayoutParams#flag_translucent_status" target="_blank" rel="noopener">FLAG_TRANSLUCENT_STATUS</a>，再观察视图结构的变化。</p>
+<p>方法1:     </p>
+<pre><code>window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)  //kotlin
+</code></pre><p>方法2: 在主题中覆盖</p>
+<pre><code>&lt;item name=&quot;android:windowTranslucentStatus&quot;&gt;true&lt;/item&gt;
+</code></pre><p>下面效果图，可以看到ToolBar延伸到了状态下面，同时发现视图结构的中并没有statusBarBackground。</p>
+<p><img style="width:250px; " src="https://i.loli.net/2018/05/18/5afe78e431ad2.png" alt="device-2018-05-18-144143.png" title="device-2018-05-18-144143.png"></p>
+<p><img style="width:250px; " src="https://i.loli.net/2018/05/18/5afe796f781b4.png" alt="device-2018-05-18-145330.png" title="device-2018-05-18-145330.png"></p>
+<p><img style="width:250px; " src="https://i.loli.net/2018/05/18/5afe75f391572.png" alt="TIM图片20180518144039.png" title="TIM图片20180518144039.png"></p>
+<p>至此，我们可以看到了Window的标志位对视图结构的影响，<strong>FLAG_TRANSLUCENT_STATUS取消了statusBarBackground</strong>。</p>
+<h4 id="fitsSystemWindows"><a href="#fitsSystemWindows" class="headerlink" title="fitsSystemWindows"></a>fitsSystemWindows</h4><p>  虽然设置FLAG_TRANSLUCENT_STATUS后, 侧栏open或close，状态栏都是透明的，但是效果不对，不能然视图延伸到状态栏下面。</p>
+<p>  于是在xml中，给右侧内容视图添加android:fitsSystemWindows=”true”。<a href="https://developer.android.com/reference/android/view/View.html#setFitsSystemWindows(boolean" target="_blank" rel="noopener">fitsSystemWindows</a>的作用: <strong>当它为true时，当前View在布局时，需要检查是否被状态栏覆盖，如果是，需要给该View添加一个高度为状态栏高度的paddingTop</strong>。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;android.support.v4.widget.DrawerLayout
+   &lt;!--省略此处属性--&gt;
+    &gt;
+
+    &lt;!--主界面--&gt;
+    &lt;LinearLayout
+        android:id=&quot;@+id/root_layout&quot;
+        android:orientation=&quot;vertical&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:fitsSystemWindows=&quot;true&quot;    &lt;!--注意这里--&gt;
+        &gt;
+
+        &lt;include layout=&quot;@layout/center_title_toolbar&quot;/&gt;
+
+        &lt;FrameLayout
+            android:id=&quot;@+id/content_frame&quot;
+            &lt;!--省略此处属性--&gt;
+            &gt;
+
+        &lt;/FrameLayout&gt;
+    &lt;/LinearLayout&gt;
+
+    &lt;!--侧拉栏--&gt;
+    &lt;com.ksxy.messagesender.ui.customview.SidebarView
+        &lt;!--省略此处属性--&gt;
+        android:layout_gravity=&quot;start&quot;
+        /&gt;
+
+&lt;/android.support.v4.widget.DrawerLayout&gt;
+</code></pre><p>效果:</p>
+<p><img style="width:250px; " src="https://i.loli.net/2018/05/18/5afe7e7d4af53.png" alt="device-2018-05-18-151747.png" title="device-2018-05-18-151747.png"></p>
+<p><img style="width:250px; " src="https://i.loli.net/2018/05/18/5afe7e7ee27b7.png" alt="device-2018-05-18-151755.png" title="device-2018-05-18-151755.png"></p>
+<p><img style="width:250px; " src="https://i.loli.net/2018/05/18/5afe7f086eb75.png" alt="TIM图片20180518152126.png" title="TIM图片20180518152126.png"></p>
+<p>emmm, 效果已经很久近我们想要的了，在侧栏close的情况下，状态栏由于没有任何背景颜色，所以呈现默认的底色，在不同系统上可能不同。</p>
+<h4 id="状态栏颜色"><a href="#状态栏颜色" class="headerlink" title="状态栏颜色"></a>状态栏颜色</h4><p>  实际上，在Android API 21之后，Google提供了<a href="https://developer.android.com/reference/android/view/Window#setstatusbarcolor" target="_blank" rel="noopener">Window#setstatusbarcolor()</a>这个方法给我们改变状态的颜色，但是在本案例中，使用Window#setstatusbarcolor达不到我们想要的效果, 因为这个API是通过改变statusBarBackground这个View的背景颜色生效，但是我们为了侧栏的内容够延伸到状态栏下，设置了FLAG_TRANSLUCENT_STATUS，即没有statusBarBackground这个View所以达不到文章开头提到的效果。</p>
+<p>  那么，我们通过什么方法解决问题呢?请看代码，</p>
+<pre><code>  //1. 设置透明状态栏
+   window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
+  //2. 在DecorView下添加一个大小为StatusBar大小的View，颜色为主题中定义的R.color.colorPrimary
+   val statusBarHeightId = resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)     
+   val height = resources.getDimensionPixelSize(statusBarHeightId)  //获取StatusBar的高度
+   val v = View(baseContext)
+   val p = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, height)
+   p.gravity = Gravity.TOP
+   v.layoutParams = p
+   v.background = ColorDrawable(resources.getColor(R.color.colorPrimary))  //设置颜色
+   (window.decorView as ViewGroup).addView(v, 0)
+</code></pre><p>  效果:</p>
+<p>  <img style="width:250px; " src="https://i.loli.net/2018/05/18/5afe86380b1c0.png" alt="TIM图片20180518155129.png" title="TIM图片20180518155129.png"></p>
+<p> <img style="width:250px; " src="https://i.loli.net/2018/05/18/5afe8638228e2.png" alt="TIM图片20180518155152.png" title="TIM图片20180518155152.png"></p>
+<p> <img style="width:250px; " src="https://i.loli.net/2018/05/18/5afe863826ad0.png" alt="TIM图片20180518155005.png" title="TIM图片20180518155005.png"></p>
+<p> 在视图结构中可以看的我们添加的的那个View, emmm,好像有点不对，为啥他与navigationBarBackground同一级，在侧栏Open时为啥没有将侧栏挤下来?</p>
+<p> 事情是这样的，DecorView是一个FrameLayout，我们添加的View是被图中的LinearLayout覆盖在下面，因为我们主布局中设置了fitsSystemWindows，空白的地方刚好能够”看到”底下的View，所以侧栏Open时并不会被”挤”下来。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>好了，以上就的关于DrawerLayout的状态栏适配过程，可以看到实际对Drawlayout的侧栏的适配还是比较麻烦的。如果不需要将我们的布局内容延伸到状态栏下，实际上只需要设配我们状态栏色，那就比较简单。直接使用Window#setstatusbarcolor()就可以 了。上面截图都我在Android 6.0 上截的，但是实际上FLAG_TRANSLUCENT_STATUS在API 19上就已经有了，所以最低可以兼容到Android 4.4.</p>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>  上面介绍到的也就FLAG_TRANSLUCENT_STATUS和fitsSystemWindows，内容有点薄。实际上Window好很多起他的标志位，除了Window外，DecorView也可以设置一下标志位来影响视图。下面补充对几个想过的Flag的说明。</p>
+<h4 id="window-addFlags"><a href="#window-addFlags" class="headerlink" title="window#addFlags"></a>window#addFlags</h4><ol>
+<li><p>WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION</p>
+<p>和FLAG_TRANSLUCENT_STATUS差不多，区别去掉的是底部的navigationBarBackground(View)，使内容延伸到导航栏下。</p>
 </li>
-<li><p>git remote add &lt;仓库别名&gt; &lt;仓库url&gt;</p>
-<p>添加远程仓库</p>
-<p>git remoet set-url &lt;仓库别名&gt; &lt;仓库url&gt;</p>
-<p>修改远程仓库url</p>
-</li>
-<li><p>git push &lt;仓库别名&gt; &lt;分支&gt;</p>
-<p>同步某分支到远程仓库</p>
-<p>git push -f &lt;仓库别名&gt; &lt;分支&gt;</p>
-<p>强制同步某分支到远程仓库，覆盖远程仓库. 很实用，很危险</p>
+<li><p>WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS</p>
+<p>和Window#setstatusbarcolor()配合使用，FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS指示系统栏以透明背景绘制，并且此窗口中的相应区域将填充指定的颜色。</p>
 </li>
 </ol>
-<h3 id="持续更新-2018-4-11"><a href="#持续更新-2018-4-11" class="headerlink" title="持续更新: 2018/4/11"></a>持续更新: 2018/4/11</h3>
+<h4 id="View-setSystemUiVisibility"><a href="#View-setSystemUiVisibility" class="headerlink" title="View#setSystemUiVisibility"></a>View#setSystemUiVisibility</h4><ol>
+<li><p>View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN</p>
+<p>使布局内容延伸到状态栏。该标志不会”丢掉”statusBarBackground(View), 所以可以使用Window#setstatusbarcolor()自定义状态颜色，不过党颜色为全透明时，statusBarBackground(View)会被”丢弃”。这应该是一种优化吧。</p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION</p>
+<p>使布局内容延伸到导航栏。和SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN一样，可以用Window#setNavigationBarColor()自定义颜色，除非为全透明，不然不会”丢弃”navigationBarBackground(View)</p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_LAYOUT_STABLE</p>
+<p>保持View Layout不变，隐藏状态栏或者导航栏后，布局不会延伸到状态栏或者导航栏。和上面两个同时设置时，该项无效。</p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</p>
+<p>隐藏底部的导航栏。会”丢弃”navigationBarBackground.但可以恢复</p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_FULLSCREEN</p>
+<p>隐藏顶部状态栏。等同于(WindowManager.LayoutParams.FLAG_FULLSCREEN)，但可以恢复statusBarBackground。</p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_IMMERSIVE</p>
+<p>在没有设置该标志位时，然后交互动作都退出View.SYSTEM_UI_FLAG_HIDE_NAVIGATION 状态。在设置后, 从底部向上滑，退出View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</p>
+</li>
+<li><p>View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY</p>
+<p>设置该标志位时，View.SYSTEM_UI_FLAG_IMMERSIVE同时也会被设置，这边标志位的作用在于临时退出View.SYSTEM_UI_FLAG_FULLSCREEN或View.SYSTEM_UI_FLAG_HIDE_NAVIGATION，退出一会后恢复隐藏的状态。</p>
+</li>
+</ol>
+<p>  更多可以查看官方文档:<br>  <a href="https://developer.android.com/reference/android/view/WindowManager.LayoutParams" target="_blank" rel="noopener">WindowManager.LayoutParams</a>和<a href="https://developer.android.com/reference/android/view/View" target="_blank" rel="noopener">View#setSystemUiVisibility(int)</a></p>
+
         
     
 
@@ -614,7 +674,7 @@
             repo: 'KorionCN.github.io',
             owner: 'KorionCN',
             admin: ['KorionCN'],
-			id: 'Wed Apr 11 2018 16:15:28 GMT+0800',
+			id: 'Sun May 13 2018 21:08:24 GMT+0800',
             // facebook-like distraction free mode
             distractionFreeMode: false
         })
@@ -635,21 +695,13 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/05/02/五一干些啥/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2018/04/07/Java类加载机制/" id="post_nav-older" class="next-content">
+        <a href="/2018/05/13/Android短信发送与监听读取/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
