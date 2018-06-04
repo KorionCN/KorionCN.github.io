@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Linux单用户模式拯救密码]]></title>
+    <url>%2F2018%2F06%2F05%2FLinux%E5%8D%95%E7%94%A8%E6%88%B7%E6%A8%A1%E5%BC%8F%E6%8B%AF%E6%95%91%E5%AF%86%E7%A0%81%2F</url>
+    <content type="text"><![CDATA[今天实验课上，尝试使用Hadoop搭建分布式的计算环境，实验通过三台虚拟机进行，因为我的电脑只有8G的内存，启动三台虚拟机内存可能要吃紧，所以打算在我的Deepin Linux系统下完成，一来主机本身就是Linux系统，二来只要在启动两个虚拟机就可以了。 当我启动Linux系统后，发现自己怎么输入密码都不对，幸好Linux都是支持在单用户模式下更改密码的。 单用户模式 单用户模式（Single user mode），是在类Unix系统上工作时的一种拥有超级用户权限的模式。通常在引导菜单给予1或S参数能进入这个模式。这个模式只在面对主机实体时才有机会通过引导菜单进入，也因此确保超级权限授予的对象是能接触到主机的超级用户。此操作通常用于维护硬盘分区或更改超级用户密码等需在磁盘挂载前操作的维护。 –Wiki百科 进入单用户模式在这里先声明一下，进入单用户模式需要改动GRUB启动项的参数，不同的Linux 发行版本可能不同.博主一直用的桌面Linux是Deepin,所以以下内容针对Deepin(Ubuntu系列通用)。 在GRUB启动项中，选择Deepin的启动 摁E键，可以进入该启动项的编辑模式 将启动参数”ro splash quiet” 改成 “rw single init=/bin/bash” 摁F10或者Ctrl+X，启动引导，稍等后即可进入单用户模式 修改密码单用户模式下，具有最高的权限，可以修改任何用户的密码，包括root。使用命令 passwd {用户名} 然后输入两次密码即可。最后，重启系统。]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>Deepin Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java泛型擦除与反射]]></title>
+    <url>%2F2018%2F05%2F21%2FJava%E5%8F%8D%E5%B0%84%E6%B3%9B%E5%9E%8B%E6%93%A6%E9%99%A4%E4%B8%8E%E5%8F%8D%E5%B0%84%2F</url>
+    <content type="text"><![CDATA[概述]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java泛型</tag>
+        <tag>反射</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Android DrawLayout状态栏适配]]></title>
     <url>%2F2018%2F05%2F13%2FAndroid%E6%B2%89%E6%B5%B8%E5%BC%8F%E7%8A%B6%E6%80%81%E6%A0%8F%E9%80%82%E9%85%8D%2F</url>
     <content type="text"><![CDATA[引言 之前，使用DrawerLayout写了个带侧栏菜单的App，在侧栏Open时，发现状态栏是 但是我想要的效果应该是这样样子的， emmm,类似的问题网上已经有很多相关的资料，搜索Android沉浸式状态栏适配即可，Github上也有不少的轮子。 这里，我使用的是UltimateBar，效果还挺不错的。问题是解决了，但是作为一只有着成为高级Android工程师的程序猿，怎么能不去探究其中的为什么呢? 在查看了别人相关的文章后，我发现多数都是 Android 4.4及之前 //在Activity的根布局文件中添加android:fitsSystemWindows=&quot;true&quot; //然后设置以下Window标志 getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); Android 5.0 及之后 if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) { Window window = getWindow(); window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE); window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); window.setStatusBarColor(Color.TRANSPARENT); } 然后，加上几张效果图。 那我就好奇了，添加了以上的代码后，究竟发生了什么? 正文 所以，接下来我就开始研究了这么些代码对UI产生的影响，查看上面API的源码，发现其实就是设置一些标志位，所以看代码根本看不出了个所以然。于是我想到了另一种思路，因为Android中的视图是由一颗View树构成的，而Android Studio恰好可以查看一个视图下的View树。可以使用HierarchyViewer或Layout Inspector查看。 PS: HierarchyViewer官方已经不再支持，最高支持的JDK8, 一开始我的JDK是1.9版本，一直运行不起来还不报错。。。所以推荐使用LayoutInspector，而且真机上HierarchyViewer比不能获取到View的层次结构。 关于Android View层次结构 我们知道Android的每个视图都有一个称为DecorView的根View, 这个View其实就是一个FrameLayout，我们在xml文件中定义的视图和系统的一些视图都是DecorView的子View。 首先，我们看看在默认的标志的情况下的视图结构， 可以看到，状态栏和导航栏下分别有一个与其大小相当View（statusBarBackground和navigationBarBackground），做填充和背景。 FLAG_TRANSLUCENT_STATUS接下来我们设置FLAG_TRANSLUCENT_STATUS，再观察视图结构的变化。 方法1: window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) //kotlin 方法2: 在主题中覆盖 &lt;item name=&quot;android:windowTranslucentStatus&quot;&gt;true&lt;/item&gt; 下面效果图，可以看到ToolBar延伸到了状态下面，同时发现视图结构的中并没有statusBarBackground。 至此，我们可以看到了Window的标志位对视图结构的影响，FLAG_TRANSLUCENT_STATUS取消了statusBarBackground。 fitsSystemWindows 虽然设置FLAG_TRANSLUCENT_STATUS后, 侧栏open或close，状态栏都是透明的，但是效果不对，不能然视图延伸到状态栏下面。 于是在xml中，给右侧内容视图添加android:fitsSystemWindows=”true”。fitsSystemWindows的作用: 当它为true时，当前View在布局时，需要检查是否被状态栏覆盖，如果是，需要给该View添加一个高度为状态栏高度的paddingTop。 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt; &lt;android.support.v4.widget.DrawerLayout &lt;!--省略此处属性--&gt; &gt; &lt;!--主界面--&gt; &lt;LinearLayout android:id=&quot;@+id/root_layout&quot; android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot; android:fitsSystemWindows=&quot;true&quot; &lt;!--注意这里--&gt; &gt; &lt;include layout=&quot;@layout/center_title_toolbar&quot;/&gt; &lt;FrameLayout android:id=&quot;@+id/content_frame&quot; &lt;!--省略此处属性--&gt; &gt; &lt;/FrameLayout&gt; &lt;/LinearLayout&gt; &lt;!--侧拉栏--&gt; &lt;com.ksxy.messagesender.ui.customview.SidebarView &lt;!--省略此处属性--&gt; android:layout_gravity=&quot;start&quot; /&gt; &lt;/android.support.v4.widget.DrawerLayout&gt; 效果: emmm, 效果已经很久近我们想要的了，在侧栏close的情况下，状态栏由于没有任何背景颜色，所以呈现默认的底色，在不同系统上可能不同。 状态栏颜色 实际上，在Android API 21之后，Google提供了Window#setstatusbarcolor()这个方法给我们改变状态的颜色，但是在本案例中，使用Window#setstatusbarcolor达不到我们想要的效果, 因为这个API是通过改变statusBarBackground这个View的背景颜色生效，但是我们为了侧栏的内容够延伸到状态栏下，设置了FLAG_TRANSLUCENT_STATUS，即没有statusBarBackground这个View所以达不到文章开头提到的效果。 那么，我们通过什么方法解决问题呢?请看代码， //1. 设置透明状态栏 window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) //2. 在DecorView下添加一个大小为StatusBar大小的View，颜色为主题中定义的R.color.colorPrimary val statusBarHeightId = resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;) val height = resources.getDimensionPixelSize(statusBarHeightId) //获取StatusBar的高度 val v = View(baseContext) val p = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, height) p.gravity = Gravity.TOP v.layoutParams = p v.background = ColorDrawable(resources.getColor(R.color.colorPrimary)) //设置颜色 (window.decorView as ViewGroup).addView(v, 0) 效果: 在视图结构中可以看的我们添加的的那个View, emmm,好像有点不对，为啥他与navigationBarBackground同一级，在侧栏Open时为啥没有将侧栏挤下来? 事情是这样的，DecorView是一个FrameLayout，我们添加的View是被图中的LinearLayout覆盖在下面，因为我们主布局中设置了fitsSystemWindows，空白的地方刚好能够”看到”底下的View，所以侧栏Open时并不会被”挤”下来。 总结好了，以上就的关于DrawerLayout的状态栏适配过程，可以看到实际对Drawlayout的侧栏的适配还是比较麻烦的。如果不需要将我们的布局内容延伸到状态栏下，实际上只需要设配我们状态栏色，那就比较简单。直接使用Window#setstatusbarcolor()就可以 了。上面截图都我在Android 6.0 上截的，但是实际上FLAG_TRANSLUCENT_STATUS在API 19上就已经有了，所以最低可以兼容到Android 4.4. 补充 上面介绍到的也就FLAG_TRANSLUCENT_STATUS和fitsSystemWindows，内容有点薄。实际上Window好很多起他的标志位，除了Window外，DecorView也可以设置一下标志位来影响视图。下面补充对几个想过的Flag的说明。 window#addFlags WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION 和FLAG_TRANSLUCENT_STATUS差不多，区别去掉的是底部的navigationBarBackground(View)，使内容延伸到导航栏下。 WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS 和Window#setstatusbarcolor()配合使用，FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS指示系统栏以透明背景绘制，并且此窗口中的相应区域将填充指定的颜色。 View#setSystemUiVisibility View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN 使布局内容延伸到状态栏。该标志不会”丢掉”statusBarBackground(View), 所以可以使用Window#setstatusbarcolor()自定义状态颜色，不过党颜色为全透明时，statusBarBackground(View)会被”丢弃”。这应该是一种优化吧。 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION 使布局内容延伸到导航栏。和SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN一样，可以用Window#setNavigationBarColor()自定义颜色，除非为全透明，不然不会”丢弃”navigationBarBackground(View) View.SYSTEM_UI_FLAG_LAYOUT_STABLE 保持View Layout不变，隐藏状态栏或者导航栏后，布局不会延伸到状态栏或者导航栏。和上面两个同时设置时，该项无效。 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION 隐藏底部的导航栏。会”丢弃”navigationBarBackground.但可以恢复 View.SYSTEM_UI_FLAG_FULLSCREEN 隐藏顶部状态栏。等同于(WindowManager.LayoutParams.FLAG_FULLSCREEN)，但可以恢复statusBarBackground。 View.SYSTEM_UI_FLAG_IMMERSIVE 在没有设置该标志位时，然后交互动作都退出View.SYSTEM_UI_FLAG_HIDE_NAVIGATION 状态。在设置后, 从底部向上滑，退出View.SYSTEM_UI_FLAG_HIDE_NAVIGATION View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY 设置该标志位时，View.SYSTEM_UI_FLAG_IMMERSIVE同时也会被设置，这边标志位的作用在于临时退出View.SYSTEM_UI_FLAG_FULLSCREEN或View.SYSTEM_UI_FLAG_HIDE_NAVIGATION，退出一会后恢复隐藏的状态。 更多可以查看官方文档: WindowManager.LayoutParams和View#setSystemUiVisibility(int)]]></content>
@@ -36,8 +59,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>开发笔记</tag>
         <tag>ContactsContract</tag>
+        <tag>开发笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -98,7 +121,7 @@
   <entry>
     <title><![CDATA[Android开发杂记]]></title>
     <url>%2F2018%2F03%2F31%2FAndroid%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0%2F</url>
-    <content type="text"><![CDATA[前言在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。 AndroidAssets目录Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助AssetManager。使用Context.getAssetManager()可以获取实例。 注：assets下可以有子目录，引入文件时url的根目录为assets。 val assets = getAssetManager() val inStream = assets.open(&quot;img/qrcode.png&quot;) //文件路径:assets/img/qrcode.png val bitmap = BitmapFactory.decodeStream(inStream) inStream.close() string.xml中字符串插值 string.xml中， &lt;string name=”stu_name”>名字: %s&lt;/string> 代码中， tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”) %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00 %d ： 表示整数 %f： 表示浮点数 %s ： 表示字符串 ListView隐藏scrollbar android:scrollbars=”none”或ListView#setVerticalScrollBarEnabled(true); 沉浸式状态栏适配第三方库: UltimateBar 根据文件名，获取其资源ID 获取状态栏高度: resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;) val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId) Android版本判断 if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){} 6.0 动态权限申请 危险权限 官方相关文档 动态申请权限模板代码 if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){ //如果没有获得该权限 if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){ //如果需要向用户说明申请权限的理由 //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true } //申请权限 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE) } override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) { when(requestCode){ CONTACTS_PERMISSION_CODE -&gt; { if (grantResults[0] == PackageManager.PERMISSION_GRANTED){ //申请成功 }else{ } return } } super.onRequestPermissionsResult(requestCode, permissions, grantResults) } 持续更新 2018-5-5]]></content>
+    <content type="text"><![CDATA[前言在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。 AndroidAssets目录Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助AssetManager。使用Context.getAssetManager()可以获取实例。 注：assets下可以有子目录，引入文件时url的根目录为assets。 val assets = getAssetManager() val inStream = assets.open(&quot;img/qrcode.png&quot;) //文件路径:assets/img/qrcode.png val bitmap = BitmapFactory.decodeStream(inStream) inStream.close() string.xml中字符串插值 string.xml中， &lt;string name=”stu_name”>名字: %s&lt;/string> 代码中， tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”) %n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格 %n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00 %d ： 表示整数 %f： 表示浮点数 %s ： 表示字符串 ListView隐藏scrollbar android:scrollbars=”none”或ListView#setVerticalScrollBarEnabled(true); 沉浸式状态栏适配第三方库: UltimateBar 根据文件名，获取其资源ID 获取状态栏高度: resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;) val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId) Android版本判断 if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){} 6.0 动态权限申请 危险权限 可以通过ADB命令查看: adb shell pm list permissions -d -g 官方相关文档 动态申请权限模板代码 if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){ //如果没有获得该权限 if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){ //如果需要向用户说明申请权限的理由 //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true } //申请权限 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE) } override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) { when(requestCode){ CONTACTS_PERMISSION_CODE -&gt; { if (grantResults[0] == PackageManager.PERMISSION_GRANTED){ //申请成功 }else{ } return } } super.onRequestPermissionsResult(requestCode, permissions, grantResults) } Button 去除阴影 style=”?android:attr/borderlessButtonStyle” 持续更新 2018-5-19]]></content>
       <categories>
         <category>Android</category>
       </categories>
@@ -115,8 +138,8 @@
         <category>Java</category>
       </categories>
       <tags>
-        <tag>Java GC</tag>
         <tag>虚拟机</tag>
+        <tag>Java GC</tag>
       </tags>
   </entry>
   <entry>
@@ -229,13 +252,13 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[标签云]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[时间轴]]></title>
+    <url>%2Ftimeline%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[时间轴]]></title>
-    <url>%2Ftimeline%2Findex.html</url>
+    <title><![CDATA[标签云]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>

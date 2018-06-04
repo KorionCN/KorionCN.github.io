@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.korion.cn/"/>
-  <updated>2018-05-13T13:08:24.000Z</updated>
+  <updated>2018-06-04T16:01:51.000Z</updated>
   <id>http://www.korion.cn/</id>
   
   <author>
@@ -15,6 +15,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux单用户模式拯救密码</title>
+    <link href="http://www.korion.cn/2018/06/05/Linux%E5%8D%95%E7%94%A8%E6%88%B7%E6%A8%A1%E5%BC%8F%E6%8B%AF%E6%95%91%E5%AF%86%E7%A0%81/"/>
+    <id>http://www.korion.cn/2018/06/05/Linux单用户模式拯救密码/</id>
+    <published>2018-06-04T16:01:51.000Z</published>
+    <updated>2018-06-04T16:01:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<p> 今天实验课上，尝试使用Hadoop搭建分布式的计算环境，实验通过三台虚拟机进行，因为我的电脑只有8G的内存，启动三台虚拟机内存可能要吃紧，所以打算在我的Deepin Linux系统下完成，一来主机本身就是Linux系统，二来只要在启动两个虚拟机就可以了。</p><p>当我启动Linux系统后，发现自己怎么输入密码都不对，幸好Linux都是支持在单用户模式下更改密码的。</p><h3 id="单用户模式"><a href="#单用户模式" class="headerlink" title="单用户模式"></a>单用户模式</h3><blockquote><p>单用户模式（Single user mode），是在类Unix系统上工作时的一种拥有超级用户权限的模式。通常在引导菜单给予1或S参数能进入这个模式。这个模式只在面对主机实体时才有机会通过引导菜单进入，也因此确保超级权限授予的对象是能接触到主机的超级用户。此操作通常用于维护硬盘分区或更改超级用户密码等需在磁盘挂载前操作的维护。   –Wiki百科</p></blockquote><h3 id="进入单用户模式"><a href="#进入单用户模式" class="headerlink" title="进入单用户模式"></a>进入单用户模式</h3><p>在这里先声明一下，进入单用户模式需要改动GRUB启动项的参数，不同的Linux 发行版本可能不同.博主一直用的桌面Linux是<a href="https://www.deepin.org/" target="_blank" rel="noopener">Deepin</a>,所以以下内容针对Deepin(<del>Ubuntu系列通用</del>)。</p><ol><li>在GRUB启动项中，选择Deepin的启动</li><li>摁E键，可以进入该启动项的编辑模式</li><li>将启动参数”ro  splash quiet” 改成 “rw single init=/bin/bash”</li><li>摁F10或者Ctrl+X，启动引导，稍等后即可进入单用户模式</li></ol><h3 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h3><p>单用户模式下，具有最高的权限，可以修改任何用户的密码，包括root。<br>使用命令</p><blockquote><p>passwd {用户名}</p></blockquote><p>然后输入两次密码即可。<br>最后，重启系统。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt; 今天实验课上，尝试使用Hadoop搭建分布式的计算环境，实验通过三台虚拟机进行，因为我的电脑只有8G的内存，启动三台虚拟机内存可能要吃紧，所以打算在我的Deepin Linux系统下完成，一来主机本身就是Linux系统，二来只要在启动两个虚拟机就可以了。&lt;/p&gt;
+&lt;p&gt;当
+      
+    
+    </summary>
+    
+      <category term="开发工具" scheme="http://www.korion.cn/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="Deepin Linux" scheme="http://www.korion.cn/tags/Deepin-Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java泛型擦除与反射</title>
+    <link href="http://www.korion.cn/2018/05/21/Java%E5%8F%8D%E5%B0%84%E6%B3%9B%E5%9E%8B%E6%93%A6%E9%99%A4%E4%B8%8E%E5%8F%8D%E5%B0%84/"/>
+    <id>http://www.korion.cn/2018/05/21/Java反射泛型擦除与反射/</id>
+    <published>2018-05-21T05:23:12.000Z</published>
+    <updated>2018-05-21T05:23:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h3&gt;
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="http://www.korion.cn/categories/Java/"/>
+    
+    
+      <category term="Java泛型" scheme="http://www.korion.cn/tags/Java%E6%B3%9B%E5%9E%8B/"/>
+    
+      <category term="反射" scheme="http://www.korion.cn/tags/%E5%8F%8D%E5%B0%84/"/>
+    
+  </entry>
   
   <entry>
     <title>Android DrawLayout状态栏适配</title>
@@ -101,9 +154,9 @@
     
       <category term="Android" scheme="http://www.korion.cn/tags/Android/"/>
     
-      <category term="开发笔记" scheme="http://www.korion.cn/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
-    
       <category term="ContactsContract" scheme="http://www.korion.cn/tags/ContactsContract/"/>
+    
+      <category term="开发笔记" scheme="http://www.korion.cn/tags/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
@@ -243,7 +296,7 @@
     <published>2018-03-31T07:57:45.000Z</published>
     <updated>2018-05-05T07:57:45.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><h4 id="Assets目录"><a href="#Assets目录" class="headerlink" title="Assets目录"></a>Assets目录</h4><p>Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。</p><p>注：assets下可以有子目录，引入文件时url的根目录为assets。</p><pre><code>    val assets = getAssetManager()    val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.png    val bitmap = BitmapFactory.decodeStream(inStream)    inStream.close()</code></pre><h4 id="string-xml中字符串插值"><a href="#string-xml中字符串插值" class="headerlink" title="string.xml中字符串插值"></a>string.xml中字符串插值</h4><blockquote><p>string.xml中，</p><p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p><p>代码中，</p><p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p></blockquote><ul><li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li><li>%d ：   表示整数<ul><li>%f：  表示浮点数</li><li>%s  ： 表示字符串</li></ul></li></ul><h4 id="ListView隐藏scrollbar"><a href="#ListView隐藏scrollbar" class="headerlink" title="ListView隐藏scrollbar"></a>ListView隐藏scrollbar</h4><blockquote><p>android:scrollbars=”none”<br>或<br>ListView#setVerticalScrollBarEnabled(true);</p></blockquote><h4 id="沉浸式状态栏适配"><a href="#沉浸式状态栏适配" class="headerlink" title="沉浸式状态栏适配"></a>沉浸式状态栏适配</h4><p>第三方库: <a href="https://github.com/Zackratos/UltimateBar" target="_blank" rel="noopener">UltimateBar</a></p><h4 id="根据文件名，获取其资源ID"><a href="#根据文件名，获取其资源ID" class="headerlink" title="根据文件名，获取其资源ID"></a>根据文件名，获取其资源ID</h4><ul><li><p>获取状态栏高度:</p><pre><code>  resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)  val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)</code></pre></li></ul><h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>     if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}</code></pre><h4 id="6-0-动态权限申请"><a href="#6-0-动态权限申请" class="headerlink" title="6.0 动态权限申请"></a>6.0 动态权限申请</h4><ul><li><p>危险权限</p><p>  <a href="https://developer.android.com/guide/topics/security/permissions?hl=zh-CN#normal-dangerous" target="_blank" rel="noopener">官方相关文档</a></p></li><li><p>动态申请权限模板代码</p><pre><code>  if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){          //如果没有获得该权限          if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){              //如果需要向用户说明申请权限的理由              //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true          }          //申请权限          ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)      }  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {      when(requestCode){          CONTACTS_PERMISSION_CODE -&gt; {              if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){                  //申请成功              }else{              }              return          }      }      super.onRequestPermissionsResult(requestCode, permissions, grantResults)</code></pre><p>  }</p></li></ul><h3 id="持续更新-2018-5-5"><a href="#持续更新-2018-5-5" class="headerlink" title="持续更新 2018-5-5"></a>持续更新 2018-5-5</h3>]]></content>
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><h4 id="Assets目录"><a href="#Assets目录" class="headerlink" title="Assets目录"></a>Assets目录</h4><p>Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。</p><p>注：assets下可以有子目录，引入文件时url的根目录为assets。</p><pre><code>    val assets = getAssetManager()    val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.png    val bitmap = BitmapFactory.decodeStream(inStream)    inStream.close()</code></pre><h4 id="string-xml中字符串插值"><a href="#string-xml中字符串插值" class="headerlink" title="string.xml中字符串插值"></a>string.xml中字符串插值</h4><blockquote><p>string.xml中，</p><p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p><p>代码中，</p><p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p></blockquote><ul><li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li><li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li><li>%d ：   表示整数<ul><li>%f：  表示浮点数</li><li>%s  ： 表示字符串</li></ul></li></ul><h4 id="ListView隐藏scrollbar"><a href="#ListView隐藏scrollbar" class="headerlink" title="ListView隐藏scrollbar"></a>ListView隐藏scrollbar</h4><blockquote><p>android:scrollbars=”none”<br>或<br>ListView#setVerticalScrollBarEnabled(true);</p></blockquote><h4 id="沉浸式状态栏适配"><a href="#沉浸式状态栏适配" class="headerlink" title="沉浸式状态栏适配"></a>沉浸式状态栏适配</h4><p>第三方库: <a href="https://github.com/Zackratos/UltimateBar" target="_blank" rel="noopener">UltimateBar</a></p><h4 id="根据文件名，获取其资源ID"><a href="#根据文件名，获取其资源ID" class="headerlink" title="根据文件名，获取其资源ID"></a>根据文件名，获取其资源ID</h4><ul><li><p>获取状态栏高度:</p><pre><code>  resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)  val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)</code></pre></li></ul><h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>     if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}</code></pre><h4 id="6-0-动态权限申请"><a href="#6-0-动态权限申请" class="headerlink" title="6.0 动态权限申请"></a>6.0 动态权限申请</h4><ul><li><p>危险权限</p><p>  可以通过ADB命令查看:</p><blockquote><p>adb shell pm list permissions -d -g</p></blockquote><p>  <a href="https://developer.android.com/guide/topics/security/permissions?hl=zh-CN#normal-dangerous" target="_blank" rel="noopener">官方相关文档</a></p></li><li><p>动态申请权限模板代码</p><pre><code>  if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){          //如果没有获得该权限          if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){              //如果需要向用户说明申请权限的理由              //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true          }          //申请权限          ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)      }  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {      when(requestCode){          CONTACTS_PERMISSION_CODE -&gt; {              if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){                  //申请成功              }else{              }              return          }      }      super.onRequestPermissionsResult(requestCode, permissions, grantResults)</code></pre><p>  }</p></li></ul><h4 id="Button-去除阴影"><a href="#Button-去除阴影" class="headerlink" title="Button 去除阴影"></a>Button 去除阴影</h4><blockquote><p>style=”?android:attr/borderlessButtonStyle”</p></blockquote><h3 id="持续更新-2018-5-19"><a href="#持续更新-2018-5-19" class="headerlink" title="持续更新 2018-5-19"></a>持续更新 2018-5-19</h3>]]></content>
     
     <summary type="html">
     
@@ -286,9 +339,9 @@
       <category term="Java" scheme="http://www.korion.cn/categories/Java/"/>
     
     
-      <category term="Java GC" scheme="http://www.korion.cn/tags/Java-GC/"/>
-    
       <category term="虚拟机" scheme="http://www.korion.cn/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    
+      <category term="Java GC" scheme="http://www.korion.cn/tags/Java-GC/"/>
     
   </entry>
   
@@ -505,29 +558,6 @@
     
     
       <category term="Android" scheme="http://www.korion.cn/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于</title>
-    <link href="http://www.korion.cn/2018/03/06/%E5%85%B3%E4%BA%8E/"/>
-    <id>http://www.korion.cn/2018/03/06/关于/</id>
-    <published>2018-03-06T15:47:26.000Z</published>
-    <updated>2018-03-11T16:00:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="我是…"><a href="#我是…" class="headerlink" title="我是…"></a>我是…</h3><p>一个生性平和又勇于奋斗的偏佛系95后，一只Andoid程序猿，来自厂里，号称厂里的帅小伙。喜欢听音乐，口味偏向粤语歌和吉他曲。</p><h3 id="关于该博客"><a href="#关于该博客" class="headerlink" title="关于该博客"></a>关于该博客</h3><p>以前一直想搞一个个人博客，奈何博主在前端设计与技术这方面知识比较欠缺，所以一直跳票。但为了更好地记录自己的经历，在2018年3月初，在一个<a href="http://666666666666.xyz" target="_blank" rel="noopener">前端老铁</a>的帮助下成功搭建了这个博客，在这鸣谢一下该老铁。该博客用Hexo+Github+Material主题进行搭建，用于个人的学习记录和日常分享。</p><h3 id="关于博文"><a href="#关于博文" class="headerlink" title="关于博文"></a>关于博文</h3><p>本博客中的博文主要是个人的记录，所以不一定是百分百正确，如果您发现任何错误，请在评论区文明指出，本人将报着去伪存真的态度进行探讨，并表示对您表衷心的感谢，如果是开放性问题，也可各抒己见或求同存异，有朋自远方来，不亦悦乎？欢迎交流学习。部分内容是转载的，我会注明原链接，尊重原创作。</p><h3 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h3><ol><li><a href="https://sm.ms" target="_blank" rel="noopener">SM.MS 图床</a></li></ol><p><strong>更新时间</strong>：2018-03-12</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;我是…&quot;&gt;&lt;a href=&quot;#我是…&quot; class=&quot;headerlink&quot; title=&quot;我是…&quot;&gt;&lt;/a&gt;我是…&lt;/h3&gt;&lt;p&gt;一个生性平和又勇于奋斗的偏佛系95后，一只Andoid程序猿，来自厂里，号称厂里的帅小伙。喜欢听音乐，口味偏向粤语歌和吉他曲。&lt;/p
-      
-    
-    </summary>
-    
-      <category term="日常" scheme="http://www.korion.cn/categories/%E6%97%A5%E5%B8%B8/"/>
-    
     
   </entry>
   

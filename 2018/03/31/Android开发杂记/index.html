@@ -356,7 +356,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Android"><span class="post-toc-number">2.</span> <span class="post-toc-text">Android</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Assets目录"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Assets目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#string-xml中字符串插值"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">string.xml中字符串插值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ListView隐藏scrollbar"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">ListView隐藏scrollbar</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#沉浸式状态栏适配"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">沉浸式状态栏适配</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#根据文件名，获取其资源ID"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">根据文件名，获取其资源ID</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Android版本判断"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">Android版本判断</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-0-动态权限申请"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">6.0 动态权限申请</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#持续更新-2018-5-5"><span class="post-toc-number">3.</span> <span class="post-toc-text">持续更新 2018-5-5</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Android"><span class="post-toc-number">2.</span> <span class="post-toc-text">Android</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Assets目录"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Assets目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#string-xml中字符串插值"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">string.xml中字符串插值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ListView隐藏scrollbar"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">ListView隐藏scrollbar</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#沉浸式状态栏适配"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">沉浸式状态栏适配</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#根据文件名，获取其资源ID"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">根据文件名，获取其资源ID</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Android版本判断"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">Android版本判断</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-0-动态权限申请"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">6.0 动态权限申请</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Button-去除阴影"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">Button 去除阴影</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#持续更新-2018-5-19"><span class="post-toc-number">3.</span> <span class="post-toc-text">持续更新 2018-5-19</span></a></li></ol>
     </ul>
     
 
@@ -548,6 +548,10 @@
 <h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>     if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}
 </code></pre><h4 id="6-0-动态权限申请"><a href="#6-0-动态权限申请" class="headerlink" title="6.0 动态权限申请"></a>6.0 动态权限申请</h4><ul>
 <li><p>危险权限</p>
+<p>  可以通过ADB命令查看:</p>
+<blockquote>
+<p>adb shell pm list permissions -d -g</p>
+</blockquote>
 <p>  <a href="https://developer.android.com/guide/topics/security/permissions?hl=zh-CN#normal-dangerous" target="_blank" rel="noopener">官方相关文档</a></p>
 </li>
 <li><p>动态申请权限模板代码</p>
@@ -577,7 +581,10 @@
 </code></pre><p>  }</p>
 </li>
 </ul>
-<h3 id="持续更新-2018-5-5"><a href="#持续更新-2018-5-5" class="headerlink" title="持续更新 2018-5-5"></a>持续更新 2018-5-5</h3>
+<h4 id="Button-去除阴影"><a href="#Button-去除阴影" class="headerlink" title="Button 去除阴影"></a>Button 去除阴影</h4><blockquote>
+<p>style=”?android:attr/borderlessButtonStyle”</p>
+</blockquote>
+<h3 id="持续更新-2018-5-19"><a href="#持续更新-2018-5-19" class="headerlink" title="持续更新 2018-5-19"></a>持续更新 2018-5-19</h3>
         
     
 
@@ -733,7 +740,7 @@
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">12</span></a>
+                <a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">12</span></a>
             </ul>
         </li>
         
@@ -751,7 +758,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">7</span></a></li><li><a class="sidebar_archives-link" href="/categories/Java/">Java<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/开发工具/">开发工具<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/日常/">日常<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机网络/">计算机网络<span class="sidebar_archives-count">5</span></a>
+                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">7</span></a></li><li><a class="sidebar_archives-link" href="/categories/Java/">Java<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/开发工具/">开发工具<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/日常/">日常<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/计算机网络/">计算机网络<span class="sidebar_archives-count">5</span></a>
             </ul>
         </li>
         
