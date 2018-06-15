@@ -515,8 +515,13 @@
         <blockquote>
 <p>  关于Linux使用技巧的一些总结。</p>
 </blockquote>
-<h3 id="ssh密钥登录"><a href="#ssh密钥登录" class="headerlink" title="ssh密钥登录"></a>ssh密钥登录</h3><p>   使用ssh连接主机时，每次都需要输入用户名，所以不是很麻烦，但是对于密码健忘的人来说，常常需要去控制面板<br>查看密码。。。幸好ssh支持更安全、方便的密钥登录。</p>
-<h3 id="关于ssh的疑惑"><a href="#关于ssh的疑惑" class="headerlink" title="关于ssh的疑惑"></a>关于ssh的疑惑</h3><p>   其实，在此之前，我已经使用ssh密钥登录很多次，但是对ssh存在一些疑惑，一直没有弄明白。我的疑惑主要是<br>${HOME}/.ssh的几个文件的作用，一台本地主机如何保存多台远程主机的密钥? 密钥对是私钥保存在本地主机还是公钥？</p>
+<h3 id="ssh密钥登录"><a href="#ssh密钥登录" class="headerlink" title="ssh密钥登录"></a>ssh密钥登录</h3><p>   使用ssh连接主机时，每次都需要输入用户名，虽然不是很麻烦，但是对于密码健忘的人来说，常常需要去控制面板<br>查看密码。。。幸好ssh支持更安全、方便的密钥登录。</p>
+<h3 id="关于ssh的疑惑"><a href="#关于ssh的疑惑" class="headerlink" title="关于ssh的疑惑"></a>关于ssh的疑惑</h3><p>   其实，在此之前，我已经使用ssh密钥登录很多次，但是对ssh存在一些疑惑，一直没有弄明白。</p>
+<ul>
+<li>${HOME}/.ssh的几个文件的作用;</li>
+<li>一台本地主机如何保存多台远程主机的密钥?</li>
+<li>密钥对是保存在本地主机还是远程主机？</li>
+</ul>
 <p><strong>1. .ssh/known_hosts</strong></p>
 <p>   我们知道ssh提供了两种身份认证方式，一种是用户名+密码，一种是非对称加密密钥认证。ssh在首次连接一台主<br>机时，ssh服务端会发送一个非对称加密的公钥给客户端，用于之后传输数据的加密，这是ssh自动产生的密钥对<br>（我称为连接密钥）。ssh会将这个密钥对的公钥保存在本地用户目录下的.ssh/known_hosts中.</p>
 <blockquote>
@@ -543,6 +548,7 @@
 </blockquote>
 <p>然后输入对应用户名密码，就可以将id_rsa.pub添加到远程主机的authorized_keys文件。</p>
 <p>部署完毕，就可以用密钥验证登录了。</p>
+<p><strong>最后</strong>, 无论密钥对在哪里生成，都要保管好私钥，同一个公钥可以部署到多台远程主机上，但是私钥不能。</p>
 
         
     
