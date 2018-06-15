@@ -45,7 +45,7 @@
     
     <title>
         
-            Https之SSL/TLS握手 | 
+            Linux使用技巧:ssh密钥登录 | 
         
         Ksxy&#39;s Blog
     </title>
@@ -56,7 +56,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content=",https,计算机网络">
+    <meta name="keywords" content=",Linux,shell,ssh">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -217,7 +217,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Ksxy&#39;s Blog">
-    <meta name="msapplication-starturl" content="http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/">
+    <meta name="msapplication-starturl" content="http://www.korion.cn/2018/06/14/Linux-ssh密钥登录/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Ksxy&#39;s Blog">
@@ -232,16 +232,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/">
+    <meta property="og:url" content="http://www.korion.cn/2018/06/14/Linux-ssh密钥登录/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Https之SSL/TLS握手 | Ksxy&#39;s Blog">
+    <meta property="og:title" content="Linux使用技巧:ssh密钥登录 | Ksxy&#39;s Blog">
     <meta property="og:image" content="/img/favicon1.png">
     <meta property="og:description" content="">
-    <meta property="og:article:tag" content="https"> <meta property="og:article:tag" content="计算机网络"> 
+    <meta property="og:article:tag" content="Linux"> <meta property="og:article:tag" content="shell"> <meta property="og:article:tag" content="ssh"> 
 
     
-        <meta property="article:published_time" content="Sat Mar 10 2018 21:02:48 GMT+0800">
-        <meta property="article:modified_time" content="Sun Mar 18 2018 11:06:47 GMT+0800">
+        <meta property="article:published_time" content="Thu Jun 14 2018 21:17:12 GMT+0800">
+        <meta property="article:modified_time" content="Thu Jun 14 2018 21:17:12 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -249,7 +249,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/index.html" />
+        <link rel="canonical" href="http://www.korion.cn/2018/06/14/Linux-ssh密钥登录/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -261,10 +261,10 @@
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": "http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/index.html",
-    "headline": "Https之SSL/TLS握手",
-    "datePublished": "Sat Mar 10 2018 21:02:48 GMT+0800",
-    "dateModified": "Sun Mar 18 2018 11:06:47 GMT+0800",
+    "mainEntityOfPage": "http://www.korion.cn/2018/06/14/Linux-ssh密钥登录/index.html",
+    "headline": "Linux使用技巧:ssh密钥登录",
+    "datePublished": "Thu Jun 14 2018 21:17:12 GMT+0800",
+    "dateModified": "Thu Jun 14 2018 21:17:12 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "空山新雨",
@@ -282,7 +282,7 @@
             "url": "/img/favicon1.png"
         }
     },
-    "keywords": ",https,计算机网络",
+    "keywords": ",Linux,shell,ssh",
     "description": "",
 }
 </script>
@@ -356,7 +356,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HTTPS白话简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">HTTPS白话简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关于TSL-SSL"><span class="post-toc-number">2.</span> <span class="post-toc-text">关于TSL/SSL</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#加密解密基本原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">加密解密基本原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SSL-TLS握手"><span class="post-toc-number">4.</span> <span class="post-toc-text">SSL/TLS握手</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ssh密钥登录"><span class="post-toc-number">1.</span> <span class="post-toc-text">ssh密钥登录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#关于ssh的疑惑"><span class="post-toc-number">2.</span> <span class="post-toc-text">关于ssh的疑惑</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#登录密钥生成与部署"><span class="post-toc-number">3.</span> <span class="post-toc-text">登录密钥生成与部署</span></a></li></ol>
     </ul>
     
 
@@ -388,7 +388,7 @@
         
     
             <p class="article-headline-p">
-                Https之SSL/TLS握手
+                Linux使用技巧:ssh密钥登录
             </p>
         </div>
 
@@ -407,7 +407,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>空山新雨</strong>
-        <span>3月 10, 2018</span>
+        <span>6月 14, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -429,7 +429,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/">
+        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://www.korion.cn/2018/06/14/Linux-ssh密钥登录/">
     
 </ul>
 
@@ -443,7 +443,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/https/">https</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/计算机网络/">计算机网络</a>
+        <a class="post_tag-link" href="/tags/Linux/">Linux</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/shell/">shell</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/ssh/">ssh</a>
     </ul>
     
 
@@ -460,7 +460,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Https之SSL/TLS握手&url=http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/index.html&pic=http://www.korion.cn/img/favicon1.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Linux使用技巧:ssh密钥登录&url=http://www.korion.cn/2018/06/14/Linux-ssh密钥登录/index.html&pic=http://www.korion.cn/img/favicon1.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -475,7 +475,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://www.korion.cn/2018/06/14/Linux-ssh密钥登录/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -487,7 +487,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Https之SSL/TLS握手&summary=&pics=http://www.korion.cn/img/favicon1.png&url=http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Linux使用技巧:ssh密钥登录&summary=&pics=http://www.korion.cn/img/favicon1.png&url=http://www.korion.cn/2018/06/14/Linux-ssh密钥登录/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -496,7 +496,7 @@
 
     <!-- Share Telegram -->
     
-        <a class="post_share-link" href="https://telegram.me/share/url?url=http://www.korion.cn/2018/03/10/Https之SSL-TSL握手/index.html&text=Https之SSL/TLS握手" target="_blank">
+        <a class="post_share-link" href="https://telegram.me/share/url?url=http://www.korion.cn/2018/06/14/Linux-ssh密钥登录/index.html&text=Linux使用技巧:ssh密钥登录" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Telegram
             </li>
@@ -512,39 +512,37 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h3 id="HTTPS白话简介"><a href="#HTTPS白话简介" class="headerlink" title="HTTPS白话简介"></a>HTTPS白话简介</h3><p>  相信对于大多数开发人员，Https并不陌生，在http协议基础上套上一个加密解密的过程，就是Https，而完成加密解密的部分就是SSL(Secure Sockets Layer, 安全套字节层)。<br>  <a href="https://i.loli.net/2018/03/10/5aa3dc30b9086.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/03/10/5aa3dc30b9086.png" alt="https协议.png"></a></p>
-<h3 id="关于TSL-SSL"><a href="#关于TSL-SSL" class="headerlink" title="关于TSL/SSL"></a>关于TSL/SSL</h3><p>  1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是没有发布；之后在1995年正式发布了SSL 2.0, 但很快发现严重漏；1996年，SSL 3.0版问世，并得到大规模应用。之后在1999年，由互联网标准化组织ISOC接管，并升级成为TSL(Transport Layer Security)。所以TSL和SSL是同一个协议。</p>
-<h3 id="加密解密基本原理"><a href="#加密解密基本原理" class="headerlink" title="加密解密基本原理"></a>加密解密基本原理</h3><p>  TSL在不同的阶段使用了不同的加密方式。</p>
-<p>  在握手阶段，使用的是公钥加，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。握手的主要目的是完成客户端与服务端之间的验证，同时约定一个随机密钥种子；</p>
-<p>  在数据传输阶段，所用的加密方式为对称加密(AES)，经过握手阶段后，客户端和服务端保存着同一个密钥种，在之后的数据传输中，客户端和服务器端使用同一个密钥进行加密解密。同时，该密钥还被用于作为HMAC的key，用于数据完整性、可靠性的校验。</p>
-<p>  <strong>问题：握手阶段，如何保证公钥不被篡改？</strong></p>
-<p>  实际上，客户端一开始向服务端请求的是一个数字证书，数字证书中包含了公钥、该数字证书的签发机构、改签发机构的数字签名等信息。客户端通过检验证书的合法性来判断包含公钥是否可信。</p>
-<p>  至于为啥数字证书的方案可行，这就要涉及到信息安全的理论知识了，这里不深入。签发证书的机构如果是权威机构CA，则该证书是CA证书，可信任。如果不是，则提示证书不可信。</p>
-<p>  <strong>问题：为啥在数据传输阶段不用公钥加密？</strong></p>
-<p>  因为公钥加密实际上就的非对称加密，非对称加密的数序理论依据导致了非对称加密的成本比较高，所以通常只用于少量数据的传输，而对称加密是通过非线性变换等方式实现的加密，加密成本比较低，性能相对非对称加密高。</p>
-<h3 id="SSL-TLS握手"><a href="#SSL-TLS握手" class="headerlink" title="SSL/TLS握手"></a>SSL/TLS握手</h3><p>  从上面的原理可总结出SSL/TLS握手的过程：</p>
-<ol>
-<li>客户端向服务器端索要并验证公钥。</li>
-<li>双方协商生成”对话密钥”。</li>
-</ol>
-<p><strong>握手详细过程</strong>：</p>
-<p><a href="https://i.loli.net/2018/03/10/5aa3f5f34a00f.png" target="_blank" rel="noopener"><img src="https://i.loli.net/2018/03/10/5aa3f5f34a00f.png" alt="SSL握手.png"></a></p>
-<ol>
-<li><p>客户端发出请求（ClientHello）</p>
-<p>客户端先向服务器发出加密通信的请求，请求内容：<br>支持的协议版本（比如TLS 1.0版）、随机数A（用于生产对称密钥）、支持的加密方法（比如RSA公钥加密）。</p>
-</li>
-<li><p>服务器回应（SeverHello）</p>
-<p>服务器收到客户端请求后，向客户端发出回应，回应内容：<br>确认使用的协议版本、随机数B、确认使用的加密方法、服务器证书。</p>
-<p>如果服务器需要验证客户端身份，还回要求客户端提供证书，该证书通常需要提前安装。</p>
-</li>
-<li><p>客户端回应</p>
-<p>客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。如果证书没有问题，客户端就会从证书中取出服务器的公钥。</p>
-<p>然后发送回应服务器：随机数C（用服务器公钥进行加密）、编码改变通知（表示随后的信息都将用双方商定的加密方法和密钥发送）、客户端握手结束通知（表示客户端的握手阶段已经结束）。</p>
-</li>
-<li><p>服务器的最后回应</p>
-<p>服务器收到客户端的随机数C之后，计算生成本次会话所用的”会话密钥”，向客户端回应：编码改变通知、服务器握手结束通知。</p>
-</li>
-</ol>
+        <blockquote>
+<p>  关于Linux使用技巧的一些总结。</p>
+</blockquote>
+<h3 id="ssh密钥登录"><a href="#ssh密钥登录" class="headerlink" title="ssh密钥登录"></a>ssh密钥登录</h3><p>   使用ssh连接主机时，每次都需要输入用户名，所以不是很麻烦，但是对于密码健忘的人来说，常常需要去控制面板<br>查看密码。。。幸好ssh支持更安全、方便的密钥登录。</p>
+<h3 id="关于ssh的疑惑"><a href="#关于ssh的疑惑" class="headerlink" title="关于ssh的疑惑"></a>关于ssh的疑惑</h3><p>   其实，在此之前，我已经使用ssh密钥登录很多次，但是对ssh存在一些疑惑，一直没有弄明白。我的疑惑主要是<br>${HOME}/.ssh的几个文件的作用，一台本地主机如何保存多台远程主机的密钥? 密钥对是私钥保存在本地主机还是公钥？</p>
+<p><strong>1. .ssh/known_hosts</strong></p>
+<p>   我们知道ssh提供了两种身份认证方式，一种是用户名+密码，一种是非对称加密密钥认证。ssh在首次连接一台主<br>机时，ssh服务端会发送一个非对称加密的公钥给客户端，用于之后传输数据的加密，这是ssh自动产生的密钥对<br>（我称为连接密钥）。ssh会将这个密钥对的公钥保存在本地用户目录下的.ssh/known_hosts中.</p>
+<blockquote>
+<p>  格式: 主机域名/IP 密钥算法类型 公钥</p>
+</blockquote>
+<p>   所以，我们的本地主机就是在这个文件中，保存了多台远程主机的连接密钥的。</p>
+<p><strong>2. .ssh/id_rsa和id_rsa.pub</strong></p>
+<p>   与上面的连接密钥不同，我们使用的ssh登录密钥需要自己生成，生成后默认会在.ssh目录下产生id_rsa和<br>id_rsa.pub这两文件，id_rsa保存了私钥，而id_rsa.pub保存了公钥。使用时，我们需要把公钥放到远程主机上。<br>但是直接复制上去，发现连接时ssh提示使用的密钥在远程主机上未注册。</p>
+<p><strong>3. .ssh/authorized_keys</strong></p>
+<p>   原来不能把公钥直接复制上去，远程主机上有一个.ssh/authorized_keys文件，只有这个文件中的密钥才能被<br>允许认证。</p>
+<p>   <strong>这里弄清楚这几个文件的作业，主要是有助于管理我们的密钥。</strong></p>
+<h3 id="登录密钥生成与部署"><a href="#登录密钥生成与部署" class="headerlink" title="登录密钥生成与部署"></a>登录密钥生成与部署</h3><p>   这里主要使用ssh-keygen 和 ssh-copy-id这个两个命令。</p>
+<p><strong>1. 生成密钥</strong></p>
+<blockquote>
+<p> ssh-keygen -t rsa -C “comment”</p>
+</blockquote>
+<p>-t: 选择非对称加密算法类型，这里使用的是rsa</p>
+<p>-b: 指定密钥长度，默认2048位</p>
+<p>-C: 用于添加一个标识，生成密钥后，会在公钥结尾加上，方便对密钥进行区分，比如邮箱</p>
+<p>执行上面的命令后，会要求你填写密钥文件名和生成密钥时的口令，可以直接回车。<br>之后，就会在${HOME}/.ssh目录下生成ida_rsa 和ida_rsa.pub这两个文件.</p>
+<p><strong>2. 部署密钥</strong></p>
+<blockquote>
+<p>ssh-copy-id 用户名@远程主机名/IP</p>
+</blockquote>
+<p>然后输入对应用户名密码，就可以将id_rsa.pub添加到远程主机的authorized_keys文件。</p>
+<p>部署完毕，就可以用密钥验证登录了。</p>
 
         
     
@@ -574,7 +572,7 @@
             repo: 'KorionCN.github.io',
             owner: 'KorionCN',
             admin: ['KorionCN'],
-			id: 'Sat Mar 10 2018 21:02:48 GMT+0800',
+			id: 'Thu Jun 14 2018 21:17:12 GMT+0800',
             // facebook-like distraction free mode
             distractionFreeMode: false
         })
@@ -595,21 +593,13 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/03/11/网络笔记之IP报文首部/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2018/03/10/记我对Socket的误解/" id="post_nav-older" class="next-content">
+        <a href="/2018/06/05/Linux单用户模式拯救密码/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
