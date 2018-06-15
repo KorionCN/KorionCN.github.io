@@ -532,7 +532,7 @@
 <p>   与上面的连接密钥不同，我们使用的ssh登录密钥需要自己生成，生成后默认会在.ssh目录下产生id_rsa和<br>id_rsa.pub这两文件，id_rsa保存了私钥，而id_rsa.pub保存了公钥。使用时，我们需要把公钥放到远程主机上。<br>但是直接复制上去，发现连接时ssh提示使用的密钥在远程主机上未注册。</p>
 <p><strong>3. .ssh/authorized_keys</strong></p>
 <p>   原来不能把公钥直接复制上去，远程主机上有一个.ssh/authorized_keys文件，只有这个文件中的密钥才能被<br>允许认证。</p>
-<p>   <strong>这里弄清楚这几个文件的作业，主要是有助于管理我们的密钥。</strong></p>
+<p>   <strong>这里弄清楚这几个文件的作用，有助于管理我们的密钥。</strong></p>
 <h3 id="登录密钥生成与部署"><a href="#登录密钥生成与部署" class="headerlink" title="登录密钥生成与部署"></a>登录密钥生成与部署</h3><p>   这里主要使用ssh-keygen 和 ssh-copy-id这个两个命令。</p>
 <p><strong>1. 生成密钥</strong></p>
 <blockquote>
