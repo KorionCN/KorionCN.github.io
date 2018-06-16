@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Linux使用技巧:文件上下传]]></title>
+    <url>%2F2018%2F06%2F16%2FLinux%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%B8%8B%E4%BC%A0%2F</url>
+    <content type="text"><![CDATA[在使用云主机时，文件上传下载的常见的场景。本文主要介绍几个比较实用文件上传下载工具。 Sftp Sftp(Secure File Transfer Protocol, 安全文件传送协议), 相当于在在ssh的基础上实现了ftp。sftp的服务端也是依托于sshd守护进程，作为sshd服务的一部分，所以只要远程主机上支持ssh服务就可以使用sftp传输文件，使用上和ssh、ftp差不多。 1. 连接 sftp 用户名@主机地址 # 和ssh一样 2. 传输 登录后,sftp提供两套命令分别操作本地文件和远程主机文件。比如，lpwd和pwd, lls和ls, lmkdir和mkdir. 输入help可以查看说明. 上传&amp;下载: 上传: put filename(本地主机) [path(远程主机)] #默认远程主机当前目录 下载: get filename(远程主机) [path(本地主机)] #默认本地主机当前目录 Lrzsz lrzsz是一款在linux里可代替ftp上传和下载的程序。 个人推荐用这个，太方便了。 1. 安装 #yum install -y lrzsz #CentOS #apt install -y lrzsz #Debian、Ubuntu 2. 使用 上传: rz # 运行这个命令后，会弹出一个文件选择窗口. 不支持窗口化的终端用不了 下载: sz 文件 #运行这个命令后，会弹出一个窗口，选择下载路径 WinScp 如果你不习惯使用命令工具，那么可以使用WinScp。 图形化操作就不多说明了，参考软件的使用引导即可。]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Linux使用技巧:ssh密钥登录]]></title>
     <url>%2F2018%2F06%2F14%2FLinux-ssh%E5%AF%86%E9%92%A5%E7%99%BB%E5%BD%95%2F</url>
     <content type="text"><![CDATA[关于Linux使用技巧的一些总结。 ssh密钥登录 使用ssh连接主机时，每次都需要输入用户名，虽然不是很麻烦，但是对于密码健忘的人来说，常常需要去控制面板查看密码。。。幸好ssh支持更安全、方便的密钥登录。 关于ssh的疑惑 其实，在此之前，我已经使用ssh密钥登录很多次，但是对ssh存在一些疑惑，一直没有弄明白。 ${HOME}/.ssh的几个文件的作用; 一台本地主机如何保存多台远程主机的密钥? 密钥对是保存在本地主机还是远程主机？ 1. .ssh/known_hosts 我们知道ssh提供了两种身份认证方式，一种是用户名+密码，一种是非对称加密密钥认证。ssh在首次连接一台主机时，ssh服务端会发送一个非对称加密的公钥给客户端，用于之后传输数据的加密，这是ssh自动产生的密钥对（我称为连接密钥）。ssh会将这个密钥对的公钥保存在本地用户目录下的.ssh/known_hosts中. 格式: 主机域名/IP 密钥算法类型 公钥 所以，我们的本地主机就是在这个文件中，保存了多台远程主机的连接密钥的。 2. .ssh/id_rsa和id_rsa.pub 与上面的连接密钥不同，我们使用的ssh登录密钥需要自己生成，生成后默认会在.ssh目录下产生id_rsa和id_rsa.pub这两文件，id_rsa保存了私钥，而id_rsa.pub保存了公钥。使用时，我们需要把公钥放到远程主机上。但是直接复制上去，发现连接时ssh提示使用的密钥在远程主机上未注册。 3. .ssh/authorized_keys 原来不能把公钥直接复制上去，远程主机上有一个.ssh/authorized_keys文件，只有这个文件中的密钥才能被允许认证。 这里弄清楚这几个文件的作用，有助于管理我们的密钥。 登录密钥生成与部署 这里主要使用ssh-keygen 和 ssh-copy-id这个两个命令。 1. 生成密钥 ssh-keygen -t rsa -C “comment” -t: 选择非对称加密算法类型，这里使用的是rsa -b: 指定密钥长度，默认2048位 -C: 用于添加一个标识，生成密钥后，会在公钥结尾加上，方便对密钥进行区分，比如邮箱 执行上面的命令后，会要求你填写密钥文件名和生成密钥时的口令，可以直接回车。之后，就会在${HOME}/.ssh目录下生成ida_rsa 和ida_rsa.pub这两个文件. 2. 部署密钥 ssh-copy-id 用户名@远程主机名/IP 然后输入对应用户名密码，就可以将id_rsa.pub添加到远程主机的authorized_keys文件。 部署完毕，就可以用密钥验证登录了。 最后, 无论密钥对在哪里生成，都要保管好私钥，同一个公钥可以部署到多台远程主机上，但是私钥不能。]]></content>
       <categories>
-        <category>开发工具</category>
+        <category>Linux</category>
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>shell</tag>
         <tag>ssh</tag>
       </tags>
   </entry>
@@ -18,10 +28,11 @@
     <url>%2F2018%2F06%2F05%2FLinux%E5%8D%95%E7%94%A8%E6%88%B7%E6%A8%A1%E5%BC%8F%E6%8B%AF%E6%95%91%E5%AF%86%E7%A0%81%2F</url>
     <content type="text"><![CDATA[今天实验课上，尝试使用Hadoop搭建分布式的计算环境，实验通过三台虚拟机进行，因为我的电脑只有8G的内存，启动三台虚拟机内存可能要吃紧，所以打算在我的Deepin Linux系统下完成，一来主机本身就是Linux系统，二来只要在启动两个虚拟机就可以了。 当我启动Linux系统后，发现自己怎么输入密码都不对，幸好Linux都是支持在单用户模式下更改密码的。 单用户模式 单用户模式（Single user mode），是在类Unix系统上工作时的一种拥有超级用户权限的模式。通常在引导菜单给予1或S参数能进入这个模式。这个模式只在面对主机实体时才有机会通过引导菜单进入，也因此确保超级权限授予的对象是能接触到主机的超级用户。此操作通常用于维护硬盘分区或更改超级用户密码等需在磁盘挂载前操作的维护。 –Wiki百科 进入单用户模式在这里先声明一下，进入单用户模式需要改动GRUB启动项的参数，不同的Linux 发行版本可能不同.博主一直用的桌面Linux是Deepin,所以以下内容针对Deepin(Ubuntu系列通用)。 在GRUB启动项中，选择Deepin的启动 摁E键，可以进入该启动项的编辑模式 将启动参数”ro splash quiet” 改成 “rw single init=/bin/bash” 摁F10或者Ctrl+X，启动引导，稍等后即可进入单用户模式 修改密码单用户模式下，具有最高的权限，可以修改任何用户的密码，包括root。使用命令 passwd {用户名} 然后输入两次密码即可。最后，重启系统。]]></content>
       <categories>
-        <category>开发工具</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>Deepin Linux</tag>
+        <tag>Linux</tag>
+        <tag>单用户模式</tag>
       </tags>
   </entry>
   <entry>
@@ -60,8 +71,8 @@
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>ContactsContract</tag>
         <tag>开发笔记</tag>
+        <tag>ContactsContract</tag>
       </tags>
   </entry>
   <entry>
@@ -139,8 +150,8 @@
         <category>Java</category>
       </categories>
       <tags>
-        <tag>Java GC</tag>
         <tag>虚拟机</tag>
+        <tag>Java GC</tag>
       </tags>
   </entry>
   <entry>
@@ -253,14 +264,24 @@
     <content type="text"></content>
   </entry>
   <entry>
+    <title><![CDATA[Java泛型擦除与反射]]></title>
+    <url>%2Ftemp%2FJava%E5%8F%8D%E5%B0%84%E6%B3%9B%E5%9E%8B%E6%93%A6%E9%99%A4%E4%B8%8E%E5%8F%8D%E5%B0%84.html</url>
+    <content type="text"><![CDATA[概述]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Linux使用技巧:Shell环境配置]]></title>
+    <url>%2Ftemp%2FLinux-shell%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.html</url>
+    <content type="text"><![CDATA[zshtmuxhttp://louiszhai.github.io/2017/09/30/tmux/#%E5%AF%BC%E8%AF%BB vim]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[标签云]]></title>
     <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[Java泛型擦除与反射]]></title>
-    <url>%2Ftemp%2FJava%E5%8F%8D%E5%B0%84%E6%B3%9B%E5%9E%8B%E6%93%A6%E9%99%A4%E4%B8%8E%E5%8F%8D%E5%B0%84.html</url>
-    <content type="text"><![CDATA[概述]]></content>
+    <title><![CDATA[Linux使用技巧:查看连接登录记录]]></title>
+    <url>%2Ftemp%2FLinux%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7-%E6%9F%A5%E7%9C%8B%E6%9F%A5%E7%9C%8B%E8%BF%9E%E6%8E%A5%E7%99%BB%E5%BD%95%E8%AE%B0%E5%BD%95.html</url>
+    <content type="text"><![CDATA[https://www.cnblogs.com/lizhaoxian/p/5981029.html]]></content>
   </entry>
   <entry>
     <title><![CDATA[时间轴]]></title>

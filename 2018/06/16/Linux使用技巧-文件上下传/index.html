@@ -45,7 +45,7 @@
     
     <title>
         
-            Android开发杂记 | 
+            Linux使用技巧:文件上下传 | 
         
         Ksxy&#39;s Blog
     </title>
@@ -56,7 +56,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content=",Android,开发笔记">
+    <meta name="keywords" content=",Linux">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -217,7 +217,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Ksxy&#39;s Blog">
-    <meta name="msapplication-starturl" content="http://www.korion.cn/2018/03/31/Android开发杂记/">
+    <meta name="msapplication-starturl" content="http://www.korion.cn/2018/06/16/Linux使用技巧-文件上下传/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Ksxy&#39;s Blog">
@@ -232,16 +232,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://www.korion.cn/2018/03/31/Android开发杂记/">
+    <meta property="og:url" content="http://www.korion.cn/2018/06/16/Linux使用技巧-文件上下传/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Android开发杂记 | Ksxy&#39;s Blog">
+    <meta property="og:title" content="Linux使用技巧:文件上下传 | Ksxy&#39;s Blog">
     <meta property="og:image" content="/img/favicon1.png">
     <meta property="og:description" content="">
-    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="开发笔记"> 
+    <meta property="og:article:tag" content="Linux"> 
 
     
-        <meta property="article:published_time" content="Sat Mar 31 2018 15:57:45 GMT+0800">
-        <meta property="article:modified_time" content="Sat May 05 2018 15:57:45 GMT+0800">
+        <meta property="article:published_time" content="Sat Jun 16 2018 20:40:19 GMT+0800">
+        <meta property="article:modified_time" content="Sat Jun 16 2018 20:40:19 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -249,7 +249,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://www.korion.cn/2018/03/31/Android开发杂记/index.html" />
+        <link rel="canonical" href="http://www.korion.cn/2018/06/16/Linux使用技巧-文件上下传/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -261,10 +261,10 @@
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": "http://www.korion.cn/2018/03/31/Android开发杂记/index.html",
-    "headline": "Android开发杂记",
-    "datePublished": "Sat Mar 31 2018 15:57:45 GMT+0800",
-    "dateModified": "Sat May 05 2018 15:57:45 GMT+0800",
+    "mainEntityOfPage": "http://www.korion.cn/2018/06/16/Linux使用技巧-文件上下传/index.html",
+    "headline": "Linux使用技巧:文件上下传",
+    "datePublished": "Sat Jun 16 2018 20:40:19 GMT+0800",
+    "dateModified": "Sat Jun 16 2018 20:40:19 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "空山新雨",
@@ -282,7 +282,7 @@
             "url": "/img/favicon1.png"
         }
     },
-    "keywords": ",Android,开发笔记",
+    "keywords": ",Linux",
     "description": "",
 }
 </script>
@@ -356,7 +356,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Android"><span class="post-toc-number">2.</span> <span class="post-toc-text">Android</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Assets目录"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Assets目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#string-xml中字符串插值"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">string.xml中字符串插值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ListView隐藏scrollbar"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">ListView隐藏scrollbar</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#沉浸式状态栏适配"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">沉浸式状态栏适配</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#根据文件名，获取其资源ID"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">根据文件名，获取其资源ID</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Android版本判断"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">Android版本判断</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-0-动态权限申请"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">6.0 动态权限申请</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Button-去除阴影"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">Button 去除阴影</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#持续更新-2018-5-19"><span class="post-toc-number">3.</span> <span class="post-toc-text">持续更新 2018-5-19</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Sftp"><span class="post-toc-number">1.</span> <span class="post-toc-text">Sftp</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Lrzsz"><span class="post-toc-number">2.</span> <span class="post-toc-text">Lrzsz</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#WinScp"><span class="post-toc-number">3.</span> <span class="post-toc-text">WinScp</span></a></li></ol>
     </ul>
     
 
@@ -388,7 +388,7 @@
         
     
             <p class="article-headline-p">
-                Android开发杂记
+                Linux使用技巧:文件上下传
             </p>
         </div>
 
@@ -407,7 +407,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>空山新雨</strong>
-        <span>3月 31, 2018</span>
+        <span>6月 16, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -429,7 +429,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://www.korion.cn/2018/03/31/Android开发杂记/">
+        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://www.korion.cn/2018/06/16/Linux使用技巧-文件上下传/">
     
 </ul>
 
@@ -443,7 +443,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/Android/">Android</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/开发笔记/">开发笔记</a>
+        <a class="post_tag-link" href="/tags/Linux/">Linux</a>
     </ul>
     
 
@@ -460,7 +460,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Android开发杂记&url=http://www.korion.cn/2018/03/31/Android开发杂记/index.html&pic=http://www.korion.cn/img/favicon1.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Linux使用技巧:文件上下传&url=http://www.korion.cn/2018/06/16/Linux使用技巧-文件上下传/index.html&pic=http://www.korion.cn/img/favicon1.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -475,7 +475,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://www.korion.cn/2018/03/31/Android开发杂记/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://www.korion.cn/2018/06/16/Linux使用技巧-文件上下传/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -487,7 +487,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Android开发杂记&summary=&pics=http://www.korion.cn/img/favicon1.png&url=http://www.korion.cn/2018/03/31/Android开发杂记/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Linux使用技巧:文件上下传&summary=&pics=http://www.korion.cn/img/favicon1.png&url=http://www.korion.cn/2018/06/16/Linux使用技巧-文件上下传/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -496,7 +496,7 @@
 
     <!-- Share Telegram -->
     
-        <a class="post_share-link" href="https://telegram.me/share/url?url=http://www.korion.cn/2018/03/31/Android开发杂记/index.html&text=Android开发杂记" target="_blank">
+        <a class="post_share-link" href="https://telegram.me/share/url?url=http://www.korion.cn/2018/06/16/Linux使用技巧-文件上下传/index.html&text=Linux使用技巧:文件上下传" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Telegram
             </li>
@@ -512,79 +512,39 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在开发的过程，有些比较琐碎的细节，由于容易忘记，每次使用到的时候都需要Google或者百度，相当麻烦，不如花点时间进行记录。</p>
-<h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><h4 id="Assets目录"><a href="#Assets目录" class="headerlink" title="Assets目录"></a>Assets目录</h4><p>Assets目录位于main/assets,和res目录同级别，在assets目录中的文件资源不会被编译，而是直接打包。在代码中引用其中的资源需要借助<strong>AssetManager</strong>。使用Context.getAssetManager()可以获取实例。</p>
-<p>注：assets下可以有子目录，引入文件时url的根目录为assets。</p>
-<pre><code>    val assets = getAssetManager()
-    val inStream = assets.open(&quot;img/qrcode.png&quot;)   //文件路径:assets/img/qrcode.png
-    val bitmap = BitmapFactory.decodeStream(inStream)
-    inStream.close()
-</code></pre><h4 id="string-xml中字符串插值"><a href="#string-xml中字符串插值" class="headerlink" title="string.xml中字符串插值"></a>string.xml中字符串插值</h4><blockquote>
-<p>string.xml中，</p>
-<p>   &lt;string name=”stu_name”>名字: %s&lt;/string></p>
-<p>代码中，</p>
-<p>tv_name.text = String.format(getResource().getString(R.string.stu_name), “Mr.chen”)</p>
+        <blockquote>
+<p>在使用云主机时，文件上传下载的常见的场景。本文主要介绍几个比较实用文件上传下载工具。</p>
 </blockquote>
-<ul>
-<li>%n$ms：代表输出的是字符串，n代表是第几个参数，设置m的值可以在输出之前放置空格</li>
-<li>%n$md：代表输出的是整数，n代表是第几个参数，设置m的值可以在输出之前放置空格</li>
-<li>%n$mf：代表输出的是浮点数，n代表是第几个参数，设置m的值可以控制小数位数，如m=2.2时，输出格式为00.00</li>
-<li>%d ：   表示整数<ul>
-<li>%f：  表示浮点数</li>
-<li>%s  ： 表示字符串</li>
-</ul>
-</li>
-</ul>
-<h4 id="ListView隐藏scrollbar"><a href="#ListView隐藏scrollbar" class="headerlink" title="ListView隐藏scrollbar"></a>ListView隐藏scrollbar</h4><blockquote>
-<p>android:scrollbars=”none”<br>或<br>ListView#setVerticalScrollBarEnabled(true);</p>
-</blockquote>
-<h4 id="沉浸式状态栏适配"><a href="#沉浸式状态栏适配" class="headerlink" title="沉浸式状态栏适配"></a>沉浸式状态栏适配</h4><p>第三方库: <a href="https://github.com/Zackratos/UltimateBar" target="_blank" rel="noopener">UltimateBar</a></p>
-<h4 id="根据文件名，获取其资源ID"><a href="#根据文件名，获取其资源ID" class="headerlink" title="根据文件名，获取其资源ID"></a>根据文件名，获取其资源ID</h4><ul>
-<li><p>获取状态栏高度:</p>
-<pre><code>  resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)
-  val status_bar_height = resources.getDimensionPixelSize(statusBarHeightId)
-</code></pre></li>
-</ul>
-<h4 id="Android版本判断"><a href="#Android版本判断" class="headerlink" title="Android版本判断"></a>Android版本判断</h4><pre><code>     if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M){}
-</code></pre><h4 id="6-0-动态权限申请"><a href="#6-0-动态权限申请" class="headerlink" title="6.0 动态权限申请"></a>6.0 动态权限申请</h4><ul>
-<li><p>危险权限</p>
-<p>  可以通过ADB命令查看:</p>
+<h3 id="Sftp"><a href="#Sftp" class="headerlink" title="Sftp"></a>Sftp</h3><p>   Sftp(Secure File Transfer Protocol, 安全文件传送协议), 相当于在在ssh的基础上实现了ftp。<br>sftp的服务端也是依托于sshd守护进程，作为sshd服务的一部分，所以只要远程主机上支持ssh服务就可以使用<br>sftp传输文件，使用上和ssh、ftp差不多。</p>
+<p> <strong>1. 连接</strong></p>
 <blockquote>
-<p>adb shell pm list permissions -d -g</p>
+<p>sftp 用户名@主机地址  # 和ssh一样</p>
 </blockquote>
-<p>  <a href="https://developer.android.com/guide/topics/security/permissions?hl=zh-CN#normal-dangerous" target="_blank" rel="noopener">官方相关文档</a></p>
-</li>
-<li><p>动态申请权限模板代码</p>
-<pre><code>  if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
-          //如果没有获得该权限
-          if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){
-              //如果需要向用户说明申请权限的理由
-              //shouldShowRequestPermissionRationale()在之前的权限申请中被拒绝，并且选择了不再询问时，返回true
-          }
-          //申请权限
-          ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), CONTACTS_PERMISSION_CODE)
-      }
-
-  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray) {
-      when(requestCode){
-          CONTACTS_PERMISSION_CODE -&gt; {
-              if (grantResults[0]  == PackageManager.PERMISSION_GRANTED){
-                  //申请成功
-              }else{
-
-              }
-              return
-          }
-      }
-
-      super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-</code></pre><p>  }</p>
-</li>
-</ul>
-<h4 id="Button-去除阴影"><a href="#Button-去除阴影" class="headerlink" title="Button 去除阴影"></a>Button 去除阴影</h4><blockquote>
-<p>style=”?android:attr/borderlessButtonStyle”</p>
+<p> <strong>2. 传输</strong></p>
+<p>   登录后,sftp提供两套命令分别操作本地文件和远程主机文件。比如，lpwd和pwd, lls和ls, lmkdir和mkdir.</p>
+<p>   输入help可以查看说明.</p>
+<p>   <strong>上传&amp;下载:</strong></p>
+<blockquote>
+<p>上传: put filename(本地主机) [path(远程主机)] #默认远程主机当前目录</p>
+<p>下载: get filename(远程主机) [path(本地主机)] #默认本地主机当前目录</p>
 </blockquote>
-<h3 id="持续更新-2018-5-19"><a href="#持续更新-2018-5-19" class="headerlink" title="持续更新 2018-5-19"></a>持续更新 2018-5-19</h3>
+<h3 id="Lrzsz"><a href="#Lrzsz" class="headerlink" title="Lrzsz"></a>Lrzsz</h3><blockquote>
+<p>lrzsz是一款在linux里可代替ftp上传和下载的程序。</p>
+</blockquote>
+<p> 个人推荐用这个，太方便了。</p>
+<p><strong>1. 安装</strong></p>
+<blockquote>
+<p>#yum install -y lrzsz   #CentOS</p>
+<p>#apt install -y lrzsz   #Debian、Ubuntu</p>
+</blockquote>
+<p><strong>2. 使用</strong></p>
+<blockquote>
+<p>上传: rz   # 运行这个命令后，会弹出一个文件选择窗口. 不支持窗口化的终端用不了</p>
+<p>下载: sz 文件 #运行这个命令后，会弹出一个窗口，选择下载路径</p>
+</blockquote>
+<h3 id="WinScp"><a href="#WinScp" class="headerlink" title="WinScp"></a>WinScp</h3><p>  如果你不习惯使用命令工具，那么可以使用<a href="https://winscp.net/eng/docs/lang:chs" target="_blank" rel="noopener">WinScp</a>。</p>
+<p>  图形化操作就不多说明了，参考软件的使用引导即可。</p>
+
         
     
 
@@ -613,7 +573,7 @@
             repo: 'KorionCN.github.io',
             owner: 'KorionCN',
             admin: ['KorionCN'],
-			id: 'Sat Mar 31 2018 15:57:45 GMT+0800',
+			id: 'Sat Jun 16 2018 20:40:19 GMT+0800',
             // facebook-like distraction free mode
             distractionFreeMode: false
         })
@@ -634,21 +594,13 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/03/31/Kotlin告别findViewById/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2018/03/30/Java垃圾回收/" id="post_nav-older" class="next-content">
+        <a href="/2018/06/14/Linux-ssh密钥登录/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
