@@ -45,7 +45,7 @@
     
     <title>
         
-            图解Activity/Fragment生命周期 | 
+            Java线程池工作原理分析 | 
         
         Ksxy&#39;s Blog
     </title>
@@ -56,7 +56,7 @@
 
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content=",Android,Activity,Fragment">
+    <meta name="keywords" content=",Java,线程池">
     <meta name="theme-color" content="#0097A7">
 
     <!-- Disable Fucking Bloody Baidu Tranformation -->
@@ -217,7 +217,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Ksxy&#39;s Blog">
-    <meta name="msapplication-starturl" content="http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/">
+    <meta name="msapplication-starturl" content="http://www.korion.cn/2018/06/28/Java线程池工作原理分析/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Ksxy&#39;s Blog">
@@ -232,16 +232,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/">
+    <meta property="og:url" content="http://www.korion.cn/2018/06/28/Java线程池工作原理分析/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="图解Activity/Fragment生命周期 | Ksxy&#39;s Blog">
+    <meta property="og:title" content="Java线程池工作原理分析 | Ksxy&#39;s Blog">
     <meta property="og:image" content="/img/favicon1.png">
     <meta property="og:description" content="">
-    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="Activity"> <meta property="og:article:tag" content="Fragment"> 
+    <meta property="og:article:tag" content="Java"> <meta property="og:article:tag" content="线程池"> 
 
     
-        <meta property="article:published_time" content="Tue Mar 13 2018 14:02:14 GMT+0800">
-        <meta property="article:modified_time" content="Tue Mar 13 2018 14:02:14 GMT+0800">
+        <meta property="article:published_time" content="Thu Jun 28 2018 14:46:52 GMT+0800">
+        <meta property="article:modified_time" content="Thu Jun 28 2018 14:46:52 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -249,7 +249,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/index.html" />
+        <link rel="canonical" href="http://www.korion.cn/2018/06/28/Java线程池工作原理分析/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -261,10 +261,10 @@
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": "http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/index.html",
-    "headline": "图解Activity/Fragment生命周期",
-    "datePublished": "Tue Mar 13 2018 14:02:14 GMT+0800",
-    "dateModified": "Tue Mar 13 2018 14:02:14 GMT+0800",
+    "mainEntityOfPage": "http://www.korion.cn/2018/06/28/Java线程池工作原理分析/index.html",
+    "headline": "Java线程池工作原理分析",
+    "datePublished": "Thu Jun 28 2018 14:46:52 GMT+0800",
+    "dateModified": "Thu Jun 28 2018 14:46:52 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "空山新雨",
@@ -282,7 +282,7 @@
             "url": "/img/favicon1.png"
         }
     },
-    "keywords": ",Android,Activity,Fragment",
+    "keywords": ",Java,线程池",
     "description": "",
 }
 </script>
@@ -356,7 +356,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#正文"><span class="post-toc-number">2.</span> <span class="post-toc-text">正文</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#说明"><span class="post-toc-number">3.</span> <span class="post-toc-text">说明</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程池实例化"><span class="post-toc-number">1.</span> <span class="post-toc-text">线程池实例化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#工作原理分析"><span class="post-toc-number">2.</span> <span class="post-toc-text">工作原理分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#线程池状态"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">线程池状态</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#其他重要的成员"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">其他重要的成员</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ThreadPoolExecutor-execute-Runnable"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">ThreadPoolExecutor#execute(Runnable)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ThreadPoolExecutor-addWorker"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">ThreadPoolExecutor#addWorker</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ThreadPoolExecutor-Worker"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">ThreadPoolExecutor#Worker</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ThreadPoolExecutor-runWorker"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">ThreadPoolExecutor#runWorker</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ThreadPoolExecutor-getTask"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">ThreadPoolExecutor#getTask</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#合理配置线程池"><span class="post-toc-number">3.</span> <span class="post-toc-text">合理配置线程池</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#心得"><span class="post-toc-number">4.</span> <span class="post-toc-text">心得</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考</span></a></li></ol>
     </ul>
     
 
@@ -388,7 +388,7 @@
         
     
             <p class="article-headline-p">
-                图解Activity/Fragment生命周期
+                Java线程池工作原理分析
             </p>
         </div>
 
@@ -407,7 +407,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>空山新雨</strong>
-        <span>3月 13, 2018</span>
+        <span>6月 28, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -429,7 +429,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/">
+        <img src="https://pan.baidu.com/share/qrcode?w=246&h=246&url=http://www.korion.cn/2018/06/28/Java线程池工作原理分析/">
     
 </ul>
 
@@ -443,7 +443,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/Activity/">Activity</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Android/">Android</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Fragment/">Fragment</a>
+        <a class="post_tag-link" href="/tags/Java/">Java</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/线程池/">线程池</a>
     </ul>
     
 
@@ -460,7 +460,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=图解Activity/Fragment生命周期&url=http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/index.html&pic=http://www.korion.cn/img/favicon1.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Java线程池工作原理分析&url=http://www.korion.cn/2018/06/28/Java线程池工作原理分析/index.html&pic=http://www.korion.cn/img/favicon1.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -475,7 +475,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://www.korion.cn/2018/06/28/Java线程池工作原理分析/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -487,7 +487,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=图解Activity/Fragment生命周期&summary=&pics=http://www.korion.cn/img/favicon1.png&url=http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Ksxy&#39;s Blog&title=Java线程池工作原理分析&summary=&pics=http://www.korion.cn/img/favicon1.png&url=http://www.korion.cn/2018/06/28/Java线程池工作原理分析/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -496,7 +496,7 @@
 
     <!-- Share Telegram -->
     
-        <a class="post_share-link" href="https://telegram.me/share/url?url=http://www.korion.cn/2018/03/13/Android-Activity-Fragment超详细生命周期/index.html&text=图解Activity/Fragment生命周期" target="_blank">
+        <a class="post_share-link" href="https://telegram.me/share/url?url=http://www.korion.cn/2018/06/28/Java线程池工作原理分析/index.html&text=Java线程池工作原理分析" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Telegram
             </li>
@@ -512,44 +512,283 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>关于Activity和Fragment的生命周期，是每个Android开发者必须熟悉掌握的，最近在网上发现了一张超详细的关于这两者生命周期的图, 于是结合自己的理解进行了学习。</p>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>先上图，<a href="https://github.com/xxv/android-lifecycle" target="_blank" rel="noopener">来源</a><br><img src="https://i.loli.net/2018/03/13/5aa76bdd4d05c.png" alt="complete_android_fragment_lifecycle.png"></p>
-<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol>
-<li><p>经典的生命周期就赘述。从整个生命周期来说，onCreate和onDestroy是配对出现，分别在Activity创建与销毁时执行一次；onStart和onStop分别标识是否可见，可被多次调用；onResume和onPause分别标识是否在前台，同样可被多次调用。这里需要注意的是onPause，在从当前Activity启动另一个Activity时会，先调用当前Activity的onPause，然后才调用新启动的Activity的onCreate，当完成新Activity的启动后，才调用原来的Activity的Stop(),为了不造成启动卡顿，不能再onPause中做耗时的操作。</p>
-</li>
-<li><p>onSaveInstanceState()与onReStoreInstanceState()</p>
-<p>这两个方法都不属于Activity的正常生命周期，也不保证一定会被调用。onSaveIntanceState()只有Activity”容易”被销毁时（比如内存不足可能被销毁），才会被调用；当Activity被重建时，系统会调用onRestoreInstanceState()来恢复已经保存的视图。</p>
+        <p>  作为Android开发者，Java线程池在平常的开发中，比较少直接接触到，但如果查阅在SDK API和大多数第三方框架的源码，我们都能看到<br>Java线程池的身影，如果不能对Java线程池的原理有所了解，那么在使用线程池，或者分析框架源码时，容易变得飘飘然而不知所以然。</p>
 <blockquote>
-<p>《阿里Android开发手册》第三章第2条:</p>
-<p>【推荐】Activity#onSaveInstanceState()方法不是 Activity 生命周期方法，也不保证<br>一定会被调用。它是用来在 Activity 被意外销毁时保存 UI 状态的，只能用于保存临<br>时性数据，例如 UI 控件的属性等，不能跟数据的持久化存储混为一谈。持久化存储<br>应该在 Activity#onPause()/onStop()中实行。</p>
+<p>PS: 以下代码分析基于JDK8</p>
 </blockquote>
-<p><a href="https://www.jianshu.com/p/89e0a7533dbe" target="_blank" rel="noopener">关于onSaveInstanceState的调用时机</a></p>
+<h3 id="线程池实例化"><a href="#线程池实例化" class="headerlink" title="线程池实例化"></a>线程池实例化</h3><p>  首先，线程池的实现类是ThreadPoolExecutor，Java提供了两种实例化方式：</p>
+<p>  <strong>1. 构造函数</strong></p>
+<p>  ThreadPoolExecutor有四个构造方法,但最终都是通过调用参数最多的构造方法</p>
+<pre><code>public ThreadPoolExecutor(int corePoolSize,
+                          int maximumPoolSize,
+                          long keepAliveTime,
+                          TimeUnit unit,
+                          BlockingQueue&lt;Runnable&gt; workQueue,
+                          ThreadFactory threadFactory,
+                          RejectedExecutionHandler handler)
+</code></pre><p>  <strong>corePoolSize</strong>: 线程池中核心线程数量</p>
+<p>  <strong>maximumPoolSize</strong>: 线程池同时允许存在的最大线程数量</p>
+<p>  内部的线程的创建策略：</p>
+<ul>
+<li>当线程池中的线程小于corePoolSize，创建线程的工作线程来处理该任务，不管是否有空闲的线程。</li>
+<li>如果线程数达到corePoolSize, 优先将任务放入任务队列，等待核心线程的处理。</li>
+<li>如果任务入队失败（队列已满）而线程数小于maximumPoolSize,则需要创建非核心线程来进程处理。</li>
+<li><p>如果线程数达到maximumPoolSize,拒绝该任务。</p>
+<p><strong>keepAliveTime\unit</strong>: 线程空闲时间\时间单位</p>
+<p>如果非核心线程的空闲时间达到keepAliveTime，将会被终止。<br>如果设置了allowCoreThreadTimeout，则可以将该策略应用到核心线程上。</p>
+<p><strong>workQueue</strong>: 存放执任务的队列</p>
+<p>该参数可以有三种实现:</p>
 </li>
-<li><p>onPostCreate()、onPostResume()</p>
-<p>onPostCreate()在调用onStart() 和onRestoreInstanceState(Bundle)后调用，这意味着这时候大多数初始工作已经完成，而又还没有完全显示出来。有时候我需要在获取某个View的大小，在OnCreate中获取时，View还没有来得及测量，大小为0，所以我们可以在该方法中获取。onPostResume()也可以干类似的事情。</p>
+<li><p>SynchronousQueue: 该策略直接将任务直接交给工作线程。如果当前没有空闲工作线程，创建新线程。</p>
 </li>
-<li><p>onContentChanged()</p>
-<p>onContentChanged()是Activity中的一个回调方法，当Activity的布局改动即setContentView()或者addContentView()方法执行完毕时就会调用该方法。</p>
+<li>LinkedBlockingQueue: 如果创建时没有指定此队列大小，则默认为Integer.MAX_VALUE, 新的任务被放在队列上，不会有大于corePoolSize的线程被创建。</li>
+<li><p>ArrayBlockingQueue: 此队列创建时必须指定大小,按前面描述的corePoolSize、maximumPoolSize、BlockingQueue处理逻辑处理。</p>
+<p><strong>threadFactory</strong>: 创建线程的工厂，决定线程池创建线程的过程，线程池内部有默认实现</p>
+<p><strong>handler</strong>: 拒绝任务时所用的策略。</p>
+<p>在任务队列满时并且线程数达到maximumPoolSize时，需要采取拒绝策略处理该任务。Java提供了一下几种策略：</p>
 </li>
-<li><p>onAttachedToWindow()</p>
-<p>onAttachedToWindow是在第一次onDraw前调用的。也就是我们写的View在没有绘制出来时调用的，但只会调用一次。</p>
+<li><p>ThreadPoolExecutor#AbortPolicy：这个策略直接抛出RejectedExecutionException异常。</p>
 </li>
-<li><p>onUserInteraction() ，onUserLeaveHint()</p>
-<p>这两个同样不是Activity的正常生命周期函数。根据官方的介绍，onUserInteraction(),当Activity发生任何按触碰事件，就会调用，主要用来监视用户是否在与当前Activity进行交互。onUserLeaveHint(),用户离开当前Activity，比如按Home，Activity进入后台时调用,在调用onUserLeaveHint之前，会调用onUserInteraction。</p>
-<p><strong>另外</strong>,如果使用FragmentActivity(AppCompatActivity继承于FragmentActivity),则还要注意以下两个回调：</p>
-</li>
-<li><p>onResumeFragments</p>
-<p>该函数在onResume之后进行调用，官方文档里面介绍，FragmentActivity的onResume将分发给onResumeFragments。《阿里Android开发手册》推荐最迟在这个方法中调用FragmentTransaction#commit()，否则可能出现<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0616/3050.html" target="_blank" rel="noopener">状态丢失</a>的错误。</p>
+<li>ThreadPoolExecutor#CallerRunsPolicy：这个策略将会使用Caller线程来执行这个任务，这是一种feedback策略，可以降低任务提交的速度。</li>
+<li>ThreadPoolExecutor#DiscardPolicy：这个策略将会直接丢弃任务。</li>
+<li><p>ThreadPoolExecutor#DiscardOldestPolicy: 这个策略将会把任务队列头部的任务丢弃，然后重新尝试执行新来的任务。</p>
+<p>除了上述策略，可以通过实现RejectedExecutionHandler来实现自己的策略。</p>
+<p><strong>2. 工厂方式</strong></p>
+<p>通过Executors的静态方法创建：</p>
+<p>Executors.newCachedThreadPool();        //创建一个缓冲池，缓冲池容量大小为Integer.MAX_VALUE<br>Executors.newSingleThreadExecutor();   //创建容量为1的缓冲池<br>Executors.newFixedThreadPool(int);    //创建固定容量大小的缓冲池</p>
+<p>以上的几个方法具体实现比较简单，只是帮助我们封装好了一些参数，让开发者使用起来更方便。</p>
+<p>不过，阿里的开发手册推荐我们使用第一种方法，</p>
 <blockquote>
-<p>《阿里Android开发手册》第三章第7条:</p>
-<p>【 推 荐 】 添 加 Fragment 时 ， 确 保 FragmentTransaction#commit() 在<br>Activity#onPostResume()或者 FragmentActivity#onResumeFragments()内调用。<br>不要随意使用 FragmentTransaction#commitAllowingStateLoss()来代替，任何<br>commitAllowingStateLoss()的使用必须经过 code review，确保无负面影响。</p>
+<p>【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样<br>的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。</p>
+<p> 说明：Executors 返回的线程池对象的弊端如下：</p>
+<p> 1）FixedThreadPool 和 SingleThreadPool:<br>允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。</p>
+<p> 2）CachedThreadPool 和 ScheduledThreadPool:<br>允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</p>
 </blockquote>
 </li>
-<li><p>onAttachFragment</p>
-<p>每当Fragment调用onAttach后调用该方法, 如果Fragment尚未调用onCreate，会在Fragment#onCreate前调用。</p>
+</ul>
+<p>在实例化线程池后，我们可以使用execute(Runnable)来提交我们的任务，之后由线程池自动调度。</p>
+<h3 id="工作原理分析"><a href="#工作原理分析" class="headerlink" title="工作原理分析"></a>工作原理分析</h3><h4 id="线程池状态"><a href="#线程池状态" class="headerlink" title="线程池状态"></a>线程池状态</h4><p>   execute(Runnable)是我们提交任务的入口，具体实现了任务的执行策略，但是在了解execute(Runnable)之前需要了解线程池的状态。</p>
+<p> 关于线程池的状态有以下几种:</p>
+<ul>
+<li>RUNNING: 接受新任务并处理排队的任务, 初始状态。</li>
+<li>SHUTDOWN: 不接受新任务，但处理排队的任务。 RUNNING -&gt; SHUTDOWN: shutdown()</li>
+<li>STOP: 不接受新任务，不处理排队的任务，并中断正在进行的任务。 (RUNNING or SHUTDOWN) -&gt; STOP: shutdownNow()</li>
+<li>TIDYING: 所有任务已终止，工作线程为0，完成该状态后进入TERMINATED。</li>
+<li><p>TERMINATED: TIDYING完成后。</p>
+<p>//在JDK8中，用一个Int来保存线程池的状态和工作线程的数量，<br>//高4位为线程状态 低28位保存线程池状态<br>private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));<br>private static final int COUNT_BITS = Integer.SIZE - 3;<br>private static final int CAPACITY   = (1 &lt;&lt; COUNT_BITS) - 1; //0000 1111 … 1111</p>
+<p>// 线程池状态<br>private static final int RUNNING    = -1 &lt;&lt; COUNT_BITS;<br>private static final int SHUTDOWN   =  0 &lt;&lt; COUNT_BITS;<br>private static final int STOP       =  1 &lt;&lt; COUNT_BITS;<br>private static final int TIDYING    =  2 &lt;&lt; COUNT_BITS;<br>private static final int TERMINATED =  3 &lt;&lt; COUNT_BITS;</p>
+<p>//获取线程池状态<br>private static int runStateOf(int ctl)     { return ctl &amp; ~CAPACITY; }<br>//获取线程池中线程数量<br>private static int workerCountOf(int ctl)  { return ctl &amp; CAPACITY; }<br>private static int ctlOf(int runState, int workCount) { return runState | workCount; }</p>
+</li>
+</ul>
+<h4 id="其他重要的成员"><a href="#其他重要的成员" class="headerlink" title="其他重要的成员"></a>其他重要的成员</h4><pre><code>private final BlockingQueue&lt;Runnable&gt; workQueue;           //任务缓存队列，用来存放等待执行的任务
+private final ReentrantLock mainLock = new ReentrantLock();   //线程池的主要状态锁，对线程池状态（比如线程池大小runState等）的改变都要使用这个锁
+private final HashSet&lt;Worker&gt; workers = new HashSet&lt;Worker&gt;();  //用来存放Worker，每一个Worker对应一个线程
+
+private volatile long  keepAliveTime;    //线程存活时间
+private volatile boolean allowCoreThreadTimeOut;   //是否允许为核心线程设置存活时间
+private volatile int   corePoolSize;     //核心池的大小（即线程池中的线程数目大于这个参数时，提交的任务会被放进任务缓存队列）
+private volatile int   maximumPoolSize;   //线程池最大能容忍的线程数
+
+private volatile RejectedExecutionHandler handler; //任务拒绝策略
+private volatile ThreadFactory threadFactory;   //线程工厂，用来创建线程
+private int largestPoolSize;   //用来记录线程池中曾经出现过的最大线程数
+private long completedTaskCount;   //用来记录已经执行完毕的任务个数
+</code></pre><h4 id="ThreadPoolExecutor-execute-Runnable"><a href="#ThreadPoolExecutor-execute-Runnable" class="headerlink" title="ThreadPoolExecutor#execute(Runnable)"></a>ThreadPoolExecutor#execute(Runnable)</h4><p>   了解了以上成员属性的作用后，回头看execute(Runnable):</p>
+<pre><code>public void execute(Runnable command) {
+       if (command == null) //首先任务不能为null
+           throw new NullPointerException();
+
+       //在这里分三步走：
+       int c = ctl.get();
+
+       //1. 如果线程数 &lt; 核心线程，则直接调用addWorker。
+       //addWorker内部实例化一个Worker来处理该任务，Worker是ThreadPoolExecutor的内部类，
+       //具体实现后面讲解，这里假设Worker == Thread。
+       if (workerCountOf(c) &lt; corePoolSize) {
+           if (addWorker(command, true))  //添加成功返回
+               return;
+           c = ctl.get();
+       }
+
+       //2. 如果线程数达到核心线程数，尝试添加到workQueue，添加成功则返回
+       //对线程池的状态进行了判断，为了简化逻辑，我们当作线程池一直是RUNNING状态
+       if (isRunning(c) &amp;&amp; workQueue.offer(command)) {
+           int recheck = ctl.get();
+            //在这里再次对线程池的状态进行了判断，是为了处理shutdown()或shutdownNow()被其他线程调用时的情况
+           if (! isRunning(recheck) &amp;&amp; remove(command))
+               reject(command);
+           else if (workerCountOf(recheck) == 0)
+               addWorker(null, false);
+       }
+
+       //3. 添加到workQueue失败（队列已满)，调用addWorder()添加非核心线程（由第二个参数决定）
+       //添加失败,则调用拒绝策略。
+       else if (!addWorker(command, false))
+           reject(command);
+   }
+</code></pre><p>   从execute(Runnable)的实现，看出任务的调度策略。<br>   在这里，我们注意到了Worker这个内部类和addWorker().那么接下来查看他们的实现。<br>   addWorker中实例化了Worker。</p>
+<h4 id="ThreadPoolExecutor-addWorker"><a href="#ThreadPoolExecutor-addWorker" class="headerlink" title="ThreadPoolExecutor#addWorker"></a>ThreadPoolExecutor#addWorker</h4><p>   addWorker有两个参数:</p>
+<ol>
+<li>firstTask: Worker执行的第一任务</li>
+<li><p>core: ture -&gt; 创建Worker时，以corePoolSize为上限；</p>
+<pre><code>  false -&gt; 以maximumPoolSize为上限。
+
+private boolean addWorker(Runnable firstTask, boolean core) {
+ retry:
+ for (;;) {
+
+     //省略对线程池状态的判断
+
+     for (;;) {
+         int wc = workerCountOf(c);
+         if (wc &gt;= CAPACITY ||
+             wc &gt;= (core ? corePoolSize : maximumPoolSize))  //线程数是否大于corePoolSize/maximumPoolSize, 如果是，则创建失败
+             return false;
+         if (compareAndIncrementWorkerCount(c))  //线程数+1
+             break retry;
+         c = ctl.get();  // Re-read ctl
+         if (runStateOf(c) != rs)
+             continue retry;
+     }
+ }
+
+ boolean workerStarted = false;
+ boolean workerAdded = false;
+ Worker w = null;
+ try {
+     w = new Worker(firstTask);  //实例化Worker
+     final Thread t = w.thread;
+     if (t != null) {
+         final ReentrantLock mainLock = this.mainLock;
+         mainLock.lock();
+         try {
+                 // 省略对线程池状态的判断
+
+                 workers.add(w);
+                 int s = workers.size();
+                 if (s &gt; largestPoolSize)
+                     largestPoolSize = s;    //记录线程池中最大线程数
+                 workerAdded = true;
+             }
+         } finally {
+             mainLock.unlock();
+         }
+         if (workerAdded) {  //创建成功，则执行Worker线程
+             t.start();
+             workerStarted = true;
+         }
+     }
+ } finally {
+     if (! workerStarted)
+         addWorkerFailed(w);   //启动Worker失败，需要将Worker清理出workers
+ }
+ return workerStarted;
+}
+</code></pre><p>如果忽略对线程池状态的多次判断，addWorker中的代码相对简单。</p>
 </li>
 </ol>
-<p>关于Activity/Fragment的生命周期，我写了个Demo：<a href="https://gitee.com/ksxy/ActivityLifeCycleAnalysisDemo" target="_blank" rel="noopener">这里</a></p>
+<h4 id="ThreadPoolExecutor-Worker"><a href="#ThreadPoolExecutor-Worker" class="headerlink" title="ThreadPoolExecutor#Worker"></a>ThreadPoolExecutor#Worker</h4><pre><code>private final class Worker
+    extends AbstractQueuedSynchronizer
+    implements Runnable{
+
+        final Thread thread;  //该Worker持有的线程
+        Runnable firstTask;  //该Worker执行的第一个任务
+
+        volatile long completedTasks;  //该Worker完成的任务数
+
+        Worker(Runnable firstTask) {
+            setState(-1); // inhibit interrupts until runWorker
+            this.firstTask = firstTask;
+
+            //调用线程工厂创建线程实例
+            this.thread = getThreadFactory().newThread(this);
+        }
+
+        public void run() {
+            runWorker(this);
+        }
+
+        //省略了一部分代码
+    }
+</code></pre><p>   从上面的代码可以看出，Worker持有一个线程实例，而该线程实现上执行的是runWorker(Worker).</p>
+<h4 id="ThreadPoolExecutor-runWorker"><a href="#ThreadPoolExecutor-runWorker" class="headerlink" title="ThreadPoolExecutor#runWorker"></a>ThreadPoolExecutor#runWorker</h4><pre><code>final void runWorker(Worker w) {
+        //以下省略部分代码，仅保留线程池调度任务的相关代码
+        Runnable task = w.firstTask;
+        w.firstTask = null;
+        boolean completedAbruptly = true;
+        try {
+            while (task != null || (task = getTask()) != null) {
+                //...
+                try {
+                    beforeExecute(wt, task);    //Java预留给我们的接口，默认为空实现
+                    Throwable thrown = null;
+                    try {
+                        task.run();  //我们提交的任务在这里被真正执行
+                    } catch  {
+                        //省略异常处理
+                    } finally {
+                        afterExecute(task, thrown);  //和beforeExecute类似
+                    }
+                } finally {
+                    task = null;
+                    w.completedTasks++;
+                }
+            }
+            completedAbruptly = false;
+        } finally {
+            processWorkerExit(w, completedAbruptly);  //getTask()返回null，workQueue中没有任务，进行清理工作
+        }
+}
+</code></pre><p> 可以看到，runWorker内部主体上一个循环，在该循环中，不停地通过getTask()取出workQueue中的任务去执行。直到<br> getTask返回null才退出这个循环，并且清理这个Worker。接下来查看getTask()</p>
+<h4 id="ThreadPoolExecutor-getTask"><a href="#ThreadPoolExecutor-getTask" class="headerlink" title="ThreadPoolExecutor#getTask"></a>ThreadPoolExecutor#getTask</h4><pre><code>private Runnable getTask() {
+
+      boolean timedOut = false; // Did the last poll() time out?
+      for (;;) {
+          int c = ctl.get();
+
+          //这里省略对线程池状态判断一些代码
+
+          int wc = workerCountOf(c);
+          //这里可以看到允许线程池中线程超时的条件：
+          // 1. allowCoreThreadTimeOut = true
+          // 2. 线程数 &gt; corePoolSize
+          boolean timed = allowCoreThreadTimeOut || wc &gt; corePoolSize;
+
+
+          try {
+              //workQueue.poll(): 如果队列为空，阻塞keepAliveTime后，返回null
+              //workQueue.take(): 如果队列为空，将一直阻塞
+              Runnable r = timed ?
+                  workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :
+                  workQueue.take();
+                  if (r != null)
+                      return r;
+                  timedOut = true;
+              } catch (InterruptedException retry) {
+                  timedOut = false;
+              }
+      }
+}
+</code></pre><p> 到了这里，我们实际上已经了解，<strong>线程池调度任务的基本过程</strong>：</p>
+<ol>
+<li>提交一个任务后，线程池根据线程数和任务队列使用情况，来决定是否通过创建线程来执行，或者放入队列中，等待被调度；</li>
+<li>线程池中的任务由Worker来执行，每个Worker对应着一个线程；</li>
+<li>Worker在执行完当前的任务后，会继续尝试从workQueue中获取任务；</li>
+<li>从队列中获取任务时，线程可能被队列阻塞，处于空闲状态；</li>
+<li>如果是允许空闲超时，将在超时后，getTask返回null，从而退出runWorker中的循环，终止Worker所在的线程。</li>
+</ol>
+<h3 id="合理配置线程池"><a href="#合理配置线程池" class="headerlink" title="合理配置线程池"></a>合理配置线程池</h3><p>   在配置线程池的线程和队列时，一般根据任务的类型来配置：</p>
+<ol>
+<li><p>CPU密集型任务: 任务内容侧重于计算, 参考值可以设为CPU核心数+1，减少线程调度。</p>
+</li>
+<li><p>IO密集型任务：任务内存侧重IO，比如网络请求、文件读写，参考值可以设置为2*CPU核心数，避免IO阻塞导致的性能下降。</p>
+</li>
+</ol>
+<h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><p>   在阅读线程池的源码前，一直存在一种抗拒的心理，因为看源码并不是一件轻松的事，大多数时候，我们很容易迷失在源码的很多细节中，<br>   比如，我一开始也被线程池中，各种状态的判断和对过程的同步锁弄昏了，来来回回看了很多遍，又查阅了其他资料查。而通过这次学习，<br>   我意识到，在查看源代码时应该懂得适当忽略一些细节，先弄情况整体上的架构，理清思路，才不容易迷失。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a href="https://www.jianshu.com/p/896b8e18501b" target="_blank" rel="noopener">Java线程池分析及策略优化</a></li>
+<li><a href="https://www.cnblogs.com/dolphin0520/p/3932921.html" target="_blank" rel="noopener">Java并发编程：线程池的使用</a></li>
+</ol>
 
         
     
@@ -579,7 +818,7 @@
             repo: 'KorionCN.github.io',
             owner: 'KorionCN',
             admin: ['KorionCN'],
-			id: 'Tue Mar 13 2018 14:02:14 GMT+0800',
+			id: 'Thu Jun 28 2018 14:46:52 GMT+0800',
             // facebook-like distraction free mode
             distractionFreeMode: false
         })
@@ -600,21 +839,13 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/03/30/Java虚拟机内存模型/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2018/03/12/网络笔记之详解TCP（一）/" id="post_nav-older" class="next-content">
+        <a href="/2018/06/16/Linux使用技巧-文件上下传/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
